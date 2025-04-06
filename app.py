@@ -1,6 +1,6 @@
 # Import required libraries
 import dash
-from dash import html, dcc, dash_table
+from dash import Dash, html, dcc, Output, Input
 import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.express as px
@@ -11,27 +11,27 @@ from datetime import datetime
 import os
 
 # Initialize the Dash app with a dark theme
-dash_app = dash.Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
+app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
 
-# Create the WSGI application
-app = dash_app.server
-
-# Load your data from JSON
+# Load your data from the notebook
 try:
-    df6 = pd.read_json('data/df6.json')
-    # Convert date strings to datetime objects
-    df6['Date'] = pd.to_datetime(df6['Date'])
-    # Create week_dates list for the date picker
-    week_dates = sorted(df6['Date'].dt.date.unique())
+    # Read the data from your notebook
+    df = pd.read_html('COT Cursor Experiments.ipynb')[0]  # Assuming the table is the first table in the notebook
+    df.columns = ['Market', 'OI_Index', 'Retail_Index', 'Commercial_Index']
     data_loaded = True
 except Exception as e:
     print(f"Error loading data: {e}")
     data_loaded = False
-    df6 = pd.DataFrame()
-    week_dates = []
+    df = pd.DataFrame()
+
+# Create the WSGI application
+app = app.server
+
+# Create week_dates list for the date picker
+week_dates = sorted(df['Date'].dt.date.unique())
 
 # Define the layout
-dash_app.layout = html.Div([
+app.layout = html.Div([
     html.H1("COT Futures Dashboard", className="text-center mb-4"),
     
     # Error message if data failed to load
@@ -59,7 +59,7 @@ dash_app.layout = html.Div([
             html.Label("Select Commodities:"),
             dcc.Dropdown(
                 id='commodity-dropdown',
-                options=[{'label': col, 'value': col} for col in df6.columns if col not in ['Date']],
+                options=[{'label': col, 'value': col} for col in df.columns if col not in ['Date']],
                 value=['Gold', 'Silver', 'Copper'],
                 multi=True
             )
@@ -77,7 +77,7 @@ dash_app.layout = html.Div([
 ])
 
 # Callback for bubble graph
-@dash_app.callback(
+@app.callback(
     Output('bubble-graph', 'figure'),
     Input('date-picker', 'date')
 )
@@ -88,7 +88,7 @@ def update_bubble(week_selected):
     if isinstance(week_selected, str):
         week_selected = datetime.strptime(week_selected, '%Y-%m-%d').date()
     
-    date_selected = df6[df6["Date"].dt.date <= week_selected]
+    date_selected = df[df["Date"].dt.date <= week_selected]
     
     fig = px.scatter(date_selected, 
                     x='Retail_Index', 
@@ -143,7 +143,7 @@ def update_bubble(week_selected):
     return fig
 
 # Callback for open interest graph
-@dash_app.callback(
+@app.callback(
     Output('open-interest-graph', 'figure'),
     [Input('commodity-dropdown', 'value'),
      Input('date-picker', 'date')]
@@ -158,7 +158,7 @@ def update_open_interest_graph(selected_commodities, week_selected):
     if isinstance(week_selected, str):
         week_selected = datetime.strptime(week_selected, '%Y-%m-%d').date()
     
-    date_selected = df6[df6["Date"].dt.date <= week_selected]
+    date_selected = df[df["Date"].dt.date <= week_selected]
     
     fig = go.Figure()
     
@@ -188,7 +188,7 @@ def update_open_interest_graph(selected_commodities, week_selected):
     return fig
 
 # Callback for combined graph
-@dash_app.callback(
+@app.callback(
     Output('combined-graph', 'figure'),
     [Input('commodity-dropdown', 'value'),
      Input('date-picker', 'date')]
@@ -203,7 +203,7 @@ def update_combined_graph(selected_commodities, week_selected):
     if isinstance(week_selected, str):
         week_selected = datetime.strptime(week_selected, '%Y-%m-%d').date()
     
-    date_selected = df6[df6["Date"].dt.date <= week_selected]
+    date_selected = df[df["Date"].dt.date <= week_selected]
     
     fig = make_subplots(rows=2, cols=1, 
                        shared_xaxes=True,
@@ -248,4 +248,4 @@ def update_combined_graph(selected_commodities, week_selected):
     return fig
 
 if __name__ == '__main__':
-    dash_app.run_server(debug=True) 
+    app.run_server(debug=True) 
