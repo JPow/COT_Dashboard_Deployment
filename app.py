@@ -23,8 +23,8 @@ try:
     with open('cot_data.json', 'r') as f:
         data = json.load(f)
     df6 = pd.DataFrame(data)
-    # Convert dates properly, assuming they are in YYYY-MM-DD format
-    df6['Date'] = pd.to_datetime(df6['Date'], format='%Y-%m-%d')
+    # Convert timestamps to datetime
+    df6['Date'] = pd.to_datetime(df6['Date'], unit='ms')
     week_dates = df6['Date'].dt.strftime('%Y-%m-%d').unique().tolist()
     days_ago = datetime.now() - timedelta(days=200)  # this is for loading the price graph
     future_graph_space = datetime.now() + timedelta(days=15)  # this is to limit future x axis of the price graph
