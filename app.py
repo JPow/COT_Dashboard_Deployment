@@ -15,6 +15,9 @@ external_stylesheets = [dbc.themes.CYBORG]
 
 app = dash.Dash(__name__, title="Interactive Dashboard", external_stylesheets=external_stylesheets)
 
+server = app.server  # <-- ADD THIS LINE
+
+
 # Load data from JSON file
 try:
     with open('cot_data.json', 'r') as f:
