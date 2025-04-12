@@ -160,7 +160,12 @@ def update_bubble(week_selected):
     else:
         week_selected = pd.to_datetime(week_selected).date()
     
-    date_selected = df6[df6["Date"].dt.date <= week_selected]
+    # Filter for last 12 weeks of data
+    twelve_weeks_ago = week_selected - pd.Timedelta(weeks=12)
+    date_selected = df6[
+        (df6["Date"].dt.date <= week_selected) & 
+        (df6["Date"].dt.date >= twelve_weeks_ago)
+    ]
     
     fig = px.scatter(date_selected, 
                     x='Retail_Index', 
