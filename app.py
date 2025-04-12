@@ -154,11 +154,8 @@ def update_bubble(week_selected):
     if df6.empty or not week_selected:
         return {}
         
-    # Get all data up to the selected date
-    if isinstance(week_selected, str):
-        week_selected = pd.to_datetime(week_selected).date()
-    else:
-        week_selected = pd.to_datetime(week_selected).date()
+    # Convert selected week to datetime
+    week_selected = pd.to_datetime(week_selected).date()
     
     # Filter for last 12 weeks of data
     twelve_weeks_ago = week_selected - pd.Timedelta(weeks=12)
@@ -167,14 +164,18 @@ def update_bubble(week_selected):
         (df6["Date"].dt.date >= twelve_weeks_ago)
     ]
     
+    # Format dates for hover data and animation
+    date_selected['Formatted_Date'] = date_selected['Date'].dt.strftime('%d-%m-%Y')
+    date_selected['Animation_Date'] = date_selected['Date'].dt.strftime('%d-%m-%Y')
+    
     fig = px.scatter(date_selected, 
                     x='Retail_Index', 
                     y='Commercial_Index', 
-                    hover_data=['Market', 'Date'],
+                    hover_data={'Market': True, 'Formatted_Date': True, 'Date': False},
                     color='group', 
                     size='OI', 
                     size_max=40,
-                    animation_frame='Date',
+                    animation_frame='Animation_Date',
                     animation_group='Market',
                     labels={'Retail_Index': 'Retail', 
                            'Commercial_Index': 'Commercial Index'}
