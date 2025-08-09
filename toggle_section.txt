@@ -1,0 +1,18 @@
+    # View Toggle Section
+    dbc.Row([
+        dbc.Col([
+            html.Div([
+                html.Label("Data View:", style={"color": "white", "fontSize": 16, "marginRight": "10px"}),
+                dcc.RadioItems(
+                    id="view-toggle",
+                    options=[
+                        {"label": "Weekly COT Data", "value": "weekly"},
+                        {"label": "Daily Price Data", "value": "daily"}
+                    ],
+                    value="weekly",
+                    inline=True,
+                    style={"color": "white", "fontSize": 14}
+                )
+            ], style={"textAlign": "center", "marginBottom": "20px"})
+        ])
+    ]),
