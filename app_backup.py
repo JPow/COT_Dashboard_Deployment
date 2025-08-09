@@ -17,6 +17,7 @@ app = dash.Dash(__name__, title="Interactive Dashboard", external_stylesheets=ex
 
 server = app.server  # <-- ADD THIS LINE
 
+<<<<<<< HEAD
 # Function to get daily price data for a specific market
 def get_daily_price_data(market_name, start_date="2022-01-01"):
     """
@@ -99,6 +100,8 @@ def get_daily_price_data(market_name, start_date="2022-01-01"):
     except Exception as e:
         print(f"Error getting daily price data for {market_name}: {e}")
         return pd.DataFrame()
+=======
+>>>>>>> origin/main
 
 # Load data from JSON file
 try:
@@ -398,6 +401,7 @@ def update_combined_graph(selected_commodities):
     if df6.empty or not selected_commodities:
         return {}
         
+<<<<<<< HEAD
     # Get daily price data for the selected commodity
     daily_price_data = get_daily_price_data(selected_commodities)
     
@@ -406,6 +410,9 @@ def update_combined_graph(selected_commodities):
         
     # Merge daily price data with COT data
     combined_data = pd.merge(df6, daily_price_data, on='Date', how='left')
+=======
+    data = df6[df6['Market'] == selected_commodities]
+>>>>>>> origin/main
     
     # Create figure with three rows (panes)
     fig = make_subplots(rows=3, cols=1, 
@@ -419,8 +426,13 @@ def update_combined_graph(selected_commodities):
     # Add price trace on top pane
     fig.add_trace(
         go.Scatter(
+<<<<<<< HEAD
             x=combined_data['Date'],
             y=combined_data['Close'],
+=======
+            x=data['Date'],
+            y=data['Close'],
+>>>>>>> origin/main
             name="Price",
             line=dict(color="#1f77b4", width=2)
         ),
@@ -428,11 +440,19 @@ def update_combined_graph(selected_commodities):
     )
     
     # Add 200-day moving average if it exists
+<<<<<<< HEAD
     if '200MA' in combined_data.columns:
         fig.add_trace(
             go.Scatter(
                 x=combined_data['Date'],
                 y=combined_data['200MA'],
+=======
+    if '200MA' in data.columns:
+        fig.add_trace(
+            go.Scatter(
+                x=data['Date'],
+                y=data['200MA'],
+>>>>>>> origin/main
                 name="200-day MA",
                 line=dict(color="orange", width=1.5)
             ),
@@ -442,8 +462,13 @@ def update_combined_graph(selected_commodities):
     # Add commercial open interest trace on middle pane
     fig.add_trace(
         go.Scatter(
+<<<<<<< HEAD
             x=combined_data['Date'],
             y=combined_data['Commercial_Index'],
+=======
+            x=data['Date'],
+            y=data['Commercial_Index'],
+>>>>>>> origin/main
             name="Commercial Index",
             line=dict(color="#2ca02c", width=2)
         ),
@@ -453,8 +478,13 @@ def update_combined_graph(selected_commodities):
     # Add retail open interest trace on middle pane
     fig.add_trace(
         go.Scatter(
+<<<<<<< HEAD
             x=combined_data['Date'],
             y=combined_data['Retail_Index'],
+=======
+            x=data['Date'],
+            y=data['Retail_Index'],
+>>>>>>> origin/main
             name="Retail Index",
             line=dict(color="red", width=2)
         ),
@@ -462,11 +492,19 @@ def update_combined_graph(selected_commodities):
     )
 
     # Add RSI trace on bottom pane
+<<<<<<< HEAD
     if 'RSI' in combined_data.columns:
         fig.add_trace(
             go.Scatter(
                 x=combined_data['Date'],
                 y=combined_data['RSI'],
+=======
+    if 'RSI' in data.columns:
+        fig.add_trace(
+            go.Scatter(
+                x=data['Date'],
+                y=data['RSI'],
+>>>>>>> origin/main
                 name="RSI",
                 line=dict(color="purple", width=2)
             ),
@@ -476,24 +514,40 @@ def update_combined_graph(selected_commodities):
     # Add horizontal lines at 20 and 80 for the indices on middle pane
     fig.add_shape(
         type="line", line=dict(color="orange", width=1, dash="dash"),
+<<<<<<< HEAD
         y0=20, y1=20, x0=combined_data['Date'].min(), x1=combined_data['Date'].max(),
+=======
+        y0=20, y1=20, x0=data['Date'].min(), x1=data['Date'].max(),
+>>>>>>> origin/main
         row=2, col=1
     )
     fig.add_shape(
         type="line", line=dict(color="orange", width=1, dash="dash"),
+<<<<<<< HEAD
         y0=80, y1=80, x0=combined_data['Date'].min(), x1=combined_data['Date'].max(),
+=======
+        y0=80, y1=80, x0=data['Date'].min(), x1=data['Date'].max(),
+>>>>>>> origin/main
         row=2, col=1
     )
 
     # Add horizontal lines at 30 and 70 for RSI on bottom pane
     fig.add_shape(
         type="line", line=dict(color="gray", width=1, dash="dash"),
+<<<<<<< HEAD
         y0=30, y1=30, x0=combined_data['Date'].min(), x1=combined_data['Date'].max(),
+=======
+        y0=30, y1=30, x0=data['Date'].min(), x1=data['Date'].max(),
+>>>>>>> origin/main
         row=3, col=1
     )
     fig.add_shape(
         type="line", line=dict(color="gray", width=1, dash="dash"),
+<<<<<<< HEAD
         y0=70, y1=70, x0=combined_data['Date'].min(), x1=combined_data['Date'].max(),
+=======
+        y0=70, y1=70, x0=data['Date'].min(), x1=data['Date'].max(),
+>>>>>>> origin/main
         row=3, col=1
     )
 
