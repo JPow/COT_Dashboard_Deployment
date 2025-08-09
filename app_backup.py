@@ -6,6 +6,7 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 import pandas as pd
 import numpy as np
+import yfinance as yf
 import dash_bootstrap_components as dbc
 from datetime import date, datetime, timedelta
 import json
@@ -14,29 +15,101 @@ external_stylesheets = [dbc.themes.CYBORG]
 
 app = dash.Dash(__name__, title="Interactive Dashboard", external_stylesheets=external_stylesheets)
 
-server = app.server
+server = app.server  # <-- ADD THIS LINE
+
+# Function to get daily price data for a specific market
+def get_daily_price_data(market_name, start_date="2022-01-01"):
+    """
+    Get daily price data for a specific market using yfinance
+    """
+    try:
+        # Mapping dictionary for market names to Yahoo Finance symbols
+        mapping = {
+            'GOLD - COMMODITY EXCHANGE INC.': 'GC=F',
+            'SILVER - COMMODITY EXCHANGE INC.': 'SI=F',
+            'PLATINUM - NEW YORK MERCANTILE EXCHANGE': 'PL=F',
+            'PALLADIUM - NEW YORK MERCANTILE EXCHANGE': 'PA=F',
+            'COPPER- #1 - COMMODITY EXCHANGE INC.': 'HG=F',
+            'SOYBEAN OIL - CHICAGO BOARD OF TRADE': 'ZL=F',
+            'SOYBEANS - CHICAGO BOARD OF TRADE': 'ZS=F',
+            'SOYBEAN MEAL - CHICAGO BOARD OF TRADE': 'ZM=F',
+            'WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE': 'CL=F',
+            'GASOLINE RBOB - NEW YORK MERCANTILE EXCHANGE': 'RB=F',
+            'NAT GAS NYME - NEW YORK MERCANTILE EXCHANGE': 'NG=F',
+            'CORN - CHICAGO BOARD OF TRADE': 'ZC=F',
+            'OATS - CHICAGO BOARD OF TRADE': 'ZO=F',
+            'WHEAT-SRW - CHICAGO BOARD OF TRADE': 'ZW=F',
+            'FEEDER CATTLE - CHICAGO MERCANTILE EXCHANGE': 'GF=F',
+            'LEAN HOGS - CHICAGO MERCANTILE EXCHANGE': 'HE=F',
+            'LIVE CATTLE - CHICAGO MERCANTILE EXCHANGE': 'LE=F',
+            'COCOA - ICE FUTURES U.S.': 'CC=F',
+            'COFFEE C - ICE FUTURES U.S.': 'KC=F',
+            'COTTON NO. 2 - ICE FUTURES U.S.': 'CT=F',
+            'SUGAR NO. 11 - ICE FUTURES U.S.': 'SB=F',
+            'RUSSELL E-MINI - CHICAGO MERCANTILE EXCHANGE': 'RTY=F',
+            'E-MINI S&P 500 - CHICAGO MERCANTILE EXCHANGE': 'ES=F',
+            'MICRO ETHER - CHICAGO MERCANTILE EXCHANGE': 'ETH-USD',
+            'MICRO BITCOIN - CHICAGO MERCANTILE EXCHANGE': 'BTC-USD',
+            'MICRO GOLD - COMMODITY EXCHANGE INC.': 'MGC=F',
+            'MICRO E-MINI NASDAQ-100 INDEX - CHICAGO MERCANTILE EXCHANGE': 'MNQ=F',
+            'NIKKEI STOCK AVERAGE - CHICAGO MERCANTILE EXCHANGE': 'NKD=F',
+            'AUSTRALIAN DOLLAR - CHICAGO MERCANTILE EXCHANGE': '6A=F',
+            'UST 5Y NOTE - CHICAGO BOARD OF TRADE': 'ZF=F',
+            'UST 2Y NOTE - CHICAGO BOARD OF TRADE': 'ZT=F',
+            'UST 10Y NOTE - CHICAGO BOARD OF TRADE': 'ZN=F',
+            'UST BOND - CHICAGO BOARD OF TRADE': 'ZB=F',
+            'MEXICAN PESO - CHICAGO MERCANTILE EXCHANGE': '6M=F',
+            'BRAZILIAN REAL - CHICAGO MERCANTILE EXCHANGE': '6L=F',
+            'SWISS FRANC - CHICAGO MERCANTILE EXCHANGE': '6S=F',
+            'CANADIAN DOLLAR - CHICAGO MERCANTILE EXCHANGE': '6C=F',
+            'EURO FX/BRITISH POUND XRATE - CHICAGO MERCANTILE EXCHANGE': '6E=F',
+            'BRITISH POUND - CHICAGO MERCANTILE EXCHANGE': '6B=F',
+            'JAPANESE YEN - CHICAGO MERCANTILE EXCHANGE': '6J=F',
+            'NEW ZEALAND DOLLAR - CHICAGO MERCANTILE EXCHANGE': '6N=F',
+            'SO AFRICAN RAND - CHICAGO MERCANTILE EXCHANGE': '6Z=F',
+            'BITCOIN - CHICAGO MERCANTILE EXCHANGE': 'BTC=F',
+            'ETHER CASH SETTLED - CHICAGO MERCANTILE EXCHANGE': 'ETH=F',
+            'VIX FUTURES - CBOE FUTURES EXCHANGE': '^VIX',
+        }
+        
+        # Get the Yahoo Finance symbol for the market
+        yf_symbol = mapping.get(market_name)
+        if not yf_symbol:
+            return pd.DataFrame()
+        
+        # Download daily price data
+        end_date = (date.today() - timedelta(days=1)).strftime("%Y-%m-%d")
+        ticker = yf.Ticker(yf_symbol)
+        daily_data = ticker.history(start=start_date, end=end_date)
+        
+        if daily_data.empty:
+            return pd.DataFrame()
+        
+        # Reset index to make Date a column
+        daily_data = daily_data.reset_index()
+        daily_data = daily_data[['Date', 'Close']].copy()
+        daily_data['Market'] = market_name
+        daily_data['YF_Symbol'] = yf_symbol
+        
+        # Calculate 200-day moving average
+        daily_data['200MA'] = daily_data['Close'].rolling(window=200).mean()
+        
+        return daily_data
+        
+    except Exception as e:
+        print(f"Error getting daily price data for {market_name}: {e}")
+        return pd.DataFrame()
 
 # Load data from JSON file
 try:
     with open('cot_data.json', 'r') as f:
         data = json.load(f)
     df6 = pd.DataFrame(data)
-    # Convert timestamps to datetime - handle both string and numeric formats
-    try:
-        # First try assuming it's in milliseconds (pandas default JSON export)
-        df6['Date'] = pd.to_datetime(df6['Date'], unit='ms')
-    except (ValueError, TypeError):
-        # If that fails, try standard datetime parsing
-        df6['Date'] = pd.to_datetime(df6['Date'])
-    
-    # For compatibility with existing code, if data_type column doesn't exist, treat all as weekly_cot
-    if 'data_type' not in df6.columns:
-        df6['data_type'] = 'weekly_cot'
-    
-    # Get week dates for the date picker (use weekly COT data)
-    weekly_cot_data = df6[df6['data_type'] == 'weekly_cot']
-    week_dates = weekly_cot_data['Date'].dt.strftime('%Y-%m-%d').unique().tolist() if not weekly_cot_data.empty else df6['Date'].dt.strftime('%Y-%m-%d').unique().tolist()
-    
+    # Convert timestamps to datetime
+    df6['Date'] = pd.to_datetime(df6['Date'], unit='ms')
+    week_dates = df6['Date'].dt.strftime('%Y-%m-%d').unique().tolist()
+    days_ago = datetime.now() - timedelta(days=200)  # this is for loading the price graph
+    future_graph_space = datetime.now() + timedelta(days=15)  # this is to limit future x axis of the price graph
 except Exception as e:
     print(f"Error loading data: {e}")
     df6 = pd.DataFrame()
@@ -62,7 +135,7 @@ app.layout = dbc.Container([
                 html.Label('Select Market:', style={'color': 'white', 'fontSize': 16}),
                 dcc.Dropdown(
                 id='commodity-dropdown',
-                options=[{'label': market, 'value': market} for market in df6['Market'].unique()] if not df6.empty else [],
+                options=[{'label': market, 'value': market} for market in df6['Market'].unique()],
                 value=df6['Market'].unique()[0] if not df6.empty else None,
                 style={'width': '300px', 'margin': '0 auto'}  # Fixed width and centered
             )
@@ -163,31 +236,25 @@ def update_bubble(week_selected):
     if df6.empty or not week_selected:
         return {}
         
-    # Use weekly COT data for bubble chart
-    weekly_data = df6[df6['data_type'] == 'weekly_cot'].copy() if 'data_type' in df6.columns else df6.copy()
-    
     # Convert selected week to datetime
     week_selected = pd.to_datetime(week_selected).date()
     
     # Filter for last 12 weeks of data
     twelve_weeks_ago = week_selected - pd.Timedelta(weeks=12)
-    date_selected = weekly_data[
-        (weekly_data["Date"].dt.date <= week_selected) & 
-        (weekly_data["Date"].dt.date >= twelve_weeks_ago)
-    ].copy()  # Explicit copy to avoid SettingWithCopyWarning
-    
-    if date_selected.empty:
-        return {}
+    date_selected = df6[
+        (df6["Date"].dt.date <= week_selected) & 
+        (df6["Date"].dt.date >= twelve_weeks_ago)
+    ]
     
     # Format dates for hover data and animation
-    date_selected.loc[:, 'Formatted_Date'] = date_selected['Date'].dt.strftime('%d-%m-%Y')
-    date_selected.loc[:, 'Animation_Date'] = date_selected['Date'].dt.strftime('%d-%m-%Y')
+    date_selected['Formatted_Date'] = date_selected['Date'].dt.strftime('%d-%m-%Y')
+    date_selected['Animation_Date'] = date_selected['Date'].dt.strftime('%d-%m-%Y')
     
     fig = px.scatter(date_selected, 
                     x='Retail_Index', 
                     y='Commercial_Index', 
                     hover_data={'Market': True, 'Formatted_Date': True, 'Date': False},
-                    color='group' if 'group' in date_selected.columns else None, 
+                    color='group', 
                     size='OI', 
                     size_max=40,
                     animation_frame='Animation_Date',
@@ -246,16 +313,8 @@ def update_bubble(week_selected):
 def update_open_interest_graph(selected_commodities, relayout_data):
     if df6.empty or not selected_commodities:
         return {}
-    
-    # Use weekly COT data for open interest
-    if 'data_type' in df6.columns:
-        data = df6[(df6['data_type'] == 'weekly_cot') & (df6['Market'] == selected_commodities)]
-    else:
-        data = df6[df6['Market'] == selected_commodities]
-    
-    if data.empty:
-        return {}
         
+    data = df6[df6['Market'] == selected_commodities]
     x = data['Date']
     y = data['OI_Index']
     
@@ -338,24 +397,15 @@ def update_open_interest_graph(selected_commodities, relayout_data):
 def update_combined_graph(selected_commodities):
     if df6.empty or not selected_commodities:
         return {}
+        
+    # Get daily price data for the selected commodity
+    daily_price_data = get_daily_price_data(selected_commodities)
     
-    # Filter data for the selected market
-    market_data = df6[df6['Market'] == selected_commodities].copy()
-    
-    if market_data.empty:
+    if daily_price_data.empty:
         return {}
-    
-    # Check if we have the new combined data structure
-    if 'data_type' in market_data.columns:
-        # Separate daily price data and weekly COT data
-        daily_data = market_data[market_data['data_type'] == 'daily_price'].copy()
-        weekly_data = market_data[market_data['data_type'] == 'weekly_cot'].copy()
-        print(f"DEBUG: Using new data structure. Daily records: {len(daily_data)}, Weekly records: {len(weekly_data)}")
-    else:
-        # Fallback to old structure - use all data for everything
-        daily_data = market_data.copy()
-        weekly_data = market_data.copy()
-        print(f"DEBUG: Using old data structure. Total records: {len(market_data)}")
+        
+    # Merge daily price data with COT data
+    combined_data = pd.merge(df6, daily_price_data, on='Date', how='left')
     
     # Create figure with three rows (panes)
     fig = make_subplots(rows=3, cols=1, 
@@ -366,94 +416,86 @@ def update_combined_graph(selected_commodities):
                                       "Commercial & Retail Open Interest Indices",
                                       "RSI Technical Indicator"))
 
-    # Add price trace on top pane (use daily data if available, otherwise weekly)
-    price_data = daily_data if not daily_data.empty else weekly_data
-    if not price_data.empty and 'Close' in price_data.columns:
+    # Add price trace on top pane
+    fig.add_trace(
+        go.Scatter(
+            x=combined_data['Date'],
+            y=combined_data['Close'],
+            name="Price",
+            line=dict(color="#1f77b4", width=2)
+        ),
+        row=1, col=1
+    )
+    
+    # Add 200-day moving average if it exists
+    if '200MA' in combined_data.columns:
         fig.add_trace(
             go.Scatter(
-                x=price_data['Date'],
-                y=price_data['Close'],
-                name="Daily Price" if not daily_data.empty else "Price",
-                line=dict(color="#1f77b4", width=2)
+                x=combined_data['Date'],
+                y=combined_data['200MA'],
+                name="200-day MA",
+                line=dict(color="orange", width=1.5)
             ),
             row=1, col=1
         )
-        
-        # Add 200-day moving average if it exists
-        if '200MA' in price_data.columns and not price_data['200MA'].isna().all():
-            fig.add_trace(
-                go.Scatter(
-                    x=price_data['Date'],
-                    y=price_data['200MA'],
-                    name="200-day MA",
-                    line=dict(color="orange", width=1.5)
-                ),
-                row=1, col=1
-            )
 
-    # Add COT indices traces on middle pane (use weekly data if available, otherwise all data)
-    cot_data = weekly_data if not weekly_data.empty else market_data
-    if not cot_data.empty:
-        if 'Commercial_Index' in cot_data.columns:
-            fig.add_trace(
-                go.Scatter(
-                    x=cot_data['Date'],
-                    y=cot_data['Commercial_Index'],
-                    name="Commercial Index",
-                    line=dict(color="#2ca02c", width=2)
-                ),
-                row=2, col=1
-            )
+    # Add commercial open interest trace on middle pane
+    fig.add_trace(
+        go.Scatter(
+            x=combined_data['Date'],
+            y=combined_data['Commercial_Index'],
+            name="Commercial Index",
+            line=dict(color="#2ca02c", width=2)
+        ),
+        row=2, col=1
+    )
 
-        if 'Retail_Index' in cot_data.columns:
-            fig.add_trace(
-                go.Scatter(
-                    x=cot_data['Date'],
-                    y=cot_data['Retail_Index'],
-                    name="Retail Index",
-                    line=dict(color="red", width=2)
-                ),
-                row=2, col=1
-            )
+    # Add retail open interest trace on middle pane
+    fig.add_trace(
+        go.Scatter(
+            x=combined_data['Date'],
+            y=combined_data['Retail_Index'],
+            name="Retail Index",
+            line=dict(color="red", width=2)
+        ),
+        row=2, col=1
+    )
 
-    # Add RSI trace on bottom pane (use daily data if available, otherwise weekly)
-    rsi_data = daily_data if not daily_data.empty else weekly_data
-    if not rsi_data.empty and 'RSI' in rsi_data.columns and not rsi_data['RSI'].isna().all():
+    # Add RSI trace on bottom pane
+    if 'RSI' in combined_data.columns:
         fig.add_trace(
             go.Scatter(
-                x=rsi_data['Date'],
-                y=rsi_data['RSI'],
-                name="Daily RSI" if not daily_data.empty else "RSI",
+                x=combined_data['Date'],
+                y=combined_data['RSI'],
+                name="RSI",
                 line=dict(color="purple", width=2)
             ),
             row=3, col=1
         )
 
     # Add horizontal lines at 20 and 80 for the indices on middle pane
-    if not cot_data.empty and not cot_data['Date'].empty:
-        fig.add_shape(
-            type="line", line=dict(color="orange", width=1, dash="dash"),
-            y0=20, y1=20, x0=cot_data['Date'].min(), x1=cot_data['Date'].max(),
-            row=2, col=1
-        )
-        fig.add_shape(
-            type="line", line=dict(color="orange", width=1, dash="dash"),
-            y0=80, y1=80, x0=cot_data['Date'].min(), x1=cot_data['Date'].max(),
-            row=2, col=1
-        )
+    fig.add_shape(
+        type="line", line=dict(color="orange", width=1, dash="dash"),
+        y0=20, y1=20, x0=combined_data['Date'].min(), x1=combined_data['Date'].max(),
+        row=2, col=1
+    )
+    fig.add_shape(
+        type="line", line=dict(color="orange", width=1, dash="dash"),
+        y0=80, y1=80, x0=combined_data['Date'].min(), x1=combined_data['Date'].max(),
+        row=2, col=1
+    )
 
     # Add horizontal lines at 30 and 70 for RSI on bottom pane
-    if not rsi_data.empty and not rsi_data['Date'].empty:
-        fig.add_shape(
-            type="line", line=dict(color="gray", width=1, dash="dash"),
-            y0=30, y1=30, x0=rsi_data['Date'].min(), x1=rsi_data['Date'].max(),
-            row=3, col=1
-        )
-        fig.add_shape(
-            type="line", line=dict(color="gray", width=1, dash="dash"),
-            y0=70, y1=70, x0=rsi_data['Date'].min(), x1=rsi_data['Date'].max(),
-            row=3, col=1
-        )
+    fig.add_shape(
+        type="line", line=dict(color="gray", width=1, dash="dash"),
+        y0=30, y1=30, x0=combined_data['Date'].min(), x1=combined_data['Date'].max(),
+        row=3, col=1
+    )
+    fig.add_shape(
+        type="line", line=dict(color="gray", width=1, dash="dash"),
+        y0=70, y1=70, x0=combined_data['Date'].min(), x1=combined_data['Date'].max(),
+        row=3, col=1
+    )
 
     # Set y-axes titles and ranges
     fig.update_yaxes(title_text="Price (USD)", row=1, col=1)
@@ -506,20 +548,14 @@ def update_combined_graph(selected_commodities):
 def update_table(selected_commodity):
     if df6.empty:
         return [], []
-    
-    # Use weekly COT data for the table
-    table_data = df6[df6['data_type'] == 'weekly_cot'].copy() if 'data_type' in df6.columns else df6.copy()
-    
+        
     # Filter the data to show only rows where at least one of the indices (OI, Retail, or Commercial) is extreme (≥ 80 or ≤ 20)
-    latest_data = table_data[
-        (table_data['Date'] == table_data['Date'].max()) & 
-        (((table_data['OI_Index'] >= 80) | (table_data['OI_Index'] <= 20)) |
-         ((table_data['Retail_Index'] >= 80) | (table_data['Retail_Index'] <= 20)) |
-         ((table_data['Commercial_Index'] >= 80) | (table_data['Commercial_Index'] <= 20)))
+    latest_data = df6[
+        (df6['Date'] == df6['Date'].max()) & 
+        (((df6['OI_Index'] >= 80) | (df6['OI_Index'] <= 20)) |
+         ((df6['Retail_Index'] >= 80) | (df6['Retail_Index'] <= 20)) |
+         ((df6['Commercial_Index'] >= 80) | (df6['Commercial_Index'] <= 20)))
     ]
-    
-    if latest_data.empty:
-        return [], []
     
     # Select only the relevant columns
     columns_to_show = ['Market', 'OI_Index', 'Retail_Index', 'Commercial_Index']
@@ -537,4 +573,4 @@ def update_table(selected_commodity):
     return data, columns
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(host='0.0.0.0', port=10000, debug=True) 
