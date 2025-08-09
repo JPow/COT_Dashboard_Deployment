@@ -17,6 +17,91 @@ app = dash.Dash(__name__, title="Interactive Dashboard", external_stylesheets=ex
 
 server = app.server  # <-- ADD THIS LINE
 
+<<<<<<< HEAD
+# Function to get daily price data for a specific market
+def get_daily_price_data(market_name, start_date="2022-01-01"):
+    """
+    Get daily price data for a specific market using yfinance
+    """
+    try:
+        # Mapping dictionary for market names to Yahoo Finance symbols
+        mapping = {
+            'GOLD - COMMODITY EXCHANGE INC.': 'GC=F',
+            'SILVER - COMMODITY EXCHANGE INC.': 'SI=F',
+            'PLATINUM - NEW YORK MERCANTILE EXCHANGE': 'PL=F',
+            'PALLADIUM - NEW YORK MERCANTILE EXCHANGE': 'PA=F',
+            'COPPER- #1 - COMMODITY EXCHANGE INC.': 'HG=F',
+            'SOYBEAN OIL - CHICAGO BOARD OF TRADE': 'ZL=F',
+            'SOYBEANS - CHICAGO BOARD OF TRADE': 'ZS=F',
+            'SOYBEAN MEAL - CHICAGO BOARD OF TRADE': 'ZM=F',
+            'WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE': 'CL=F',
+            'GASOLINE RBOB - NEW YORK MERCANTILE EXCHANGE': 'RB=F',
+            'NAT GAS NYME - NEW YORK MERCANTILE EXCHANGE': 'NG=F',
+            'CORN - CHICAGO BOARD OF TRADE': 'ZC=F',
+            'OATS - CHICAGO BOARD OF TRADE': 'ZO=F',
+            'WHEAT-SRW - CHICAGO BOARD OF TRADE': 'ZW=F',
+            'FEEDER CATTLE - CHICAGO MERCANTILE EXCHANGE': 'GF=F',
+            'LEAN HOGS - CHICAGO MERCANTILE EXCHANGE': 'HE=F',
+            'LIVE CATTLE - CHICAGO MERCANTILE EXCHANGE': 'LE=F',
+            'COCOA - ICE FUTURES U.S.': 'CC=F',
+            'COFFEE C - ICE FUTURES U.S.': 'KC=F',
+            'COTTON NO. 2 - ICE FUTURES U.S.': 'CT=F',
+            'SUGAR NO. 11 - ICE FUTURES U.S.': 'SB=F',
+            'RUSSELL E-MINI - CHICAGO MERCANTILE EXCHANGE': 'RTY=F',
+            'E-MINI S&P 500 - CHICAGO MERCANTILE EXCHANGE': 'ES=F',
+            'MICRO ETHER - CHICAGO MERCANTILE EXCHANGE': 'ETH-USD',
+            'MICRO BITCOIN - CHICAGO MERCANTILE EXCHANGE': 'BTC-USD',
+            'MICRO GOLD - COMMODITY EXCHANGE INC.': 'MGC=F',
+            'MICRO E-MINI NASDAQ-100 INDEX - CHICAGO MERCANTILE EXCHANGE': 'MNQ=F',
+            'NIKKEI STOCK AVERAGE - CHICAGO MERCANTILE EXCHANGE': 'NKD=F',
+            'AUSTRALIAN DOLLAR - CHICAGO MERCANTILE EXCHANGE': '6A=F',
+            'UST 5Y NOTE - CHICAGO BOARD OF TRADE': 'ZF=F',
+            'UST 2Y NOTE - CHICAGO BOARD OF TRADE': 'ZT=F',
+            'UST 10Y NOTE - CHICAGO BOARD OF TRADE': 'ZN=F',
+            'UST BOND - CHICAGO BOARD OF TRADE': 'ZB=F',
+            'MEXICAN PESO - CHICAGO MERCANTILE EXCHANGE': '6M=F',
+            'BRAZILIAN REAL - CHICAGO MERCANTILE EXCHANGE': '6L=F',
+            'SWISS FRANC - CHICAGO MERCANTILE EXCHANGE': '6S=F',
+            'CANADIAN DOLLAR - CHICAGO MERCANTILE EXCHANGE': '6C=F',
+            'EURO FX/BRITISH POUND XRATE - CHICAGO MERCANTILE EXCHANGE': '6E=F',
+            'BRITISH POUND - CHICAGO MERCANTILE EXCHANGE': '6B=F',
+            'JAPANESE YEN - CHICAGO MERCANTILE EXCHANGE': '6J=F',
+            'NEW ZEALAND DOLLAR - CHICAGO MERCANTILE EXCHANGE': '6N=F',
+            'SO AFRICAN RAND - CHICAGO MERCANTILE EXCHANGE': '6Z=F',
+            'BITCOIN - CHICAGO MERCANTILE EXCHANGE': 'BTC=F',
+            'ETHER CASH SETTLED - CHICAGO MERCANTILE EXCHANGE': 'ETH=F',
+            'VIX FUTURES - CBOE FUTURES EXCHANGE': '^VIX',
+        }
+        
+        # Get the Yahoo Finance symbol for the market
+        yf_symbol = mapping.get(market_name)
+        if not yf_symbol:
+            return pd.DataFrame()
+        
+        # Download daily price data
+        end_date = (date.today() - timedelta(days=1)).strftime("%Y-%m-%d")
+        ticker = yf.Ticker(yf_symbol)
+        daily_data = ticker.history(start=start_date, end=end_date)
+        
+        if daily_data.empty:
+            return pd.DataFrame()
+        
+        # Reset index to make Date a column
+        daily_data = daily_data.reset_index()
+        daily_data = daily_data[['Date', 'Close']].copy()
+        daily_data['Market'] = market_name
+        daily_data['YF_Symbol'] = yf_symbol
+        
+        # Calculate 200-day moving average
+        daily_data['200MA'] = daily_data['Close'].rolling(window=200).mean()
+        
+        return daily_data
+        
+    except Exception as e:
+        print(f"Error getting daily price data for {market_name}: {e}")
+        return pd.DataFrame()
+=======
+>>>>>>> origin/main
 
 # Load data from JSON file
 try:
@@ -316,7 +401,18 @@ def update_combined_graph(selected_commodities):
     if df6.empty or not selected_commodities:
         return {}
         
+<<<<<<< HEAD
+    # Get daily price data for the selected commodity
+    daily_price_data = get_daily_price_data(selected_commodities)
+    
+    if daily_price_data.empty:
+        return {}
+        
+    # Merge daily price data with COT data
+    combined_data = pd.merge(df6, daily_price_data, on='Date', how='left')
+=======
     data = df6[df6['Market'] == selected_commodities]
+>>>>>>> origin/main
     
     # Create figure with three rows (panes)
     fig = make_subplots(rows=3, cols=1, 
@@ -330,8 +426,13 @@ def update_combined_graph(selected_commodities):
     # Add price trace on top pane
     fig.add_trace(
         go.Scatter(
+<<<<<<< HEAD
+            x=combined_data['Date'],
+            y=combined_data['Close'],
+=======
             x=data['Date'],
             y=data['Close'],
+>>>>>>> origin/main
             name="Price",
             line=dict(color="#1f77b4", width=2)
         ),
@@ -339,11 +440,19 @@ def update_combined_graph(selected_commodities):
     )
     
     # Add 200-day moving average if it exists
+<<<<<<< HEAD
+    if '200MA' in combined_data.columns:
+        fig.add_trace(
+            go.Scatter(
+                x=combined_data['Date'],
+                y=combined_data['200MA'],
+=======
     if '200MA' in data.columns:
         fig.add_trace(
             go.Scatter(
                 x=data['Date'],
                 y=data['200MA'],
+>>>>>>> origin/main
                 name="200-day MA",
                 line=dict(color="orange", width=1.5)
             ),
@@ -353,8 +462,13 @@ def update_combined_graph(selected_commodities):
     # Add commercial open interest trace on middle pane
     fig.add_trace(
         go.Scatter(
+<<<<<<< HEAD
+            x=combined_data['Date'],
+            y=combined_data['Commercial_Index'],
+=======
             x=data['Date'],
             y=data['Commercial_Index'],
+>>>>>>> origin/main
             name="Commercial Index",
             line=dict(color="#2ca02c", width=2)
         ),
@@ -364,8 +478,13 @@ def update_combined_graph(selected_commodities):
     # Add retail open interest trace on middle pane
     fig.add_trace(
         go.Scatter(
+<<<<<<< HEAD
+            x=combined_data['Date'],
+            y=combined_data['Retail_Index'],
+=======
             x=data['Date'],
             y=data['Retail_Index'],
+>>>>>>> origin/main
             name="Retail Index",
             line=dict(color="red", width=2)
         ),
@@ -373,11 +492,19 @@ def update_combined_graph(selected_commodities):
     )
 
     # Add RSI trace on bottom pane
+<<<<<<< HEAD
+    if 'RSI' in combined_data.columns:
+        fig.add_trace(
+            go.Scatter(
+                x=combined_data['Date'],
+                y=combined_data['RSI'],
+=======
     if 'RSI' in data.columns:
         fig.add_trace(
             go.Scatter(
                 x=data['Date'],
                 y=data['RSI'],
+>>>>>>> origin/main
                 name="RSI",
                 line=dict(color="purple", width=2)
             ),
@@ -387,24 +514,40 @@ def update_combined_graph(selected_commodities):
     # Add horizontal lines at 20 and 80 for the indices on middle pane
     fig.add_shape(
         type="line", line=dict(color="orange", width=1, dash="dash"),
+<<<<<<< HEAD
+        y0=20, y1=20, x0=combined_data['Date'].min(), x1=combined_data['Date'].max(),
+=======
         y0=20, y1=20, x0=data['Date'].min(), x1=data['Date'].max(),
+>>>>>>> origin/main
         row=2, col=1
     )
     fig.add_shape(
         type="line", line=dict(color="orange", width=1, dash="dash"),
+<<<<<<< HEAD
+        y0=80, y1=80, x0=combined_data['Date'].min(), x1=combined_data['Date'].max(),
+=======
         y0=80, y1=80, x0=data['Date'].min(), x1=data['Date'].max(),
+>>>>>>> origin/main
         row=2, col=1
     )
 
     # Add horizontal lines at 30 and 70 for RSI on bottom pane
     fig.add_shape(
         type="line", line=dict(color="gray", width=1, dash="dash"),
+<<<<<<< HEAD
+        y0=30, y1=30, x0=combined_data['Date'].min(), x1=combined_data['Date'].max(),
+=======
         y0=30, y1=30, x0=data['Date'].min(), x1=data['Date'].max(),
+>>>>>>> origin/main
         row=3, col=1
     )
     fig.add_shape(
         type="line", line=dict(color="gray", width=1, dash="dash"),
+<<<<<<< HEAD
+        y0=70, y1=70, x0=combined_data['Date'].min(), x1=combined_data['Date'].max(),
+=======
         y0=70, y1=70, x0=data['Date'].min(), x1=data['Date'].max(),
+>>>>>>> origin/main
         row=3, col=1
     )
 
