@@ -91,7 +91,7 @@ def generate_signals(data, commercial_long=80, commercial_short=20, rsi_oversold
 class COTRSIBacktester:
     """Backtester for COT + RSI trading strategy."""
     
-    def __init__(self, initial_capital=100000, risk_per_trade=0.01, 
+    def __init__(self, initial_capital=30000, risk_per_trade=0.01, 
                  atr_stop_mult=2, atr_target_mult=3, max_hold_days=20, rsi_exit=60):
         self.initial_capital = initial_capital
         self.risk_per_trade = risk_per_trade
@@ -215,7 +215,7 @@ class COTRSIBacktester:
         }
 
 
-def calculate_performance_metrics(trades_df, equity_curve, initial_capital=100000):
+def calculate_performance_metrics(trades_df, equity_curve, initial_capital=30000):
     """Calculate comprehensive performance metrics."""
     if trades_df.empty:
         return {'total_trades': 0, 'win_rate': 0, 'profit_factor': 0, 'total_return_pct': 0,
@@ -267,7 +267,7 @@ def calculate_performance_metrics(trades_df, equity_curve, initial_capital=10000
     return metrics
 
 
-def run_backtest_for_market(df, market_name, initial_capital=100000):
+def run_backtest_for_market(df, market_name, initial_capital=30000):
     """Run complete backtest for a single market."""
     data = prepare_strategy_data(df, market_name)
     if data.empty:
@@ -525,7 +525,7 @@ def update_market_view(selected_market):
     strategy_fig = create_strategy_chart(data, trades_df, selected_market)
     
     # Equity chart
-    equity_fig = create_equity_curve(equity, 100000)
+    equity_fig = create_equity_curve(equity, 30000)
     
     # Trades table
     if not trades_df.empty:
