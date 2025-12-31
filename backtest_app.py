@@ -425,7 +425,8 @@ app.layout = dbc.Container([
                 id='market-dropdown',
                 options=[{'label': m, 'value': m} for m in markets],
                 value=markets[0] if markets else None,
-                className="mb-3"
+                className="mb-3",
+                style={'color': 'black'}
             )
         ], width=6)
     ]),
@@ -536,7 +537,7 @@ def update_market_view(selected_market):
         display_trades['exit_price'] = display_trades['exit_price'].apply(lambda x: f"${x:,.2f}")
         display_trades['pnl'] = display_trades['pnl'].apply(lambda x: f"${x:,.2f}")
         
-        table_cols = ['entry_date', 'exit_date', 'direction', 'entry_price', 'exit_price', 'pnl', 'exit_reason']
+        table_cols = ['entry_date', 'exit_date', 'market', 'direction', 'entry_price', 'exit_price', 'pnl', 'exit_reason']
         columns = [{"name": col.replace('_', ' ').title(), "id": col} for col in table_cols]
         table_data = display_trades[table_cols].to_dict('records')
     else:
