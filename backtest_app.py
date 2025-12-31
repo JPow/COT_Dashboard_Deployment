@@ -358,11 +358,34 @@ print("Pre-computing backtest results for all markets...")
 all_results = {}
 summary_data = []
 
+# Track totals for aggregate calculations
+total_trades = 0
+total_wins = 0
+total_gross_profit = 0
+total_gross_loss = 0
+total_net_profit = 0
+max_drawdown_seen = 0
+all_pnl_pcts = []  # For Sharpe calculation
+
 for market in markets:
     result = run_backtest_for_market(df, market)
     if result:
         all_results[market] = result
         m = result['metrics']
+        
+        # Accumulate for totals
+        total_trades += m.get('total_trades', 0)
+        total_wins += m.get('winning_trades', 0)
+        total_gross_profit += m.get('gross_profit', 0)
+        total_gross_loss += m.get('gross_loss', 0)
+        total_net_profit += m.get('net_profit', 0)
+        max_drawdown_seen = max(max_drawdown_seen, m.get('max_drawdown_pct', 0))
+        
+        # Collect individual trade returns for Sharpe
+        trades_df = result['results']['trades']
+        if not trades_df.empty and 'pnl_pct' in trades_df.columns:
+            all_pnl_pcts.extend(trades_df['pnl_pct'].tolist())
+        
         summary_data.append({
             'Market': market,
             'Trades': m.get('total_trades', 0),
@@ -374,6 +397,40 @@ for market in markets:
             'Profit Factor': round(m.get('profit_factor', 0), 2) if m.get('profit_factor', 0) != float('inf') else 999,
             'Net Profit': round(m.get('net_profit', 0), 2)
         })
+
+# Calculate aggregate metrics for TOTAL row
+initial_capital = 30000
+total_win_rate = (total_wins / total_trades * 100) if total_trades > 0 else 0
+total_return_pct = (total_net_profit / initial_capital * 100) if initial_capital > 0 else 0
+total_profit_factor = (total_gross_profit / total_gross_loss) if total_gross_loss > 0 else 999
+
+# Calculate aggregate Sharpe from all trade returns
+if len(all_pnl_pcts) > 1:
+    pnl_array = np.array(all_pnl_pcts) / 100
+    avg_return = np.mean(pnl_array)
+    std_return = np.std(pnl_array)
+    # Annualize assuming average 5-day hold
+    trades_per_year = 252 / 5
+    total_sharpe = (avg_return * trades_per_year) / (std_return * np.sqrt(trades_per_year)) if std_return > 0 else 0
+else:
+    total_sharpe = 0
+
+# CAGR for portfolio (approximate - assumes 2 years of data)
+years = 2  # Approximate
+total_cagr = (((initial_capital + total_net_profit) / initial_capital) ** (1 / years) - 1) * 100 if years > 0 else 0
+
+# Add TOTAL row
+summary_data.append({
+    'Market': '*** TOTAL ***',
+    'Trades': total_trades,
+    'Win Rate %': round(total_win_rate, 1),
+    'Return %': round(total_return_pct, 2),
+    'CAGR %': round(total_cagr, 2),
+    'Max DD %': round(max_drawdown_seen, 2),  # Worst individual market DD
+    'Sharpe': round(total_sharpe, 2),
+    'Profit Factor': round(total_profit_factor, 2) if total_profit_factor != float('inf') else 999,
+    'Net Profit': round(total_net_profit, 2)
+})
 
 summary_df = pd.DataFrame(summary_data)
 print(f"Computed results for {len(all_results)} markets")
@@ -410,6 +467,8 @@ app.layout = dbc.Container([
                     {'if': {'filter_query': '{Return %} < 0', 'column_id': 'Return %'}, 'backgroundColor': '#4a1c1c', 'color': 'white'},
                     {'if': {'filter_query': '{Win Rate %} >= 50', 'column_id': 'Win Rate %'}, 'backgroundColor': '#1b4332'},
                     {'if': {'filter_query': '{Win Rate %} < 40', 'column_id': 'Win Rate %'}, 'backgroundColor': '#4a1c1c'},
+                    # Highlight TOTAL row
+                    {'if': {'filter_query': '{Market} = "*** TOTAL ***"'}, 'backgroundColor': '#0f3460', 'fontWeight': 'bold', 'borderTop': '2px solid #FFD600'},
                 ]
             )
         ])
