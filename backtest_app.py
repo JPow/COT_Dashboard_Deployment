@@ -103,15 +103,40 @@ class COTRSIBacktester:
         self.trades = []
         self.equity_curve = []
         
-    def calculate_position_size(self, entry_price, atr):
+    def calculate_position_size(self, entry_price, atr, market_name=""):
+        """
+        Position sizing based on 1% risk rule.
+        
+        Formula:
+        - Risk amount = capital × 0.01
+        - Stop distance = 2 × ATR
+        - Max units = risk_amount / stop_distance
+        - If units < 1: missed trade (can't afford 1 unit)
+        - If units >= 1: round to nearest integer
+        
+        Exception: Bitcoin and Ether allow fractional units
+        """
         if pd.isna(atr) or atr <= 0:
             return 0, "Invalid ATR"
-        stop_distance = self.atr_stop_mult * atr
-        risk_amount = self.capital * self.risk_per_trade
-        units = int(risk_amount / stop_distance)
-        if units <= 0:
-            return 0, "Position too small"
-        return units, None
+        
+        risk_amount = self.capital * self.risk_per_trade  # 1% of capital
+        stop_distance = self.atr_stop_mult * atr          # 2 × ATR
+        
+        raw_units = risk_amount / stop_distance
+        
+        # Bitcoin and Ether can be traded as fractional units
+        allows_fractional = 'BITCOIN' in market_name.upper() or 'ETHER' in market_name.upper()
+        
+        if allows_fractional:
+            # Allow fractional units for crypto (round to 4 decimal places)
+            if raw_units < 0.0001:
+                return 0, f"Missed trade: Position too small ({raw_units:.6f} units)"
+            return round(raw_units, 4), None
+        else:
+            # Standard assets require whole units
+            if raw_units < 1:
+                return 0, f"Missed trade: Can only afford {raw_units:.2f} units"
+            return round(raw_units), None
     
     def backtest(self, data, market_name="Unknown"):
         df = data.copy().reset_index(drop=True)
@@ -125,6 +150,7 @@ class COTRSIBacktester:
         position_direction = 0
         entry_price = entry_date = entry_idx = stop_loss = take_profit = units = 0
         trades = []
+        missed_trades = []  # Track signals we couldn't afford
         equity = [self.initial_capital]
         current_capital = self.initial_capital
         
@@ -176,8 +202,17 @@ class COTRSIBacktester:
             
             if not in_position and signal != 0 and not pd.isna(atr):
                 entry_price, entry_date, entry_idx, position_direction = close, date, i, signal
-                units, error = self.calculate_position_size(entry_price, atr)
+                units, error = self.calculate_position_size(entry_price, atr, market_name)
                 if error:
+                    # Log missed trade
+                    missed_trades.append({
+                        'market': market_name,
+                        'date': date,
+                        'direction': 'Long' if signal == 1 else 'Short',
+                        'price': close,
+                        'atr': atr,
+                        'reason': error
+                    })
                     continue
                 if signal == 1:
                     stop_loss = entry_price - (self.atr_stop_mult * atr)
@@ -204,11 +239,13 @@ class COTRSIBacktester:
             equity.append(current_capital)
         
         self.trades = trades
+        self.missed_trades = missed_trades
         self.equity_curve = equity
         self.capital = current_capital
         
         return {
             'trades': pd.DataFrame(trades),
+            'missed_trades': pd.DataFrame(missed_trades),
             'equity_curve': equity,
             'final_capital': current_capital,
             'total_return': (current_capital - self.initial_capital) / self.initial_capital * 100
@@ -367,11 +404,18 @@ total_net_profit = 0
 max_drawdown_seen = 0
 all_pnl_pcts = []  # For Sharpe calculation
 
+total_missed = 0  # Track total missed trades
+
 for market in markets:
     result = run_backtest_for_market(df, market)
     if result:
         all_results[market] = result
         m = result['metrics']
+        
+        # Count missed trades for this market
+        missed_df = result['results']['missed_trades']
+        missed_count = len(missed_df) if not missed_df.empty else 0
+        total_missed += missed_count
         
         # Accumulate for totals
         total_trades += m.get('total_trades', 0)
@@ -389,6 +433,7 @@ for market in markets:
         summary_data.append({
             'Market': market,
             'Trades': m.get('total_trades', 0),
+            'Missed': missed_count,
             'Win Rate %': round(m.get('win_rate', 0), 1),
             'Return %': round(m.get('total_return_pct', 0), 2),
             'CAGR %': round(m.get('cagr', 0), 2),
@@ -423,6 +468,7 @@ total_cagr = (((initial_capital + total_net_profit) / initial_capital) ** (1 / y
 summary_data.append({
     'Market': '*** TOTAL ***',
     'Trades': total_trades,
+    'Missed': total_missed,
     'Win Rate %': round(total_win_rate, 1),
     'Return %': round(total_return_pct, 2),
     'CAGR %': round(total_cagr, 2),
