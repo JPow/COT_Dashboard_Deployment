@@ -8,7 +8,8 @@ Shares cot_data.json with main COT dashboard app.
 import pandas as pd
 import numpy as np
 import json
-from dash import Dash, html, dcc, callback, Output, Input, dash_table
+import dash
+from dash import Dash, html, dcc, callback, Output, Input, dash_table, State
 import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -33,8 +34,16 @@ def load_data():
 # STRATEGY FUNCTIONS (from notebook)
 # =============================================================================
 
-def prepare_strategy_data(df, market_name):
-    """Prepare strategy data for a specific market."""
+def prepare_strategy_data(df, market_name, start_date=None, end_date=None, ma_period=0):
+    """Prepare strategy data for a specific market with optional date filtering.
+    
+    Args:
+        df: DataFrame with COT and price data
+        market_name: Name of the market to filter
+        start_date: Optional start date for filtering
+        end_date: Optional end date for filtering
+        ma_period: Moving average period for trend filter (0 = no MA filter)
+    """
     market_data = df[df['Market'] == market_name].copy()
     cot_weekly = market_data[market_data['data_type'] == 'weekly_cot'].copy()
     price_daily = market_data[market_data['data_type'] == 'daily_price'].copy()
@@ -42,9 +51,19 @@ def prepare_strategy_data(df, market_name):
     if price_daily.empty:
         return pd.DataFrame()
 
+    # Only get raw price data - we'll calculate MA on-the-fly
     price_cols = ['Date', 'Open', 'High', 'Low', 'Close', 'RSI']
     available_cols = [col for col in price_cols if col in price_daily.columns]
     strategy_data = price_daily[available_cols].copy()
+    
+    # Sort by date first for proper rolling calculations
+    strategy_data = strategy_data.sort_values('Date').reset_index(drop=True)
+    
+    # Calculate TrendMA on-the-fly with user-selected period (0 = no MA filter)
+    if ma_period and ma_period > 0:
+        strategy_data['TrendMA'] = strategy_data['Close'].rolling(window=ma_period).mean()
+    else:
+        strategy_data['TrendMA'] = None  # No MA filter
 
     cot_cols = ['Net Commercial Position', 'OI', 'Commercial_Index']
     cot_for_merge = cot_weekly[['Date'] + cot_cols].copy()
@@ -53,6 +72,12 @@ def prepare_strategy_data(df, market_name):
     strategy_data[cot_cols] = strategy_data[cot_cols].ffill()
     strategy_data = strategy_data.dropna(subset=['Close', 'Commercial_Index'])
     strategy_data = strategy_data.sort_values('Date').reset_index(drop=True)
+    
+    # Filter to backtest period if dates provided
+    if start_date:
+        strategy_data = strategy_data[strategy_data['Date'] >= pd.Timestamp(start_date)]
+    if end_date:
+        strategy_data = strategy_data[strategy_data['Date'] <= pd.Timestamp(end_date)]
     
     return strategy_data
 
@@ -75,14 +100,39 @@ def calculate_atr(data, period=10):
 
 
 def generate_signals(data, commercial_long=80, commercial_short=20, rsi_oversold=30, rsi_overbought=70):
-    """Generate trading signals."""
+    """Generate trading signals with optional TrendMA filter."""
     df = data.copy()
     df['signal'] = 0
     
-    long_condition = (df['Commercial_Index'] >= commercial_long) & (df['RSI'] < rsi_oversold)
-    df.loc[long_condition, 'signal'] = 1
+    # Check if MA filter is enabled (TrendMA has actual values)
+    use_ma_filter = 'TrendMA' in df.columns and df['TrendMA'].notna().any()
     
-    short_condition = (df['Commercial_Index'] <= commercial_short) & (df['RSI'] > rsi_overbought)
+    if use_ma_filter:
+        # With MA filter: Long requires uptrend, Short requires downtrend
+        long_condition = (
+            (df['Commercial_Index'] >= commercial_long) & 
+            (df['RSI'] < rsi_oversold) &
+            (df['Close'] > df['TrendMA']) &
+            (df['TrendMA'].notna())
+        )
+        short_condition = (
+            (df['Commercial_Index'] <= commercial_short) & 
+            (df['RSI'] > rsi_overbought) &
+            (df['Close'] < df['TrendMA']) &
+            (df['TrendMA'].notna())
+        )
+    else:
+        # No MA filter: Pure COT + RSI signals
+        long_condition = (
+            (df['Commercial_Index'] >= commercial_long) & 
+            (df['RSI'] < rsi_oversold)
+        )
+        short_condition = (
+            (df['Commercial_Index'] <= commercial_short) & 
+            (df['RSI'] > rsi_overbought)
+        )
+    
+    df.loc[long_condition, 'signal'] = 1
     df.loc[short_condition, 'signal'] = -1
     
     return df
@@ -304,9 +354,9 @@ def calculate_performance_metrics(trades_df, equity_curve, initial_capital=30000
     return metrics
 
 
-def run_backtest_for_market(df, market_name, initial_capital=30000):
-    """Run complete backtest for a single market."""
-    data = prepare_strategy_data(df, market_name)
+def run_backtest_for_market(df, market_name, initial_capital=30000, start_date=None, end_date=None, ma_period=0):
+    """Run complete backtest for a single market (ma_period=0 means no MA filter)."""
+    data = prepare_strategy_data(df, market_name, start_date, end_date, ma_period)
     if data.empty:
         return None
     
@@ -390,95 +440,102 @@ def create_equity_curve(equity_curve, initial_capital):
 df = load_data()
 markets = sorted(df['Market'].unique().tolist()) if not df.empty else []
 
-# Pre-compute all market summaries
+# Default backtest period
+DEFAULT_START_DATE = '2023-01-01'
+DEFAULT_END_DATE = '2025-12-31'
+
+def run_all_backtests(start_date=None, end_date=None, ma_period=0):
+    """Run backtests for all markets with given date range and MA period (0=no MA filter)."""
+    start = start_date or DEFAULT_START_DATE
+    end = end_date or DEFAULT_END_DATE
+    
+    all_results = {}
+    summary_data = []
+    
+    # Track totals for aggregate calculations
+    total_trades = 0
+    total_wins = 0
+    total_gross_profit = 0
+    total_gross_loss = 0
+    total_net_profit = 0
+    max_drawdown_seen = 0
+    all_pnl_pcts = []
+    total_missed = 0
+    
+    for market in markets:
+        result = run_backtest_for_market(df, market, start_date=start, end_date=end, ma_period=ma_period)
+        if result:
+            all_results[market] = result
+            m = result['metrics']
+            
+            missed_df = result['results']['missed_trades']
+            missed_count = len(missed_df) if not missed_df.empty else 0
+            total_missed += missed_count
+            
+            total_trades += m.get('total_trades', 0)
+            total_wins += m.get('winning_trades', 0)
+            total_gross_profit += m.get('gross_profit', 0)
+            total_gross_loss += m.get('gross_loss', 0)
+            total_net_profit += m.get('net_profit', 0)
+            max_drawdown_seen = max(max_drawdown_seen, m.get('max_drawdown_pct', 0))
+            
+            trades_df = result['results']['trades']
+            if not trades_df.empty and 'pnl_pct' in trades_df.columns:
+                all_pnl_pcts.extend(trades_df['pnl_pct'].tolist())
+            
+            summary_data.append({
+                'Market': market,
+                'Trades': m.get('total_trades', 0),
+                'Missed': missed_count,
+                'Win Rate %': round(m.get('win_rate', 0), 1),
+                'Return %': round(m.get('total_return_pct', 0), 2),
+                'CAGR %': round(m.get('cagr', 0), 2),
+                'Max DD %': round(m.get('max_drawdown_pct', 0), 2),
+                'Sharpe': round(m.get('sharpe_ratio', 0), 2),
+                'Profit Factor': round(m.get('profit_factor', 0), 2) if m.get('profit_factor', 0) != float('inf') else 999,
+                'Net Profit': round(m.get('net_profit', 0), 2)
+            })
+    
+    # Calculate aggregate metrics for TOTAL row
+    initial_capital = 30000
+    total_win_rate = (total_wins / total_trades * 100) if total_trades > 0 else 0
+    total_return_pct = (total_net_profit / initial_capital * 100) if initial_capital > 0 else 0
+    total_profit_factor = (total_gross_profit / total_gross_loss) if total_gross_loss > 0 else 999
+    
+    if len(all_pnl_pcts) > 1:
+        pnl_array = np.array(all_pnl_pcts) / 100
+        avg_return = np.mean(pnl_array)
+        std_return = np.std(pnl_array)
+        trades_per_year = 252 / 5
+        total_sharpe = (avg_return * trades_per_year) / (std_return * np.sqrt(trades_per_year)) if std_return > 0 else 0
+    else:
+        total_sharpe = 0
+    
+    # Calculate years from date range
+    try:
+        years = (pd.Timestamp(end) - pd.Timestamp(start)).days / 365.25
+    except:
+        years = 2
+    total_cagr = (((initial_capital + total_net_profit) / initial_capital) ** (1 / years) - 1) * 100 if years > 0 else 0
+    
+    summary_data.append({
+        'Market': '*** TOTAL ***',
+        'Trades': total_trades,
+        'Missed': total_missed,
+        'Win Rate %': round(total_win_rate, 1),
+        'Return %': round(total_return_pct, 2),
+        'CAGR %': round(total_cagr, 2),
+        'Max DD %': round(max_drawdown_seen, 2),
+        'Sharpe': round(total_sharpe, 2),
+        'Profit Factor': round(total_profit_factor, 2) if total_profit_factor != float('inf') else 999,
+        'Net Profit': round(total_net_profit, 2)
+    })
+    
+    return all_results, pd.DataFrame(summary_data)
+
+# Pre-compute with default dates
 print("Pre-computing backtest results for all markets...")
-all_results = {}
-summary_data = []
-
-# Track totals for aggregate calculations
-total_trades = 0
-total_wins = 0
-total_gross_profit = 0
-total_gross_loss = 0
-total_net_profit = 0
-max_drawdown_seen = 0
-all_pnl_pcts = []  # For Sharpe calculation
-
-total_missed = 0  # Track total missed trades
-
-for market in markets:
-    result = run_backtest_for_market(df, market)
-    if result:
-        all_results[market] = result
-        m = result['metrics']
-        
-        # Count missed trades for this market
-        missed_df = result['results']['missed_trades']
-        missed_count = len(missed_df) if not missed_df.empty else 0
-        total_missed += missed_count
-        
-        # Accumulate for totals
-        total_trades += m.get('total_trades', 0)
-        total_wins += m.get('winning_trades', 0)
-        total_gross_profit += m.get('gross_profit', 0)
-        total_gross_loss += m.get('gross_loss', 0)
-        total_net_profit += m.get('net_profit', 0)
-        max_drawdown_seen = max(max_drawdown_seen, m.get('max_drawdown_pct', 0))
-        
-        # Collect individual trade returns for Sharpe
-        trades_df = result['results']['trades']
-        if not trades_df.empty and 'pnl_pct' in trades_df.columns:
-            all_pnl_pcts.extend(trades_df['pnl_pct'].tolist())
-        
-        summary_data.append({
-            'Market': market,
-            'Trades': m.get('total_trades', 0),
-            'Missed': missed_count,
-            'Win Rate %': round(m.get('win_rate', 0), 1),
-            'Return %': round(m.get('total_return_pct', 0), 2),
-            'CAGR %': round(m.get('cagr', 0), 2),
-            'Max DD %': round(m.get('max_drawdown_pct', 0), 2),
-            'Sharpe': round(m.get('sharpe_ratio', 0), 2),
-            'Profit Factor': round(m.get('profit_factor', 0), 2) if m.get('profit_factor', 0) != float('inf') else 999,
-            'Net Profit': round(m.get('net_profit', 0), 2)
-        })
-
-# Calculate aggregate metrics for TOTAL row
-initial_capital = 30000
-total_win_rate = (total_wins / total_trades * 100) if total_trades > 0 else 0
-total_return_pct = (total_net_profit / initial_capital * 100) if initial_capital > 0 else 0
-total_profit_factor = (total_gross_profit / total_gross_loss) if total_gross_loss > 0 else 999
-
-# Calculate aggregate Sharpe from all trade returns
-if len(all_pnl_pcts) > 1:
-    pnl_array = np.array(all_pnl_pcts) / 100
-    avg_return = np.mean(pnl_array)
-    std_return = np.std(pnl_array)
-    # Annualize assuming average 5-day hold
-    trades_per_year = 252 / 5
-    total_sharpe = (avg_return * trades_per_year) / (std_return * np.sqrt(trades_per_year)) if std_return > 0 else 0
-else:
-    total_sharpe = 0
-
-# CAGR for portfolio (approximate - assumes 2 years of data)
-years = 2  # Approximate
-total_cagr = (((initial_capital + total_net_profit) / initial_capital) ** (1 / years) - 1) * 100 if years > 0 else 0
-
-# Add TOTAL row
-summary_data.append({
-    'Market': '*** TOTAL ***',
-    'Trades': total_trades,
-    'Missed': total_missed,
-    'Win Rate %': round(total_win_rate, 1),
-    'Return %': round(total_return_pct, 2),
-    'CAGR %': round(total_cagr, 2),
-    'Max DD %': round(max_drawdown_seen, 2),  # Worst individual market DD
-    'Sharpe': round(total_sharpe, 2),
-    'Profit Factor': round(total_profit_factor, 2) if total_profit_factor != float('inf') else 999,
-    'Net Profit': round(total_net_profit, 2)
-})
-
-summary_df = pd.DataFrame(summary_data)
+all_results, summary_df = run_all_backtests(DEFAULT_START_DATE, DEFAULT_END_DATE)
 print(f"Computed results for {len(all_results)} markets")
 
 # Initialize app
@@ -493,6 +550,55 @@ app.layout = dbc.Container([
             html.P("Commercial Index + RSI Mean Reversion Strategy", className="text-center text-muted")
         ])
     ]),
+    
+    # Date Range Selector and MA Period
+    dbc.Row([
+        dbc.Col([
+            html.Label("Backtest Start Date", className="text-muted"),
+            dcc.DatePickerSingle(
+                id='start-date-picker',
+                date=DEFAULT_START_DATE,
+                display_format='YYYY-MM-DD',
+                className="mb-2"
+            )
+        ], width=2),
+        dbc.Col([
+            html.Label("Backtest End Date", className="text-muted"),
+            dcc.DatePickerSingle(
+                id='end-date-picker',
+                date=DEFAULT_END_DATE,
+                display_format='YYYY-MM-DD',
+                className="mb-2"
+            )
+        ], width=2),
+        dbc.Col([
+            html.Label("Trend MA Filter", className="text-muted"),
+            dcc.Dropdown(
+                id='ma-period-dropdown',
+                options=[
+                    {'label': 'No MA Filter', 'value': 0},
+                    {'label': '6-day MA', 'value': 6},
+                    {'label': '12-day MA', 'value': 12},
+                    {'label': '18-day MA', 'value': 18},
+                    {'label': '36-day MA', 'value': 36},
+                    {'label': '60-day MA', 'value': 60},
+                    {'label': '120-day MA', 'value': 120},
+                    {'label': '200-day MA', 'value': 200},
+                ],
+                value=0,
+                clearable=False,
+                style={'color': 'black'}
+            )
+        ], width=2),
+        dbc.Col([
+            html.Label(" ", className="text-muted"),  # Spacer
+            html.Br(),
+            dbc.Button("Run Backtest", id="run-backtest-btn", color="primary", className="mt-1")
+        ], width=2),
+        dbc.Col([
+            html.Div(id="backtest-status", className="text-muted mt-4")
+        ], width=4)
+    ], className="mb-3"),
     
     # Summary Table
     dbc.Row([
@@ -561,9 +667,47 @@ app.layout = dbc.Container([
                 page_size=10
             )
         ], width=6)
-    ])
+    ]),
+    
+    # Hidden stores for data
+    dcc.Store(id='results-store', data={'all_results': {}, 'summary': summary_df.to_dict('records')}),
     
 ], fluid=True)
+
+
+# Callback to run backtest when button clicked
+@app.callback(
+    [Output('results-store', 'data'),
+     Output('summary-table', 'data'),
+     Output('backtest-status', 'children')],
+    Input('run-backtest-btn', 'n_clicks'),
+    [Input('start-date-picker', 'date'),
+     Input('end-date-picker', 'date'),
+     Input('ma-period-dropdown', 'value')],
+    prevent_initial_call=True
+)
+def update_backtest(n_clicks, start_date, end_date, ma_period):
+    """Re-run backtests when button is clicked."""
+    global all_results
+    
+    if not start_date or not end_date:
+        return dash.no_update, dash.no_update, "Please select both dates"
+    
+    # ma_period=0 means no MA filter, None means use default (0)
+    if ma_period is None:
+        ma_period = 0
+    
+    # Run backtests with new dates and MA period
+    all_results, new_summary_df = run_all_backtests(start_date, end_date, ma_period)
+    
+    ma_label = "No MA" if ma_period == 0 else f"MA={ma_period}"
+    status = f"✓ Backtest complete: {start_date} to {end_date}, {ma_label} ({len(all_results)} markets)"
+    
+    return (
+        {'summary': new_summary_df.to_dict('records')},
+        new_summary_df.to_dict('records'),
+        status
+    )
 
 
 # Callbacks
