@@ -31,6 +31,83 @@ def load_data():
         return pd.DataFrame()
 
 # =============================================================================
+# RECENT SIGNALS ALERT SYSTEM
+# =============================================================================
+
+def check_recent_signals(df, days=7, commercial_long=80, commercial_short=20, rsi_oversold=30, rsi_overbought=70):
+    """
+    Check for trading signals that occurred in the last N days.
+    
+    Returns a list of dictionaries with signal details.
+    """
+    from datetime import datetime, timedelta
+    
+    cutoff_date = datetime.now() - timedelta(days=days)
+    recent_signals = []
+    
+    markets = df['Market'].unique()
+    
+    for market in markets:
+        market_data = df[df['Market'] == market].copy()
+        price_daily = market_data[market_data['data_type'] == 'daily_price'].copy()
+        cot_weekly = market_data[market_data['data_type'] == 'weekly_cot'].copy()
+        
+        if price_daily.empty or cot_weekly.empty:
+            continue
+        
+        # Check if Commercial_Index exists in COT data
+        if 'Commercial_Index' not in cot_weekly.columns:
+            continue
+            
+        # Sort both by Date for merge_asof
+        price_daily = price_daily[['Date', 'Close', 'RSI']].copy().sort_values('Date').reset_index(drop=True)
+        cot_for_merge = cot_weekly[['Date', 'Commercial_Index']].dropna(subset=['Commercial_Index']).copy()
+        cot_for_merge = cot_for_merge.sort_values('Date').reset_index(drop=True)
+        
+        if cot_for_merge.empty:
+            continue
+        
+        # Use merge_asof to carry forward most recent COT data to each daily price row
+        # direction='backward' means: find most recent COT date <= each price date
+        merged = pd.merge_asof(price_daily, cot_for_merge, on='Date', direction='backward')
+        
+        # Drop rows with missing required data
+        merged = merged.dropna(subset=['Close', 'RSI', 'Commercial_Index'])
+        
+        # Filter to recent days
+        merged = merged[merged['Date'] >= cutoff_date]
+        
+        if merged.empty:
+            continue
+        
+        # Check for signals (no MA filter - pure COT + RSI)
+        for _, row in merged.iterrows():
+            signal_type = None
+            
+            # Long signal: Commercial >= 80 AND RSI < 30
+            if row['Commercial_Index'] >= commercial_long and row['RSI'] < rsi_oversold:
+                signal_type = 'LONG'
+            # Short signal: Commercial <= 20 AND RSI > 70
+            elif row['Commercial_Index'] <= commercial_short and row['RSI'] > rsi_overbought:
+                signal_type = 'SHORT'
+            
+            if signal_type:
+                recent_signals.append({
+                    'Market': market,
+                    'Date': row['Date'],
+                    'Signal': signal_type,
+                    'Commercial_Index': round(row['Commercial_Index'], 1),
+                    'RSI': round(row['RSI'], 1),
+                    'Close': round(row['Close'], 2)
+                })
+    
+    # Sort by date descending (most recent first)
+    recent_signals = sorted(recent_signals, key=lambda x: x['Date'], reverse=True)
+    
+    return recent_signals
+
+
+# =============================================================================
 # STRATEGY FUNCTIONS (from notebook)
 # =============================================================================
 
@@ -538,16 +615,72 @@ print("Pre-computing backtest results for all markets...")
 all_results, summary_df = run_all_backtests(DEFAULT_START_DATE, DEFAULT_END_DATE)
 print(f"Computed results for {len(all_results)} markets")
 
+# Check for recent signals (last 7 days)
+print("\n🔔 Checking for recent signals...")
+recent_signals = check_recent_signals(df, days=7)
+if recent_signals:
+    print(f"⚠️  ALERT: {len(recent_signals)} signal(s) in the last 7 days!")
+    for sig in recent_signals:
+        print(f"   {sig['Signal']} - {sig['Market'][:40]} on {sig['Date'].strftime('%Y-%m-%d')} (COT: {sig['Commercial_Index']}, RSI: {sig['RSI']})")
+else:
+    print("✓ No new signals in the last 7 days")
+
 # Initialize app
 app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
 server = app.server  # For Render deployment
 
 # Layout
+def create_alert_panel(signals):
+    """Create the recent signals alert panel."""
+    if not signals:
+        return dbc.Alert(
+            "✓ No new signals in the last 7 days",
+            color="dark",
+            className="mb-3",
+            style={'backgroundColor': '#16213e', 'border': '1px solid #1a1a2e'}
+        )
+    
+    # Group signals by type
+    long_signals = [s for s in signals if s['Signal'] == 'LONG']
+    short_signals = [s for s in signals if s['Signal'] == 'SHORT']
+    
+    alert_items = []
+    
+    for sig in signals[:10]:  # Show max 10 most recent
+        badge_color = "success" if sig['Signal'] == 'LONG' else "danger"
+        alert_items.append(
+            html.Div([
+                dbc.Badge(sig['Signal'], color=badge_color, className="me-2"),
+                html.Strong(sig['Market'][:35]),
+                html.Span(f" — {sig['Date'].strftime('%Y-%m-%d')}", className="text-muted ms-2"),
+                html.Span(f" (COT: {sig['Commercial_Index']}, RSI: {sig['RSI']}, Price: ${sig['Close']:,.2f})", 
+                         className="text-muted ms-1", style={'fontSize': '0.85em'})
+            ], className="mb-2")
+        )
+    
+    return dbc.Alert([
+        html.H5([
+            html.Span("🔔 ", style={'fontSize': '1.2em'}),
+            f"ALERT: {len(signals)} Signal(s) in Last 7 Days",
+            dbc.Badge(f"{len(long_signals)} Long", color="success", className="ms-3"),
+            dbc.Badge(f"{len(short_signals)} Short", color="danger", className="ms-2"),
+        ], className="alert-heading"),
+        html.Hr(),
+        html.Div(alert_items)
+    ], color="dark", className="mb-3", style={'backgroundColor': '#16213e', 'border': '1px solid #1a1a2e'})
+
 app.layout = dbc.Container([
     dbc.Row([
         dbc.Col([
             html.H1("COT + RSI Strategy Backtest", className="text-center my-4"),
             html.P("Commercial Index + RSI Mean Reversion Strategy", className="text-center text-muted")
+        ])
+    ]),
+    
+    # Recent Signals Alert Panel
+    dbc.Row([
+        dbc.Col([
+            create_alert_panel(recent_signals)
         ])
     ]),
     
