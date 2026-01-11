@@ -13,6 +13,8 @@ from dash import Dash, html, dcc, callback, Output, Input, dash_table, State
 import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+from datetime import datetime
+
 
 # =============================================================================
 # DATA LOADING
@@ -420,11 +422,24 @@ def calculate_performance_metrics(trades_df, equity_curve, initial_capital=30000
     drawdown = (equity_series - equity_series.cummax()) / equity_series.cummax()
     metrics['max_drawdown_pct'] = abs(drawdown.min()) * 100
     
+    # Calculate Sharpe ratio using actual trade frequency (no assumptions)
     if len(trades_df) > 1 and 'pnl_pct' in trades_df.columns:
         returns = trades_df['pnl_pct'] / 100
-        avg_days = trades_df['days_held'].mean() if 'days_held' in trades_df.columns else 5
-        trades_per_year = 252 / avg_days if avg_days > 0 else 20
-        metrics['sharpe_ratio'] = (returns.mean() * trades_per_year) / (returns.std() * np.sqrt(trades_per_year)) if returns.std() > 0 else 0
+        
+        # Calculate actual years from first to last trade
+        if 'entry_date' in trades_df.columns and 'exit_date' in trades_df.columns:
+            trade_years = (trades_df['exit_date'].max() - trades_df['entry_date'].min()).days / 365.25
+        else:
+            trade_years = 1
+        
+        # Calculate actual trades per year from data
+        actual_trades_per_year = len(trades_df) / trade_years if trade_years > 0 else len(trades_df)
+        
+        # Annualized Sharpe: (mean return * N) / (std * sqrt(N))
+        if returns.std() > 0 and actual_trades_per_year > 0:
+            metrics['sharpe_ratio'] = (returns.mean() * actual_trades_per_year) / (returns.std() * np.sqrt(actual_trades_per_year))
+        else:
+            metrics['sharpe_ratio'] = 0
     else:
         metrics['sharpe_ratio'] = 0
     
@@ -519,7 +534,7 @@ markets = sorted(df['Market'].unique().tolist()) if not df.empty else []
 
 # Default backtest period
 DEFAULT_START_DATE = '2023-01-01'
-DEFAULT_END_DATE = '2025-12-31'
+DEFAULT_END_DATE = datetime.now().strftime('%Y-%m-%d')
 
 def run_all_backtests(start_date=None, end_date=None, ma_period=0):
     """Run backtests for all markets with given date range and MA period (0=no MA filter)."""
@@ -579,20 +594,29 @@ def run_all_backtests(start_date=None, end_date=None, ma_period=0):
     total_return_pct = (total_net_profit / initial_capital * 100) if initial_capital > 0 else 0
     total_profit_factor = (total_gross_profit / total_gross_loss) if total_gross_loss > 0 else 999
     
-    if len(all_pnl_pcts) > 1:
-        pnl_array = np.array(all_pnl_pcts) / 100
-        avg_return = np.mean(pnl_array)
-        std_return = np.std(pnl_array)
-        trades_per_year = 252 / 5
-        total_sharpe = (avg_return * trades_per_year) / (std_return * np.sqrt(trades_per_year)) if std_return > 0 else 0
-    else:
-        total_sharpe = 0
-    
-    # Calculate years from date range
+    # Calculate years from date range (needed for both Sharpe and CAGR)
     try:
         years = (pd.Timestamp(end) - pd.Timestamp(start)).days / 365.25
     except:
-        years = 2
+        years = 1
+    
+    # Calculate TOTAL Sharpe ratio using actual trade frequency (no assumptions)
+    if len(all_pnl_pcts) > 1 and years > 0:
+        pnl_array = np.array(all_pnl_pcts) / 100
+        avg_return = np.mean(pnl_array)
+        std_return = np.std(pnl_array)
+        
+        # Calculate actual trades per year from data
+        actual_trades_per_year = len(all_pnl_pcts) / years if years > 0 else len(all_pnl_pcts)
+        
+        # Annualized Sharpe: (mean return * N) / (std * sqrt(N))
+        if std_return > 0 and actual_trades_per_year > 0:
+            total_sharpe = (avg_return * actual_trades_per_year) / (std_return * np.sqrt(actual_trades_per_year))
+        else:
+            total_sharpe = 0
+    else:
+        total_sharpe = 0
+    
     total_cagr = (((initial_capital + total_net_profit) / initial_capital) ** (1 / years) - 1) * 100 if years > 0 else 0
     
     summary_data.append({
