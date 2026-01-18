@@ -1,0 +1,77 @@
+name: Update COT Data Daily
+
+on:
+  schedule:
+    # Run at 7 AM CET (6 AM UTC in winter, 5 AM UTC in summer) on weekdays
+    # Using 6 AM UTC as standard time
+    - cron: '0 6 * * 1-5'  # Monday-Friday at 6 AM UTC (7 AM CET)
+  workflow_dispatch:  # Allow manual trigger from GitHub UI
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout feature/tradingstrat branch
+      uses: actions/checkout@v3
+      with:
+        ref: feature/tradingstrat
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0  # Fetch all history for all branches
+        
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        
+    - name: Install dependencies
+      run: |
+        pip install pandas numpy yfinance cot_reports jupyter nbconvert
+        
+    - name: Execute COT data update notebook
+      run: |
+        jupyter nbconvert --to notebook --execute "COT Cursor Experiments To Deploy.ipynb" --output "COT Cursor Experiments To Deploy.ipynb" --ExecutePreprocessor.timeout=600
+        
+    - name: Configure Git
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        
+    - name: Commit changes to feature/tradingstrat
+      run: |
+        git add cot_data.json
+        git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update COT data $(date +'%Y-%m-%d %H:%M CET') [skip ci]"
+        
+    - name: Push to feature/tradingstrat
+      run: |
+        git push origin feature/tradingstrat
+        
+    - name: Copy cot_data.json to main branch
+      run: |
+        # Checkout main branch
+        git fetch origin main
+        git checkout main
+        
+        # Copy the updated JSON from feature/tradingstrat
+        git checkout feature/tradingstrat -- cot_data.json
+        
+        # Commit to main
+        git add cot_data.json
+        git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update COT data from feature/tradingstrat $(date +'%Y-%m-%d %H:%M CET') [skip ci]"
+        
+        # Push to main
+        git push origin main
+        
+    - name: Summary
+      if: success()
+      run: |
+        echo "✅ COT data updated successfully!"
+        echo "📊 Updated cot_data.json on both feature/tradingstrat and main branches"
+        echo "🕐 Update time: $(date +'%Y-%m-%d %H:%M CET')"
+        
+    - name: Notify on failure
+      if: failure()
+      run: |
+        echo "❌ COT data update failed"
+        echo "Check the logs above for details"
+
