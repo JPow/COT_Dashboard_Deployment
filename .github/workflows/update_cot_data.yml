@@ -26,7 +26,7 @@ jobs:
         
     - name: Install dependencies
       run: |
-        pip install pandas numpy yfinance cot_reports jupyter nbconvert
+        pip install pandas numpy yfinance cot_reports jupyter nbconvert matplotlib plotly
         
     - name: Execute COT data update notebook
       run: |
