@@ -4,7 +4,7 @@ on:
   schedule:
     # Run at 7 AM CET (6 AM UTC in winter, 5 AM UTC in summer) on weekdays
     # Using 6 AM UTC as standard time
-    - cron: '0 6 * * 1-5'  # Monday-Friday at 6 AM UTC (7 AM CET)
+    - cron: '0 6 * * 1-6'  # Monday-Friday at 6 AM UTC (7 AM CET)
   workflow_dispatch:  # Allow manual trigger from GitHub UI
 
 jobs:
