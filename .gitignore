@@ -44,3 +44,6 @@ ENV/
 *.log 
 
 annual.txt
+
+# ORB intraday data cache (regenerated on run, too large for GitHub)
+ORB_intraday_data.json
