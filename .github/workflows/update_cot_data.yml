@@ -40,7 +40,7 @@ jobs:
     - name: Commit changes to feature/tradingstrat
       run: |
         git add cot_data.json
-        git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update COT data $(date +'%Y-%m-%d %H:%M CET') [skip ci]"
+        git diff --staged --quiet || git commit -m "Auto-update COT data $(date +'%Y-%m-%d %H:%M CET') [skip ci]"
         
     - name: Push to feature/tradingstrat
       run: |
@@ -51,7 +51,7 @@ jobs:
         # Clean up any modified/untracked files before switching branches
         git checkout -- .
         git clean -fd
-        
+
         # Checkout main branch
         git fetch origin main
         git checkout main
@@ -61,7 +61,7 @@ jobs:
         
         # Commit to main
         git add cot_data.json
-        git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update COT data from feature/tradingstrat $(date +'%Y-%m-%d %H:%M CET') [skip ci]"
+        git diff --staged --quiet || git commit -m "Auto-update COT data from feature/tradingstrat $(date +'%Y-%m-%d %H:%M CET') [skip ci]"
         
         # Push to main
         git push origin main
