@@ -48,6 +48,10 @@ jobs:
         
     - name: Copy cot_data.json to main branch
       run: |
+        # Clean up any modified/untracked files before switching branches
+        git checkout -- .
+        git clean -fd
+        
         # Checkout main branch
         git fetch origin main
         git checkout main
