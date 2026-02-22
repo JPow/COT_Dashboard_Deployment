@@ -1223,6 +1223,85 @@ def create_equity_curve(equity_curve, initial_capital):
 
 
 # =============================================================================
+# CURRENT SIGNALS DETECTION
+# =============================================================================
+
+def get_current_signals(cot_df, markets, n_inside_days=3,
+                        cot_filter=False, cot_long_threshold=70, cot_short_threshold=30,
+                        rsi_filter=False, rsi_long_max=70, rsi_short_min=30):
+    """
+    Scan all markets for current active Inside Day setups.
+    
+    Returns DataFrame with markets that currently have N consecutive inside days
+    and are ready for a breakout trade.
+    """
+    signals = []
+    
+    for market in markets:
+        # Get recent data (last 30 days to ensure we have enough for indicators)
+        end_date = datetime.now().strftime('%Y-%m-%d')
+        start_date = (datetime.now() - timedelta(days=60)).strftime('%Y-%m-%d')
+        
+        # Prepare data
+        data = prepare_orb_data(
+            cot_df, market, or_type='prev_day',
+            fast_atr_period=10, slow_atr_period=25,
+            start_date=start_date, end_date=end_date
+        )
+        
+        if data.empty or len(data) < 2:
+            continue
+        
+        # Get the most recent complete day
+        latest = data.iloc[-1]
+        
+        # Check if we have the required inside day streak
+        if latest.get('consecutive_inside_days', 0) >= n_inside_days:
+            # Check COT filter if enabled
+            if cot_filter and not pd.isna(latest.get('Commercial_Index')):
+                cot_idx = latest['Commercial_Index']
+                if cot_idx < cot_long_threshold and cot_idx > cot_short_threshold:
+                    continue  # Neither bullish nor bearish COT
+            
+            # Get OR levels (previous day high/low)
+            or_high = latest.get('OR_High', np.nan)
+            or_low = latest.get('OR_Low', np.nan)
+            
+            if pd.isna(or_high) or pd.isna(or_low):
+                continue
+            
+            # Determine signal bias
+            bias = "Setup Ready"
+            cot_value = latest.get('Commercial_Index', np.nan)
+            rsi_value = latest.get('RSI', np.nan)
+            
+            # Apply directional bias based on filters
+            cot_bullish = not pd.isna(cot_value) and cot_value >= cot_long_threshold
+            cot_bearish = not pd.isna(cot_value) and cot_value <= cot_short_threshold
+            
+            if cot_filter:
+                if cot_bullish:
+                    bias = "Long Setup"
+                elif cot_bearish:
+                    bias = "Short Setup"
+            
+            signals.append({
+                'Market': market,
+                'Inside Days': int(latest['consecutive_inside_days']),
+                'Date': latest['Date'].strftime('%Y-%m-%d'),
+                'Close': round(latest['Close'], 4),
+                'OR High': round(or_high, 4),
+                'OR Low': round(or_low, 4),
+                'Range': round(or_high - or_low, 4),
+                'COT Index': round(cot_value, 1) if not pd.isna(cot_value) else 'N/A',
+                'RSI': round(rsi_value, 1) if not pd.isna(rsi_value) else 'N/A',
+                'Bias': bias
+            })
+    
+    return pd.DataFrame(signals)
+
+
+# =============================================================================
 # DASH APP
 # =============================================================================
 
@@ -1296,6 +1375,44 @@ app.layout = dbc.Container([
             )
         ])
     ]),
+
+    # --- Current Active Signals Section ---
+    dbc.Row([
+        dbc.Col([
+            html.Div([
+                html.H4("🔔 Current Active Inside Day Setups", className="mt-3 mb-2"),
+                html.P("Markets with active inside day patterns ready for breakout", 
+                       className="text-muted small mb-2"),
+                dbc.Button("Refresh Signals", id="refresh-signals-btn", 
+                          color="success", size="sm", className="mb-2"),
+                html.Div(id="current-signals-status", className="text-muted small mb-2"),
+                dash_table.DataTable(
+                    id='current-signals-table',
+                    data=[],
+                    columns=[],
+                    sort_action="native",
+                    filter_action="native",
+                    page_size=10,
+                    style_table={'overflowX': 'auto'},
+                    style_header={'backgroundColor': '#1a1a2e', 'color': 'white', 'fontWeight': 'bold'},
+                    style_cell={
+                        'backgroundColor': '#16213e', 'color': 'white',
+                        'textAlign': 'center', 'padding': '8px', 'fontSize': '12px'
+                    },
+                    style_data_conditional=[
+                        {'if': {'filter_query': '{Bias} = "Long Setup"', 'column_id': 'Bias'},
+                         'backgroundColor': '#1b4332', 'color': 'white', 'fontWeight': 'bold'},
+                        {'if': {'filter_query': '{Bias} = "Short Setup"', 'column_id': 'Bias'},
+                         'backgroundColor': '#4a1c1c', 'color': 'white', 'fontWeight': 'bold'},
+                        {'if': {'filter_query': '{Inside Days} >= 5', 'column_id': 'Inside Days'},
+                         'backgroundColor': '#2a4d69', 'fontWeight': 'bold'},
+                    ]
+                )
+            ], style={'backgroundColor': '#0d1b2a', 'padding': '15px', 'borderRadius': '5px'})
+        ])
+    ], className="mb-3"),
+
+    html.Hr(),
 
     # --- Row 1: Strategy Parameters ---
     dbc.Row([
@@ -1488,6 +1605,55 @@ app.layout = dbc.Container([
 # =============================================================================
 # CALLBACKS
 # =============================================================================
+
+@app.callback(
+    [Output('current-signals-table', 'data'),
+     Output('current-signals-table', 'columns'),
+     Output('current-signals-status', 'children')],
+    [Input('refresh-signals-btn', 'n_clicks'),
+     Input('orb-inside-days', 'value'),
+     Input('orb-cot-filter', 'value'),
+     Input('orb-rsi-filter', 'value')],
+    prevent_initial_call=False
+)
+def update_current_signals(n_clicks, inside_days, cot_filter_val, rsi_filter_val):
+    """Update the current signals table based on latest data and filter settings."""
+    inside_days = inside_days or DEFAULT_INSIDE_DAYS
+    cot_on = 'on' in (cot_filter_val or [])
+    rsi_on = 'on' in (rsi_filter_val or [])
+    
+    # Get current signals
+    signals_df = get_current_signals(
+        cot_df, markets, 
+        n_inside_days=inside_days,
+        cot_filter=cot_on,
+        rsi_filter=rsi_on
+    )
+    
+    if signals_df.empty:
+        status = f"No active setups found (requiring {inside_days}+ inside days)"
+        return [], [], status
+    
+    # Define columns for the table
+    columns = [
+        {"name": "Market", "id": "Market"},
+        {"name": "Inside Days", "id": "Inside Days"},
+        {"name": "Date", "id": "Date"},
+        {"name": "Close", "id": "Close"},
+        {"name": "OR High", "id": "OR High"},
+        {"name": "OR Low", "id": "OR Low"},
+        {"name": "Range", "id": "Range"},
+        {"name": "COT Index", "id": "COT Index"},
+        {"name": "RSI", "id": "RSI"},
+        {"name": "Bias", "id": "Bias"},
+    ]
+    
+    status = f"Found {len(signals_df)} active setup(s) with {inside_days}+ inside days"
+    if cot_on:
+        status += " (COT filter active)"
+    
+    return signals_df.to_dict('records'), columns, status
+
 
 @app.callback(
     [Output('orb-results-store', 'data'),
