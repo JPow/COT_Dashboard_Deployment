@@ -1302,6 +1302,119 @@ def get_current_signals(cot_df, markets, n_inside_days=3,
 
 
 # =============================================================================
+# CONSOLIDATION ALERTS
+# =============================================================================
+
+def check_inside_day_alerts(cot_df, markets, lookback_days=10):
+    """
+    Scan all markets for active inside day streaks in the last N trading days.
+    
+    Returns a list of dicts sorted by streak length (longest first).
+    """
+    alerts = []
+    
+    for market in markets:
+        market_data = cot_df[cot_df['Market'] == market].copy()
+        price_daily = market_data[market_data['data_type'] == 'daily_price'].copy()
+        
+        if price_daily.empty:
+            continue
+        
+        price_cols = ['Date', 'Open', 'High', 'Low', 'Close']
+        available = [c for c in price_cols if c in price_daily.columns]
+        data = price_daily[available].copy()
+        data = data.sort_values('Date').reset_index(drop=True)
+        data = data.dropna(subset=['Close', 'High', 'Low'])
+        
+        # Remove weekends except crypto
+        is_crypto = 'BITCOIN' in market.upper() or 'ETHER' in market.upper()
+        if not is_crypto:
+            data = data[data['Date'].dt.dayofweek < 5].reset_index(drop=True)
+        
+        if len(data) < lookback_days + 1:
+            continue
+        
+        # Calculate inside days on full data
+        data = calculate_inside_days(data)
+        
+        # Check the most recent row
+        last_row = data.iloc[-1]
+        streak = int(last_row.get('consecutive_inside_days', 0))
+        
+        if streak >= 3:
+            # Find the control candle (the bar before the streak started)
+            streak_start_idx = len(data) - streak - 1
+            if streak_start_idx >= 0:
+                control = data.iloc[streak_start_idx]
+                control_high = control['High']
+                control_low = control['Low']
+            else:
+                control_high = np.nan
+                control_low = np.nan
+            
+            alerts.append({
+                'Market': market,
+                'inside_days': streak,
+                'control_high': round(control_high, 4) if not pd.isna(control_high) else None,
+                'control_low': round(control_low, 4) if not pd.isna(control_low) else None,
+                'last_date': last_row['Date'],
+                'last_close': round(last_row['Close'], 4),
+            })
+    
+    # Sort by streak length descending
+    alerts = sorted(alerts, key=lambda x: x['inside_days'], reverse=True)
+    return alerts
+
+
+def create_consolidation_alert_panel(alerts):
+    """Create the inside day consolidation alert panel."""
+    if not alerts:
+        return dbc.Alert(
+            "No active inside day patterns (3+ days) detected",
+            color="dark", className="mb-3",
+            style={'backgroundColor': '#16213e', 'border': '1px solid #1a1a2e'}
+        )
+    
+    alert_items = []
+    for a in alerts[:15]:  # Show max 15
+        count = a['inside_days']
+        if count >= 10:
+            badge_color = "danger"
+        elif count >= 5:
+            badge_color = "warning"
+        else:
+            badge_color = "info"
+        
+        range_text = ""
+        if a['control_high'] is not None and a['control_low'] is not None:
+            range_text = f" | Control: {a['control_high']} - {a['control_low']}"
+        
+        alert_items.append(
+            html.Div([
+                dbc.Badge(f"{count} Inside Days", color=badge_color, className="me-2"),
+                html.Strong(a['Market'][:45]),
+                html.Span(
+                    f" — {a['last_date'].strftime('%Y-%m-%d')}, Close: {a['last_close']}{range_text}",
+                    className="text-muted ms-2", style={'fontSize': '0.85em'}
+                )
+            ], className="mb-2")
+        )
+    
+    return dbc.Alert([
+        html.H5([
+            html.Span("ALERT: ", style={'fontWeight': 'bold'}),
+            f"{len(alerts)} Inside Day Pattern(s) Detected",
+            dbc.Badge(f"{len([a for a in alerts if a['inside_days'] >= 10])} 10+", color="danger", className="ms-3"),
+            dbc.Badge(f"{len([a for a in alerts if 5 <= a['inside_days'] < 10])} 5-9", color="warning", className="ms-2"),
+            dbc.Badge(f"{len([a for a in alerts if a['inside_days'] < 5])} 3-4", color="info", className="ms-2"),
+        ], className="alert-heading"),
+        html.Hr(),
+        html.Div(alert_items)
+    ], color="dark", className="mb-3",
+        style={'backgroundColor': '#16213e', 'border': '1px solid #1a1a2e'})
+
+
+# =============================================================================
 # DASH APP
 # =============================================================================
 
@@ -1328,6 +1441,16 @@ if not summary_df.empty:
             lambda x: float(x) if isinstance(x, (np.integer, np.floating)) else x
         )
 print(f"Computed results for {len(all_results)} markets")
+
+# Check for inside day consolidation alerts
+print("\nChecking for inside day alerts...")
+inside_day_alerts = check_inside_day_alerts(cot_df, markets, lookback_days=10)
+if inside_day_alerts:
+    print(f"  ALERT: {len(inside_day_alerts)} market(s) with active inside day patterns")
+    for a in inside_day_alerts:
+        print(f"    {a['Market'][:40]}: {a['inside_days']} inside days (close: {a['last_close']})")
+else:
+    print("  No active inside day patterns")
 
 # Define fixed column set for the summary table
 SUMMARY_COLUMNS = [
@@ -1376,43 +1499,12 @@ app.layout = dbc.Container([
         ])
     ]),
 
-    # --- Current Active Signals Section ---
+    # --- Alert Panel ---
     dbc.Row([
         dbc.Col([
-            html.Div([
-                html.H4("🔔 Current Active Inside Day Setups", className="mt-3 mb-2"),
-                html.P("Markets with active inside day patterns ready for breakout", 
-                       className="text-muted small mb-2"),
-                dbc.Button("Refresh Signals", id="refresh-signals-btn", 
-                          color="success", size="sm", className="mb-2"),
-                html.Div(id="current-signals-status", className="text-muted small mb-2"),
-                dash_table.DataTable(
-                    id='current-signals-table',
-                    data=[],
-                    columns=[],
-                    sort_action="native",
-                    filter_action="native",
-                    page_size=10,
-                    style_table={'overflowX': 'auto'},
-                    style_header={'backgroundColor': '#1a1a2e', 'color': 'white', 'fontWeight': 'bold'},
-                    style_cell={
-                        'backgroundColor': '#16213e', 'color': 'white',
-                        'textAlign': 'center', 'padding': '8px', 'fontSize': '12px'
-                    },
-                    style_data_conditional=[
-                        {'if': {'filter_query': '{Bias} = "Long Setup"', 'column_id': 'Bias'},
-                         'backgroundColor': '#1b4332', 'color': 'white', 'fontWeight': 'bold'},
-                        {'if': {'filter_query': '{Bias} = "Short Setup"', 'column_id': 'Bias'},
-                         'backgroundColor': '#4a1c1c', 'color': 'white', 'fontWeight': 'bold'},
-                        {'if': {'filter_query': '{Inside Days} >= 5', 'column_id': 'Inside Days'},
-                         'backgroundColor': '#2a4d69', 'fontWeight': 'bold'},
-                    ]
-                )
-            ], style={'backgroundColor': '#0d1b2a', 'padding': '15px', 'borderRadius': '5px'})
+            create_consolidation_alert_panel(inside_day_alerts)
         ])
-    ], className="mb-3"),
-
-    html.Hr(),
+    ]),
 
     # --- Row 1: Strategy Parameters ---
     dbc.Row([

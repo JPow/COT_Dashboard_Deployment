@@ -1077,6 +1077,104 @@ def create_equity_curve(equity_curve, initial_capital):
 
 
 # =============================================================================
+# CONSOLIDATION ALERTS
+# =============================================================================
+
+def check_narrowing_range_alerts(cot_df, markets, lookback_days=10):
+    """
+    Scan all markets for active narrowing range streaks in the last N trading days.
+    
+    Returns a list of dicts sorted by streak length (longest first).
+    """
+    alerts = []
+    
+    for market in markets:
+        market_data = cot_df[cot_df['Market'] == market].copy()
+        price_daily = market_data[market_data['data_type'] == 'daily_price'].copy()
+        
+        if price_daily.empty:
+            continue
+        
+        price_cols = ['Date', 'Open', 'High', 'Low', 'Close']
+        available = [c for c in price_cols if c in price_daily.columns]
+        data = price_daily[available].copy()
+        data = data.sort_values('Date').reset_index(drop=True)
+        data = data.dropna(subset=['Close', 'High', 'Low'])
+        
+        # Remove weekends except crypto
+        is_crypto = 'BITCOIN' in market.upper() or 'ETHER' in market.upper()
+        if not is_crypto:
+            data = data[data['Date'].dt.dayofweek < 5].reset_index(drop=True)
+        
+        if len(data) < lookback_days + 1:
+            continue
+        
+        # Calculate narrowing ranges on full data
+        data = calculate_narrowing_ranges(data)
+        
+        # Check the most recent row
+        last_row = data.iloc[-1]
+        streak = int(last_row.get('consecutive_narrowing', 0))
+        
+        if streak >= 3:
+            alerts.append({
+                'Market': market,
+                'narrowing_days': streak,
+                'latest_range': round(last_row['daily_range'], 4),
+                'last_date': last_row['Date'],
+                'last_close': round(last_row['Close'], 4),
+            })
+    
+    # Sort by streak length descending
+    alerts = sorted(alerts, key=lambda x: x['narrowing_days'], reverse=True)
+    return alerts
+
+
+def create_consolidation_alert_panel(alerts):
+    """Create the narrowing range consolidation alert panel."""
+    if not alerts:
+        return dbc.Alert(
+            "No active narrowing range patterns (3+ days) detected",
+            color="dark", className="mb-3",
+            style={'backgroundColor': '#16213e', 'border': '1px solid #1a1a2e'}
+        )
+    
+    alert_items = []
+    for a in alerts[:15]:  # Show max 15
+        count = a['narrowing_days']
+        if count >= 8:
+            badge_color = "danger"
+        elif count >= 5:
+            badge_color = "warning"
+        else:
+            badge_color = "info"
+        
+        alert_items.append(
+            html.Div([
+                dbc.Badge(f"{count} Narrowing Days", color=badge_color, className="me-2"),
+                html.Strong(a['Market'][:45]),
+                html.Span(
+                    f" — {a['last_date'].strftime('%Y-%m-%d')}, Close: {a['last_close']}, Range: {a['latest_range']}",
+                    className="text-muted ms-2", style={'fontSize': '0.85em'}
+                )
+            ], className="mb-2")
+        )
+    
+    return dbc.Alert([
+        html.H5([
+            html.Span("ALERT: ", style={'fontWeight': 'bold'}),
+            f"{len(alerts)} Narrowing Range Pattern(s) Detected",
+            dbc.Badge(f"{len([a for a in alerts if a['narrowing_days'] >= 8])} 8+", color="danger", className="ms-3"),
+            dbc.Badge(f"{len([a for a in alerts if 5 <= a['narrowing_days'] < 8])} 5-7", color="warning", className="ms-2"),
+            dbc.Badge(f"{len([a for a in alerts if a['narrowing_days'] < 5])} 3-4", color="info", className="ms-2"),
+        ], className="alert-heading"),
+        html.Hr(),
+        html.Div(alert_items)
+    ], color="dark", className="mb-3",
+        style={'backgroundColor': '#16213e', 'border': '1px solid #1a1a2e'})
+
+
+# =============================================================================
 # DASH APP
 # =============================================================================
 
@@ -1101,6 +1199,16 @@ if not summary_df.empty:
             lambda x: float(x) if isinstance(x, (np.integer, np.floating)) else x
         )
 print(f"Computed results for {len(all_results)} markets")
+
+# Check for narrowing range consolidation alerts
+print("\nChecking for narrowing range alerts...")
+narrowing_alerts = check_narrowing_range_alerts(cot_df, markets, lookback_days=10)
+if narrowing_alerts:
+    print(f"  ALERT: {len(narrowing_alerts)} market(s) with active narrowing range patterns")
+    for a in narrowing_alerts:
+        print(f"    {a['Market'][:40]}: {a['narrowing_days']} narrowing days (close: {a['last_close']})")
+else:
+    print("  No active narrowing range patterns")
 
 SUMMARY_COLUMNS = [
     {"name": "Market", "id": "Market"},
@@ -1143,6 +1251,13 @@ app.layout = dbc.Container([
                 "Narrowing Daily Range Setup + Opening Range Entry Filter + Two-Phase Stop Management",
                 className="text-center text-muted"
             )
+        ])
+    ]),
+
+    # --- Alert Panel ---
+    dbc.Row([
+        dbc.Col([
+            create_consolidation_alert_panel(narrowing_alerts)
         ])
     ]),
 
