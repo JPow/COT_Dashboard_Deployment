@@ -5,11 +5,11 @@
     "tick_value": 1.0,
     "point_value": 10.0
   },
-  "SILVER": {
-    "traded_contract": "Silver (SI)",
-    "tick_size": 0.005,
-    "tick_value": 25.0,
-    "point_value": 5000.0
+  "MICRO SILVER": {
+    "traded_contract": "Micro Silver (SIL)",
+    "tick_size": 0.0125,
+    "tick_value": 1.25,
+    "point_value": 100.0
   },
   "PLATINUM": {
     "traded_contract": "Platinum (PL)",
@@ -24,16 +24,16 @@
     "point_value": 100.0
   },
   "COPPER-GRADE #1": {
-    "traded_contract": "Copper (HG)",
-    "tick_size": 0.0005,
-    "tick_value": 12.50,
-    "point_value": 25000.0
+    "traded_contract": "Micro High Grade Copper (MHG)",
+    "tick_size": 0.0025,
+    "tick_value": 6.25,
+    "point_value": 2500.0
   },
   "WTI-PHYSICAL": {
-    "traded_contract": "WTI Crude Oil (CL)",
+    "traded_contract": "Micro Crude Oil (MCL)",
     "tick_size": 0.01,
-    "tick_value": 10.0,
-    "point_value": 1000.0
+    "tick_value": 1.0,
+    "point_value": 100.0
   },
   "GASOLINE RBOB": {
     "traded_contract": "RBOB Gasoline (RB)",
@@ -42,10 +42,10 @@
     "point_value": 42000.0
   },
   "NAT GAS NYME": {
-    "traded_contract": "Natural Gas (NG)",
-    "tick_size": 0.001,
-    "tick_value": 10.0,
-    "point_value": 10000.0
+    "traded_contract": "E-mini Natural Gas (QG)",
+    "tick_size": 0.005,
+    "tick_value": 12.50,
+    "point_value": 2500.0
   },
   "HEATING OIL": {
     "traded_contract": "Heating Oil (HO)",
@@ -60,10 +60,10 @@
     "point_value": 1000.0
   },
   "CORN": {
-    "traded_contract": "Corn (ZC)",
-    "tick_size": 0.0025,
-    "tick_value": 12.50,
-    "point_value": 5000.0
+    "traded_contract": "Micro Corn (XC)",
+    "tick_size": 0.0125,
+    "tick_value": 1.25,
+    "point_value": 100.0
   },
   "OATS": {
     "traded_contract": "Oats (ZO)",
@@ -78,10 +78,10 @@
     "point_value": 5000.0
   },
   "SOYBEANS": {
-    "traded_contract": "Soybeans (ZS)",
-    "tick_size": 0.0025,
-    "tick_value": 12.50,
-    "point_value": 5000.0
+    "traded_contract": "Micro Soybeans (XK)",
+    "tick_size": 0.0125,
+    "tick_value": 1.25,
+    "point_value": 100.0
   },
   "SOYBEAN MEAL": {
     "traded_contract": "Soybean Meal (ZM)",
@@ -186,10 +186,10 @@
     "point_value": 100000.0
   },
   "SWISS FRANC": {
-    "traded_contract": "Swiss Franc (6S)",
+    "traded_contract": "Micro CHF/USD (M6S)",
     "tick_size": 0.0001,
-    "tick_value": 12.50,
-    "point_value": 125000.0
+    "tick_value": 1.25,
+    "point_value": 12500.0
   },
   "SO AFRICAN RAND": {
     "traded_contract": "South African Rand (6Z)",
@@ -228,10 +228,10 @@
     "point_value": 50.0
   },
   "NIKKEI STOCK AVERAGE": {
-    "traded_contract": "Nikkei 225 (NKD)",
+    "traded_contract": "Mini Nikkei 225 (YNK)",
     "tick_size": 5.0,
-    "tick_value": 25.0,
-    "point_value": 5.0
+    "tick_value": 2.50,
+    "point_value": 0.50
   },
   "VIX FUTURES": {
     "traded_contract": "VIX (VX)",
@@ -239,23 +239,11 @@
     "tick_value": 50.0,
     "point_value": 1000.0
   },
-  "BITCOIN": {
-    "traded_contract": "CME Bitcoin (BTC)",
-    "tick_size": 5.0,
-    "tick_value": 25.0,
-    "point_value": 5.0
-  },
   "MICRO BITCOIN": {
     "traded_contract": "Micro Bitcoin (spot-like)",
     "tick_size": 1.0,
     "tick_value": 1.0,
     "point_value": 1.0
-  },
-  "ETHER CASH SETTLED": {
-    "traded_contract": "CME Ether (ETH)",
-    "tick_size": 0.25,
-    "tick_value": 12.50,
-    "point_value": 50.0
   },
   "MICRO ETHER": {
     "traded_contract": "Micro Ether (spot-like)",
