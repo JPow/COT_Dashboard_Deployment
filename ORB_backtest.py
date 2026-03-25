@@ -377,7 +377,7 @@ def prepare_orb_data(cot_df, market_name, or_type='30m',
 
     # --- Download intraday data for entry verification ---
     yf_symbol = get_yf_symbol(market_name)
-    if yf_symbol is None:
+    if yf_symbol is None and 'YF_Symbol' in market_data.columns:
         yf_col = market_data['YF_Symbol'].dropna()
         if not yf_col.empty:
             yf_symbol = yf_col.iloc[0]

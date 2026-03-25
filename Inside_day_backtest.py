@@ -435,8 +435,7 @@ def prepare_orb_data(cot_df, market_name, or_type='prev_day',
     else:
         # Intraday OR: download/load from cache
         yf_symbol = get_yf_symbol(market_name)
-        if yf_symbol is None:
-            # Try getting symbol from data
+        if yf_symbol is None and 'YF_Symbol' in market_data.columns:
             yf_col = market_data['YF_Symbol'].dropna()
             if not yf_col.empty:
                 yf_symbol = yf_col.iloc[0]
