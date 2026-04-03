@@ -2,34 +2,25 @@
 Inside Day Breakout Strategy Backtest Dashboard
 =================================================
 Dash app for backtesting Inside Day Breakout strategies with:
-- 3 OR types: 30-min, 60-min, Previous Day Range
+- Previous Day Range as Opening Range
 - Inside day consolidation filter (N consecutive inside days)
-- Two-phase stop management: fixed → breakeven → trailing
+- Two-phase stop management: fixed -> breakeven -> trailing
 - COT and RSI filters (toggleable)
 - Fast/Slow ATR, 6 Moving Averages, RSI indicators
 
 Data:
 - Daily OHLCV + COT data from cot_data.json (shared with COT dashboard)
-- Intraday 30m/60m data cached in ORB_intraday_data.json
 """
 
 import pandas as pd
 import numpy as np
 import json
-import os
-import time
 import dash
 from dash import Dash, html, dcc, callback, Output, Input, dash_table, State
 import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from datetime import datetime, timedelta
-
-try:
-    import yfinance as yf
-except ImportError:
-    yf = None
-    print("WARNING: yfinance not installed. Intraday data download disabled.")
 
 
 # =============================================================================
@@ -45,32 +36,6 @@ DEFAULT_FAST_ATR = 10
 DEFAULT_SLOW_ATR = 25
 DEFAULT_INSIDE_DAYS = 3
 STOP_BUFFER = 0.01  # $0.01 buffer on stops
-
-INTRADAY_CACHE_FILE = 'ORB_intraday_data.json'
-
-# Yahoo Finance symbol mapping (Market name -> YF symbol)
-MARKET_YF_SYMBOLS = {
-    'GOLD': 'GC=F', 'SILVER': 'SI=F', 'PLATINUM': 'PL=F', 'PALLADIUM': 'PA=F',
-    'COPPER-GRADE #1': 'HG=F', 'MICRO GOLD': 'MGC=F',
-    'WTI-PHYSICAL': 'CL=F', 'GASOLINE RBOB': 'RB=F', 'NAT GAS NYME': 'NG=F',
-    'HEATING OIL': 'HO=F', 'BRENT LAST DAY': 'BZ=F',
-    'CORN': 'ZC=F', 'OATS': 'ZO=F', 'WHEAT-SRW': 'ZW=F',
-    'SOYBEANS': 'ZS=F', 'SOYBEAN MEAL': 'ZM=F', 'SOYBEAN OIL': 'ZL=F',
-    'COCOA': 'CC=F', 'COFFEE C': 'KC=F', 'COTTON NO. 2': 'CT=F',
-    'SUGAR NO. 11': 'SB=F', 'ORANGE JUICE': 'OJ=F',
-    'FEEDER CATTLE': 'GF=F', 'LEAN HOGS': 'HE=F', 'LIVE CATTLE': 'LE=F',
-    'AUSTRALIAN DOLLAR': '6A=F', 'BRITISH POUND': '6B=F', 'CANADIAN DOLLAR': '6C=F',
-    'EURO FX': '6E=F', 'JAPANESE YEN': '6J=F', 'MEXICAN PESO': '6M=F',
-    'NEW ZEALAND DOLLAR': '6N=F', 'SWISS FRANC': '6S=F',
-    'SO AFRICAN RAND': '6Z=F', 'BRAZILIAN REAL': '6L=F',
-    'E-MINI S&P 500': 'ES=F', 'NASDAQ MINI': 'NQ=F',
-    'DOW JONES INDUSTRIAL AVG': 'YM=F', 'RUSSELL E-MINI': 'RTY=F',
-    'NIKKEI STOCK AVERAGE': 'NKD=F', 'VIX FUTURES': 'VX=F',
-    'BITCOIN': 'BTC=F', 'MICRO BITCOIN': 'BTC-USD',
-    'ETHER CASH SETTLED': 'ETH=F', 'MICRO ETHER': 'ETH-USD',
-    'UST 2Y NOTE': 'ZT=F', 'UST 5Y NOTE': 'ZF=F',
-    'UST 10Y NOTE': 'ZN=F', 'UST BOND': 'ZB=F',
-}
 
 
 # =============================================================================
@@ -88,126 +53,6 @@ def load_cot_data():
     except Exception as e:
         print(f"Error loading COT data: {e}")
         return pd.DataFrame()
-
-
-def load_intraday_cache():
-    """Load cached intraday data from ORB_intraday_data.json."""
-    if not os.path.exists(INTRADAY_CACHE_FILE):
-        return pd.DataFrame()
-    try:
-        with open(INTRADAY_CACHE_FILE, 'r') as f:
-            data = json.load(f)
-        if not data:
-            return pd.DataFrame()
-        df = pd.DataFrame(data)
-        df['datetime'] = pd.to_datetime(df['datetime'])
-        return df
-    except Exception as e:
-        print(f"Error loading intraday cache: {e}")
-        return pd.DataFrame()
-
-
-def save_intraday_cache(df):
-    """Save intraday data to ORB_intraday_data.json."""
-    try:
-        save_df = df.copy()
-        save_df['datetime'] = save_df['datetime'].dt.strftime('%Y-%m-%d %H:%M:%S')
-        with open(INTRADAY_CACHE_FILE, 'w') as f:
-            json.dump(save_df.to_dict('records'), f, indent=2)
-    except Exception as e:
-        print(f"Error saving intraday cache: {e}")
-
-
-def download_intraday_data(symbol, yf_symbol, interval='30m'):
-    """
-    Download intraday data from Yahoo Finance and merge with cache.
-    
-    Limits:
-      - 30m: max 60 days back
-      - 60m: max 730 days back
-    
-    Returns DataFrame with columns: symbol, interval, datetime, open, high, low, close, volume
-    """
-    if yf is None:
-        print("yfinance not available, cannot download intraday data")
-        return pd.DataFrame()
-
-    # Load existing cache
-    cache = load_intraday_cache()
-
-    # Check what we already have for this symbol+interval
-    if not cache.empty:
-        existing = cache[(cache['symbol'] == symbol) & (cache['interval'] == interval)]
-        if not existing.empty:
-            last_cached = existing['datetime'].max()
-            # If cache is recent enough (within last trading day), skip download
-            if last_cached >= pd.Timestamp.now() - pd.Timedelta(days=2):
-                print(f"  Cache hit for {symbol} ({interval}), last data: {last_cached}")
-                return existing.reset_index(drop=True)
-
-    # Determine download period based on interval
-    if interval == '30m':
-        period = '60d'  # Max for 30-min
-    elif interval == '60m':
-        period = '730d'  # Max for 60-min
-    else:
-        period = '60d'
-
-    try:
-        print(f"  Downloading {interval} data for {yf_symbol} (period={period})...")
-        ticker = yf.Ticker(yf_symbol)
-        df = ticker.history(period=period, interval=interval)
-        time.sleep(1)  # Rate limit protection
-
-        if df.empty:
-            print(f"  No data returned for {yf_symbol}")
-            return pd.DataFrame()
-
-        df = df.reset_index()
-        # yfinance returns 'Datetime' for intraday
-        date_col = 'Datetime' if 'Datetime' in df.columns else 'Date'
-        
-        result = pd.DataFrame({
-            'symbol': symbol,
-            'interval': interval,
-            'datetime': pd.to_datetime(df[date_col]).dt.tz_localize(None),
-            'open': df['Open'].values,
-            'high': df['High'].values,
-            'low': df['Low'].values,
-            'close': df['Close'].values,
-            'volume': df['Volume'].values,
-        })
-
-        # Merge with cache (remove old entries for this symbol+interval, add new)
-        if not cache.empty:
-            cache = cache[~((cache['symbol'] == symbol) & (cache['interval'] == interval))]
-            cache = pd.concat([cache, result], ignore_index=True)
-        else:
-            cache = result.copy()
-
-        save_intraday_cache(cache)
-        print(f"  Downloaded {len(result)} candles for {yf_symbol}")
-        return result.reset_index(drop=True)
-
-    except Exception as e:
-        print(f"  Error downloading {yf_symbol}: {e}")
-        # Fall back to cache if available
-        if not cache.empty:
-            existing = cache[(cache['symbol'] == symbol) & (cache['interval'] == interval)]
-            if not existing.empty:
-                return existing.reset_index(drop=True)
-        return pd.DataFrame()
-
-
-def get_yf_symbol(market_name):
-    """Get Yahoo Finance symbol for a market, trying direct match then partial."""
-    if market_name in MARKET_YF_SYMBOLS:
-        return MARKET_YF_SYMBOLS[market_name]
-    # Try partial match
-    for key, val in MARKET_YF_SYMBOLS.items():
-        if key in market_name or market_name in key:
-            return val
-    return None
 
 
 # =============================================================================
@@ -330,38 +175,6 @@ def calculate_inside_days(data):
 # OPENING RANGE CALCULATION
 # =============================================================================
 
-def calculate_opening_range_intraday(intraday_df, interval='30m'):
-    """
-    Extract OR_High and OR_Low for each trading day from intraday data.
-    
-    30-min OR: High/Low of first 30-min candle of each session
-    60-min OR: High/Low of first 60-min candle of each session
-    
-    Returns DataFrame with columns: Date, OR_High, OR_Low, OR_Range
-    """
-    if intraday_df.empty:
-        return pd.DataFrame(columns=['Date', 'OR_High', 'OR_Low', 'OR_Range'])
-
-    df = intraday_df.copy()
-    df['date'] = df['datetime'].dt.date
-
-    # Group by date, take the first candle of each day (= opening range)
-    or_data = []
-    for date, group in df.groupby('date'):
-        group = group.sort_values('datetime')
-        if len(group) == 0:
-            continue
-        first_candle = group.iloc[0]
-        or_data.append({
-            'Date': pd.Timestamp(date),
-            'OR_High': first_candle['high'],
-            'OR_Low': first_candle['low'],
-            'OR_Range': first_candle['high'] - first_candle['low']
-        })
-
-    return pd.DataFrame(or_data)
-
-
 def calculate_opening_range_prev_day(daily_data):
     """
     Calculate Opening Range from Previous Day's Range.
@@ -381,13 +194,13 @@ def calculate_opening_range_prev_day(daily_data):
 # DATA PREPARATION
 # =============================================================================
 
-def prepare_orb_data(cot_df, market_name, or_type='prev_day',
+def prepare_orb_data(cot_df, market_name,
                      fast_atr_period=10, slow_atr_period=25,
                      start_date=None, end_date=None):
     """
-    Prepare complete dataset for ORB backtesting.
+    Prepare complete dataset for Inside Day Breakout backtesting.
     
-    Merges daily OHLCV, COT data, indicators, and opening range.
+    Merges daily OHLCV, COT data, indicators, and previous-day opening range.
     """
     market_data = cot_df[cot_df['Market'] == market_name].copy()
     cot_weekly = market_data[market_data['data_type'] == 'weekly_cot'].copy()
@@ -429,34 +242,8 @@ def prepare_orb_data(cot_df, market_name, or_type='prev_day',
     # Inside Days
     strategy_data = calculate_inside_days(strategy_data)
 
-    # --- Opening Range ---
-    if or_type == 'prev_day':
-        strategy_data = calculate_opening_range_prev_day(strategy_data)
-    else:
-        # Intraday OR: download/load from cache
-        yf_symbol = get_yf_symbol(market_name)
-        if yf_symbol is None and 'YF_Symbol' in market_data.columns:
-            yf_col = market_data['YF_Symbol'].dropna()
-            if not yf_col.empty:
-                yf_symbol = yf_col.iloc[0]
-
-        if yf_symbol:
-            interval = '30m' if or_type == '30m' else '60m'
-            intraday = download_intraday_data(market_name, yf_symbol, interval=interval)
-
-            if not intraday.empty:
-                or_df = calculate_opening_range_intraday(intraday, interval=interval)
-                # Merge OR data with daily data
-                strategy_data = strategy_data.merge(or_df, on='Date', how='left')
-            else:
-                # No intraday data available, set OR columns to NaN
-                strategy_data['OR_High'] = np.nan
-                strategy_data['OR_Low'] = np.nan
-                strategy_data['OR_Range'] = np.nan
-        else:
-            strategy_data['OR_High'] = np.nan
-            strategy_data['OR_Low'] = np.nan
-            strategy_data['OR_Range'] = np.nan
+    # --- Opening Range (previous day's High/Low) ---
+    strategy_data = calculate_opening_range_prev_day(strategy_data)
 
     # --- Merge COT data ---
     cot_cols = ['Date', 'Commercial_Index']
@@ -903,17 +690,16 @@ def calculate_performance_metrics(trades_df, equity_curve, initial_capital=30000
 # RUN BACKTEST FOR A SINGLE MARKET
 # =============================================================================
 
-def run_backtest_for_market(cot_df, market_name, or_type='prev_day',
+def run_backtest_for_market(cot_df, market_name,
                             n_inside_days=3, initial_capital=30000,
                             risk_pct=1.0, trailing_atr_mult=2.0,
                             fast_atr_period=10, slow_atr_period=25,
                             cot_filter=False, cot_long=70, cot_short=30,
                             rsi_filter=False, rsi_long_max=70, rsi_short_min=30,
                             start_date=None, end_date=None):
-    """Run complete ORB backtest for a single market."""
-    # Prepare data
+    """Run complete Inside Day Breakout backtest for a single market."""
     data = prepare_orb_data(
-        cot_df, market_name, or_type=or_type,
+        cot_df, market_name,
         fast_atr_period=fast_atr_period, slow_atr_period=slow_atr_period,
         start_date=start_date, end_date=end_date
     )
@@ -940,14 +726,14 @@ def run_backtest_for_market(cot_df, market_name, or_type='prev_day',
     return {'data': data, 'results': results, 'metrics': metrics}
 
 
-def run_all_backtests(cot_df, markets, or_type='prev_day',
+def run_all_backtests(cot_df, markets,
                       n_inside_days=3, initial_capital=30000,
                       risk_pct=1.0, trailing_atr_mult=2.0,
                       fast_atr_period=10, slow_atr_period=25,
                       cot_filter=False, cot_long=70, cot_short=30,
                       rsi_filter=False, rsi_long_max=70, rsi_short_min=30,
                       start_date=None, end_date=None):
-    """Run ORB backtests for all markets."""
+    """Run Inside Day Breakout backtests for all markets."""
     start = start_date or DEFAULT_START_DATE
     end = end_date or DEFAULT_END_DATE
 
@@ -966,7 +752,7 @@ def run_all_backtests(cot_df, markets, or_type='prev_day',
     for market in markets:
         print(f"Processing {market}...")
         result = run_backtest_for_market(
-            cot_df, market, or_type=or_type,
+            cot_df, market,
             n_inside_days=n_inside_days, initial_capital=initial_capital,
             risk_pct=risk_pct, trailing_atr_mult=trailing_atr_mult,
             fast_atr_period=fast_atr_period, slow_atr_period=slow_atr_period,
@@ -1222,85 +1008,6 @@ def create_equity_curve(equity_curve, initial_capital):
 
 
 # =============================================================================
-# CURRENT SIGNALS DETECTION
-# =============================================================================
-
-def get_current_signals(cot_df, markets, n_inside_days=3,
-                        cot_filter=False, cot_long_threshold=70, cot_short_threshold=30,
-                        rsi_filter=False, rsi_long_max=70, rsi_short_min=30):
-    """
-    Scan all markets for current active Inside Day setups.
-    
-    Returns DataFrame with markets that currently have N consecutive inside days
-    and are ready for a breakout trade.
-    """
-    signals = []
-    
-    for market in markets:
-        # Get recent data (last 30 days to ensure we have enough for indicators)
-        end_date = datetime.now().strftime('%Y-%m-%d')
-        start_date = (datetime.now() - timedelta(days=60)).strftime('%Y-%m-%d')
-        
-        # Prepare data
-        data = prepare_orb_data(
-            cot_df, market, or_type='prev_day',
-            fast_atr_period=10, slow_atr_period=25,
-            start_date=start_date, end_date=end_date
-        )
-        
-        if data.empty or len(data) < 2:
-            continue
-        
-        # Get the most recent complete day
-        latest = data.iloc[-1]
-        
-        # Check if we have the required inside day streak
-        if latest.get('consecutive_inside_days', 0) >= n_inside_days:
-            # Check COT filter if enabled
-            if cot_filter and not pd.isna(latest.get('Commercial_Index')):
-                cot_idx = latest['Commercial_Index']
-                if cot_idx < cot_long_threshold and cot_idx > cot_short_threshold:
-                    continue  # Neither bullish nor bearish COT
-            
-            # Get OR levels (previous day high/low)
-            or_high = latest.get('OR_High', np.nan)
-            or_low = latest.get('OR_Low', np.nan)
-            
-            if pd.isna(or_high) or pd.isna(or_low):
-                continue
-            
-            # Determine signal bias
-            bias = "Setup Ready"
-            cot_value = latest.get('Commercial_Index', np.nan)
-            rsi_value = latest.get('RSI', np.nan)
-            
-            # Apply directional bias based on filters
-            cot_bullish = not pd.isna(cot_value) and cot_value >= cot_long_threshold
-            cot_bearish = not pd.isna(cot_value) and cot_value <= cot_short_threshold
-            
-            if cot_filter:
-                if cot_bullish:
-                    bias = "Long Setup"
-                elif cot_bearish:
-                    bias = "Short Setup"
-            
-            signals.append({
-                'Market': market,
-                'Inside Days': int(latest['consecutive_inside_days']),
-                'Date': latest['Date'].strftime('%Y-%m-%d'),
-                'Close': round(latest['Close'], 4),
-                'OR High': round(or_high, 4),
-                'OR Low': round(or_low, 4),
-                'Range': round(or_high - or_low, 4),
-                'COT Index': round(cot_value, 1) if not pd.isna(cot_value) else 'N/A',
-                'RSI': round(rsi_value, 1) if not pd.isna(rsi_value) else 'N/A',
-                'Bias': bias
-            })
-    
-    return pd.DataFrame(signals)
-
-
-# =============================================================================
 # CONSOLIDATION ALERTS
 # =============================================================================
 
@@ -1423,10 +1130,9 @@ cot_df = load_cot_data()
 markets = sorted(cot_df['Market'].unique().tolist()) if not cot_df.empty else []
 print(f"Loaded {len(markets)} markets")
 
-# Pre-compute with Previous Day Range (fastest, no download needed)
-print("Pre-computing ORB backtest (Previous Day Range)...")
+print("Pre-computing Inside Day Breakout backtest...")
 all_results, summary_df = run_all_backtests(
-    cot_df, markets, or_type='prev_day', n_inside_days=DEFAULT_INSIDE_DAYS,
+    cot_df, markets, n_inside_days=DEFAULT_INSIDE_DAYS,
     initial_capital=DEFAULT_CAPITAL, risk_pct=DEFAULT_RISK_PCT,
     trailing_atr_mult=DEFAULT_TRAILING_ATR_MULT,
     fast_atr_period=DEFAULT_FAST_ATR, slow_atr_period=DEFAULT_SLOW_ATR,
@@ -1507,19 +1213,6 @@ app.layout = dbc.Container([
 
     # --- Row 1: Strategy Parameters ---
     dbc.Row([
-        dbc.Col([
-            html.Label("OR Type", className="text-muted small"),
-            dcc.Dropdown(
-                id='orb-or-type',
-                options=[
-                    {'label': 'Previous Day Range', 'value': 'prev_day'},
-                    {'label': '30-min Opening Range (60d max)', 'value': '30m'},
-                    {'label': '60-min Opening Range (~2yr max)', 'value': '60m'},
-                ],
-                value='prev_day', clearable=False,
-                style={'color': 'black'}
-            )
-        ], width=3),
         dbc.Col([
             html.Label("Inside Days Required", className="text-muted small"),
             dcc.Dropdown(
@@ -1698,62 +1391,12 @@ app.layout = dbc.Container([
 # =============================================================================
 
 @app.callback(
-    [Output('current-signals-table', 'data'),
-     Output('current-signals-table', 'columns'),
-     Output('current-signals-status', 'children')],
-    [Input('refresh-signals-btn', 'n_clicks'),
-     Input('orb-inside-days', 'value'),
-     Input('orb-cot-filter', 'value'),
-     Input('orb-rsi-filter', 'value')],
-    prevent_initial_call=False
-)
-def update_current_signals(n_clicks, inside_days, cot_filter_val, rsi_filter_val):
-    """Update the current signals table based on latest data and filter settings."""
-    inside_days = inside_days or DEFAULT_INSIDE_DAYS
-    cot_on = 'on' in (cot_filter_val or [])
-    rsi_on = 'on' in (rsi_filter_val or [])
-    
-    # Get current signals
-    signals_df = get_current_signals(
-        cot_df, markets, 
-        n_inside_days=inside_days,
-        cot_filter=cot_on,
-        rsi_filter=rsi_on
-    )
-    
-    if signals_df.empty:
-        status = f"No active setups found (requiring {inside_days}+ inside days)"
-        return [], [], status
-    
-    # Define columns for the table
-    columns = [
-        {"name": "Market", "id": "Market"},
-        {"name": "Inside Days", "id": "Inside Days"},
-        {"name": "Date", "id": "Date"},
-        {"name": "Close", "id": "Close"},
-        {"name": "OR High", "id": "OR High"},
-        {"name": "OR Low", "id": "OR Low"},
-        {"name": "Range", "id": "Range"},
-        {"name": "COT Index", "id": "COT Index"},
-        {"name": "RSI", "id": "RSI"},
-        {"name": "Bias", "id": "Bias"},
-    ]
-    
-    status = f"Found {len(signals_df)} active setup(s) with {inside_days}+ inside days"
-    if cot_on:
-        status += " (COT filter active)"
-    
-    return signals_df.to_dict('records'), columns, status
-
-
-@app.callback(
     [Output('orb-results-store', 'data'),
      Output('orb-summary-table', 'data'),
      Output('orb-summary-table', 'columns'),
      Output('orb-status', 'children')],
     Input('orb-run-btn', 'n_clicks'),
-    [State('orb-or-type', 'value'),
-     State('orb-inside-days', 'value'),
+    [State('orb-inside-days', 'value'),
      State('orb-capital', 'value'),
      State('orb-risk-pct', 'value'),
      State('orb-trail-mult', 'value'),
@@ -1765,7 +1408,7 @@ def update_current_signals(n_clicks, inside_days, cot_filter_val, rsi_filter_val
      State('orb-end-date', 'date')],
     prevent_initial_call=True
 )
-def run_backtest_callback(n_clicks, or_type, inside_days, capital, risk_pct,
+def run_backtest_callback(n_clicks, inside_days, capital, risk_pct,
                           trail_mult, fast_atr, slow_atr, cot_filter_val,
                           rsi_filter_val, start_date, end_date):
     """Re-run backtests when Run button is clicked."""
@@ -1784,10 +1427,8 @@ def run_backtest_callback(n_clicks, or_type, inside_days, capital, risk_pct,
     cot_on = 'on' in (cot_filter_val or [])
     rsi_on = 'on' in (rsi_filter_val or [])
 
-    or_labels = {'prev_day': 'Previous Day', '30m': '30-min', '60m': '60-min'}
-
     all_results, summary_df = run_all_backtests(
-        cot_df, markets, or_type=or_type,
+        cot_df, markets,
         n_inside_days=inside_days, initial_capital=capital,
         risk_pct=risk_pct, trailing_atr_mult=trail_mult,
         fast_atr_period=fast_atr, slow_atr_period=slow_atr,
@@ -1795,7 +1436,6 @@ def run_backtest_callback(n_clicks, or_type, inside_days, capital, risk_pct,
         start_date=start_date, end_date=end_date
     )
 
-    # Clean summary_df for DataTable compatibility
     if not summary_df.empty:
         summary_df = summary_df.fillna(0)
         for col in summary_df.columns:
@@ -1806,7 +1446,7 @@ def run_backtest_callback(n_clicks, or_type, inside_days, capital, risk_pct,
     cot_label = "COT ON" if cot_on else "COT OFF"
     rsi_label = "RSI ON" if rsi_on else "RSI OFF"
     status = (
-        f"Backtest complete: {or_labels.get(or_type, or_type)} OR, "
+        f"Backtest complete: "
         f"{inside_days} inside days, {cot_label}, {rsi_label}, "
         f"${capital:,.0f} capital, {risk_pct}% risk "
         f"({len(all_results)} markets)"

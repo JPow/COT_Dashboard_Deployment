@@ -17,20 +17,12 @@ import pandas as pd
 import numpy as np
 import json
 import os
-import time
 import dash
 from dash import Dash, html, dcc, callback, Output, Input, dash_table, State
 import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from datetime import datetime, timedelta
-
-try:
-    import yfinance as yf
-except ImportError:
-    yf = None
-    print("WARNING: yfinance not installed. Intraday data download disabled.")
-
 
 # =============================================================================
 # CONSTANTS
@@ -47,30 +39,6 @@ DEFAULT_NARROWING_DAYS = 3
 STOP_BUFFER = 0.01  # $0.01 buffer on stops
 
 INTRADAY_CACHE_FILE = 'ORB_intraday_data.json'
-
-# Yahoo Finance symbol mapping (Market name -> YF symbol)
-MARKET_YF_SYMBOLS = {
-    'GOLD': 'GC=F', 'SILVER': 'SI=F', 'PLATINUM': 'PL=F', 'PALLADIUM': 'PA=F',
-    'COPPER-GRADE #1': 'HG=F', 'MICRO GOLD': 'MGC=F',
-    'WTI-PHYSICAL': 'CL=F', 'GASOLINE RBOB': 'RB=F', 'NAT GAS NYME': 'NG=F',
-    'HEATING OIL': 'HO=F', 'BRENT LAST DAY': 'BZ=F',
-    'CORN': 'ZC=F', 'OATS': 'ZO=F', 'WHEAT-SRW': 'ZW=F',
-    'SOYBEANS': 'ZS=F', 'SOYBEAN MEAL': 'ZM=F', 'SOYBEAN OIL': 'ZL=F',
-    'COCOA': 'CC=F', 'COFFEE C': 'KC=F', 'COTTON NO. 2': 'CT=F',
-    'SUGAR NO. 11': 'SB=F', 'ORANGE JUICE': 'OJ=F',
-    'FEEDER CATTLE': 'GF=F', 'LEAN HOGS': 'HE=F', 'LIVE CATTLE': 'LE=F',
-    'AUSTRALIAN DOLLAR': '6A=F', 'BRITISH POUND': '6B=F', 'CANADIAN DOLLAR': '6C=F',
-    'EURO FX': '6E=F', 'JAPANESE YEN': '6J=F', 'MEXICAN PESO': '6M=F',
-    'NEW ZEALAND DOLLAR': '6N=F', 'SWISS FRANC': '6S=F',
-    'SO AFRICAN RAND': '6Z=F', 'BRAZILIAN REAL': '6L=F',
-    'E-MINI S&P 500': 'ES=F', 'NASDAQ MINI': 'NQ=F',
-    'DOW JONES INDUSTRIAL AVG': 'YM=F', 'RUSSELL E-MINI': 'RTY=F',
-    'NIKKEI STOCK AVERAGE': 'NKD=F', 'VIX FUTURES': 'VX=F',
-    'BITCOIN': 'BTC=F', 'MICRO BITCOIN': 'BTC-USD',
-    'ETHER CASH SETTLED': 'ETH=F', 'MICRO ETHER': 'ETH-USD',
-    'UST 2Y NOTE': 'ZT=F', 'UST 5Y NOTE': 'ZF=F',
-    'UST 10Y NOTE': 'ZN=F', 'UST BOND': 'ZB=F',
-}
 
 
 # =============================================================================
@@ -107,106 +75,18 @@ def load_intraday_cache():
         return pd.DataFrame()
 
 
-def save_intraday_cache(df):
-    """Save intraday data to ORB_intraday_data.json."""
-    try:
-        save_df = df.copy()
-        save_df['datetime'] = save_df['datetime'].dt.strftime('%Y-%m-%d %H:%M:%S')
-        with open(INTRADAY_CACHE_FILE, 'w') as f:
-            json.dump(save_df.to_dict('records'), f, indent=2)
-    except Exception as e:
-        print(f"Error saving intraday cache: {e}")
-
-
-def download_intraday_data(symbol, yf_symbol, interval='30m'):
-    """
-    Download intraday data from Yahoo Finance and merge with cache.
-
-    Limits:
-      - 30m: max 60 days back
-      - 60m: max 730 days back
+def get_intraday_from_cache(symbol, interval='30m'):
+    """Read intraday data for a symbol+interval from the IBKR-populated cache.
 
     Returns DataFrame with columns: symbol, interval, datetime, open, high, low, close, volume
     """
-    if yf is None:
-        print("yfinance not available, cannot download intraday data")
-        return pd.DataFrame()
-
-    # Load existing cache
     cache = load_intraday_cache()
-
-    # Check what we already have for this symbol+interval
-    if not cache.empty:
-        existing = cache[(cache['symbol'] == symbol) & (cache['interval'] == interval)]
-        if not existing.empty:
-            last_cached = existing['datetime'].max()
-            # If cache is recent enough (within last trading day), skip download
-            if last_cached >= pd.Timestamp.now() - pd.Timedelta(days=2):
-                print(f"  Cache hit for {symbol} ({interval}), last data: {last_cached}")
-                return existing.reset_index(drop=True)
-
-    # Determine download period based on interval
-    if interval == '30m':
-        period = '60d'  # Max for 30-min
-    elif interval == '60m':
-        period = '730d'  # Max for 60-min
-    else:
-        period = '60d'
-
-    try:
-        print(f"  Downloading {interval} data for {yf_symbol} (period={period})...")
-        ticker = yf.Ticker(yf_symbol)
-        df = ticker.history(period=period, interval=interval)
-        time.sleep(1)  # Rate limit protection
-
-        if df.empty:
-            print(f"  No data returned for {yf_symbol}")
-            return pd.DataFrame()
-
-        df = df.reset_index()
-        # yfinance returns 'Datetime' for intraday
-        date_col = 'Datetime' if 'Datetime' in df.columns else 'Date'
-
-        result = pd.DataFrame({
-            'symbol': symbol,
-            'interval': interval,
-            'datetime': pd.to_datetime(df[date_col]).dt.tz_localize(None),
-            'open': df['Open'].values,
-            'high': df['High'].values,
-            'low': df['Low'].values,
-            'close': df['Close'].values,
-            'volume': df['Volume'].values,
-        })
-
-        # Merge with cache (remove old entries for this symbol+interval, add new)
-        if not cache.empty:
-            cache = cache[~((cache['symbol'] == symbol) & (cache['interval'] == interval))]
-            cache = pd.concat([cache, result], ignore_index=True)
-        else:
-            cache = result.copy()
-
-        save_intraday_cache(cache)
-        print(f"  Downloaded {len(result)} candles for {yf_symbol}")
-        return result.reset_index(drop=True)
-
-    except Exception as e:
-        print(f"  Error downloading {yf_symbol}: {e}")
-        # Fall back to cache if available
-        if not cache.empty:
-            existing = cache[(cache['symbol'] == symbol) & (cache['interval'] == interval)]
-            if not existing.empty:
-                return existing.reset_index(drop=True)
+    if cache.empty:
         return pd.DataFrame()
-
-
-def get_yf_symbol(market_name):
-    """Get Yahoo Finance symbol for a market, trying direct match then partial."""
-    if market_name in MARKET_YF_SYMBOLS:
-        return MARKET_YF_SYMBOLS[market_name]
-    for key, val in MARKET_YF_SYMBOLS.items():
-        if key in market_name or market_name in key:
-            return val
-    return None
+    match = cache[(cache['symbol'] == symbol) & (cache['interval'] == interval)]
+    if match.empty:
+        return pd.DataFrame()
+    return match.reset_index(drop=True)
 
 
 def get_first_candle_per_day(intraday_df):
@@ -322,6 +202,34 @@ def calculate_narrowing_ranges(data):
     return df
 
 
+def calculate_nr2(data, lookback=20):
+    """
+    NR2: True when the last 2 days have the 2 narrowest daily ranges
+    in a trailing lookback-day window.
+
+    For each day i (where i >= lookback-1), the window is
+    daily_range[i-lookback+1 .. i].  NR2 is True when the two smallest
+    ranges in that window fall on days i and i-1 (in either order).
+    """
+    df = data.copy()
+    if 'daily_range' not in df.columns:
+        df['daily_range'] = df['High'] - df['Low']
+
+    nr2 = [False] * len(df)
+    ranges = df['daily_range'].values
+
+    for i in range(lookback - 1, len(df)):
+        window = ranges[i - lookback + 1: i + 1]
+        sorted_indices = np.argsort(window)
+        smallest_two = set(sorted_indices[:2])
+        last_two_positions = {lookback - 1, lookback - 2}
+        if smallest_two == last_two_positions:
+            nr2[i] = True
+
+    df['nr2_signal'] = nr2
+    return df
+
+
 # =============================================================================
 # DATA PREPARATION
 # =============================================================================
@@ -369,25 +277,19 @@ def prepare_orb_data(cot_df, market_name, or_type='30m',
 
     # --- Narrowing Ranges (replaces inside days) ---
     strategy_data = calculate_narrowing_ranges(strategy_data)
+    strategy_data = calculate_nr2(strategy_data, lookback=20)
 
     # --- OR boundary = previous day's High/Low (always daily) ---
     strategy_data['OR_High'] = strategy_data['High'].shift(1)
     strategy_data['OR_Low'] = strategy_data['Low'].shift(1)
     strategy_data['OR_Range'] = strategy_data['OR_High'] - strategy_data['OR_Low']
 
-    # --- Download intraday data for entry verification ---
-    yf_symbol = get_yf_symbol(market_name)
-    if yf_symbol is None and 'YF_Symbol' in market_data.columns:
-        yf_col = market_data['YF_Symbol'].dropna()
-        if not yf_col.empty:
-            yf_symbol = yf_col.iloc[0]
-
+    # --- Load intraday data from IBKR cache for entry verification ---
     first_candles = {}
-    if yf_symbol:
-        interval = '30m' if or_type == '30m' else '60m'
-        intraday = download_intraday_data(market_name, yf_symbol, interval=interval)
-        if not intraday.empty:
-            first_candles = get_first_candle_per_day(intraday)
+    interval = '30m' if or_type == '30m' else '60m'
+    intraday = get_intraday_from_cache(market_name, interval=interval)
+    if not intraday.empty:
+        first_candles = get_first_candle_per_day(intraday)
 
     # Store first candle data per day for signal generation
     strategy_data['or_candle_high'] = strategy_data['Date'].map(
@@ -455,9 +357,13 @@ def generate_orb_signals(data, n_narrowing_days=3,
         if or_range <= 0:
             continue
 
-        # Check narrowing range setup: previous day must have ended N narrowing days
-        if prev.get('consecutive_narrowing', 0) < n_narrowing_days:
-            continue
+        # Check narrowing range setup on previous day
+        if n_narrowing_days == 2:
+            if not prev.get('nr2_signal', False):
+                continue
+        else:
+            if prev.get('consecutive_narrowing', 0) < n_narrowing_days:
+                continue
 
         # Check if we have intraday opening candle data for today
         candle_high = row.get('or_candle_high', np.nan)
@@ -1109,17 +1015,21 @@ def check_narrowing_range_alerts(cot_df, markets, lookback_days=10):
         if len(data) < lookback_days + 1:
             continue
         
-        # Calculate narrowing ranges on full data
+        # Calculate narrowing ranges and NR2 on full data
         data = calculate_narrowing_ranges(data)
+        data = calculate_nr2(data, lookback=20)
         
         # Check the most recent row
         last_row = data.iloc[-1]
         streak = int(last_row.get('consecutive_narrowing', 0))
+        is_nr2 = last_row.get('nr2_signal', False)
         
-        if streak >= 3:
+        if is_nr2 or streak >= 3:
+            label = max(streak, 2) if is_nr2 else streak
             alerts.append({
                 'Market': market,
-                'narrowing_days': streak,
+                'narrowing_days': label,
+                'nr2': is_nr2,
                 'latest_range': round(last_row['daily_range'], 4),
                 'last_date': last_row['Date'],
                 'last_close': round(last_row['Close'], 4),
@@ -1134,24 +1044,28 @@ def create_consolidation_alert_panel(alerts):
     """Create the narrowing range consolidation alert panel."""
     if not alerts:
         return dbc.Alert(
-            "No active narrowing range patterns (3+ days) detected",
+            "No active narrowing range patterns (NR2 or 3+ days) detected",
             color="dark", className="mb-3",
             style={'backgroundColor': '#16213e', 'border': '1px solid #1a1a2e'}
         )
     
     alert_items = []
-    for a in alerts[:15]:  # Show max 15
+    for a in alerts[:15]:
         count = a['narrowing_days']
+        is_nr2 = a.get('nr2', False)
         if count >= 8:
             badge_color = "danger"
         elif count >= 5:
             badge_color = "warning"
+        elif is_nr2:
+            badge_color = "primary"
         else:
             badge_color = "info"
         
+        badge_label = "NR2 (20d)" if is_nr2 else f"{count} Narrowing Days"
         alert_items.append(
             html.Div([
-                dbc.Badge(f"{count} Narrowing Days", color=badge_color, className="me-2"),
+                dbc.Badge(badge_label, color=badge_color, className="me-2"),
                 html.Strong(a['Market'][:45]),
                 html.Span(
                     f" — {a['last_date'].strftime('%Y-%m-%d')}, Close: {a['last_close']}, Range: {a['latest_range']}",
@@ -1160,13 +1074,15 @@ def create_consolidation_alert_panel(alerts):
             ], className="mb-2")
         )
     
+    nr2_count = len([a for a in alerts if a.get('nr2', False)])
     return dbc.Alert([
         html.H5([
             html.Span("ALERT: ", style={'fontWeight': 'bold'}),
             f"{len(alerts)} Narrowing Range Pattern(s) Detected",
             dbc.Badge(f"{len([a for a in alerts if a['narrowing_days'] >= 8])} 8+", color="danger", className="ms-3"),
             dbc.Badge(f"{len([a for a in alerts if 5 <= a['narrowing_days'] < 8])} 5-7", color="warning", className="ms-2"),
-            dbc.Badge(f"{len([a for a in alerts if a['narrowing_days'] < 5])} 3-4", color="info", className="ms-2"),
+            dbc.Badge(f"{len([a for a in alerts if a['narrowing_days'] < 5 and not a.get('nr2')])} 3-4", color="info", className="ms-2"),
+            dbc.Badge(f"{nr2_count} NR2", color="primary", className="ms-2"),
         ], className="alert-heading"),
         html.Hr(),
         html.Div(alert_items)
@@ -1279,7 +1195,9 @@ app.layout = dbc.Container([
             html.Label("Narrowing Days Required", className="text-muted small"),
             dcc.Dropdown(
                 id='orb-narrowing-days',
-                options=[{'label': f'{n} days', 'value': n} for n in [3, 4, 5, 6, 7, 8, 9, 10]],
+                options=[
+                    {'label': 'NR2 (2 narrowest of 20d)', 'value': 2},
+                ] + [{'label': f'{n} days', 'value': n} for n in [3, 4, 5, 6, 7, 8, 9, 10]],
                 value=DEFAULT_NARROWING_DAYS, clearable=False,
                 style={'color': 'black'}
             )
