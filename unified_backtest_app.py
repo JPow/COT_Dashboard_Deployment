@@ -33,8 +33,7 @@ DEFAULT_START = '2023-01-01'
 DEFAULT_END = datetime.now().strftime('%Y-%m-%d')
 DEFAULT_CAPITAL = 30000
 DEFAULT_RISK = 1.0
-DEFAULT_FAST_ATR = 10
-DEFAULT_SLOW_ATR = 25
+DEFAULT_ATR_PERIOD = 10
 
 SUMMARY_COLUMNS = [
     {"name": "Market", "id": "Market"},
@@ -79,8 +78,8 @@ all_results, summary_df = run_all_markets(
     setup_key='narrowing_range', entry_key='orb_breakout', stop_key='two_phase_atr',
     setup_params={'n_days': 3},
     entry_params={'or_type': '60m'},
-    stop_params={'trailing_atr_mult': 2.0, 'atr_source': 'slow_ATR'},
-    fast_atr=DEFAULT_FAST_ATR, slow_atr=DEFAULT_SLOW_ATR,
+    stop_params={'trailing_atr_mult': 2.0},
+    atr_period=DEFAULT_ATR_PERIOD,
     initial_capital=DEFAULT_CAPITAL, risk_pct=DEFAULT_RISK,
     start_date=DEFAULT_START, end_date=DEFAULT_END,
 )
@@ -161,12 +160,22 @@ app.layout = dbc.Container([
         ], width=2),
         dbc.Col([
             dbc.Checklist(id='cot-filter-toggle',
-                          options=[{'label': ' COT Filter', 'value': 'on'}],
+                          options=[{'label': ' COT Level 70/30', 'value': 'on'}],
+                          value=[], switch=True, className="mt-3"),
+        ], width=2),
+        dbc.Col([
+            dbc.Checklist(id='cot-direction-toggle',
+                          options=[{'label': ' COT Direction (WoW)', 'value': 'on'}],
+                          value=[], switch=True, className="mt-3"),
+        ], width=2),
+        dbc.Col([
+            dbc.Checklist(id='cot-roc-toggle',
+                          options=[{'label': ' COT ROC (10pts / 3wk)', 'value': 'on'}],
                           value=[], switch=True, className="mt-3"),
         ], width=2),
         dbc.Col([
             dbc.Checklist(id='rsi-filter-toggle',
-                          options=[{'label': ' RSI Filter', 'value': 'on'}],
+                          options=[{'label': " Don't Trade RSI Extremes 70/30", 'value': 'on'}],
                           value=[], switch=True, className="mt-3"),
         ], width=2),
     ], className="mb-2"),
@@ -185,21 +194,6 @@ app.layout = dbc.Container([
             html.Label("Risk %", className="text-muted small"),
             dbc.Input(id='risk-input', type='number', value=DEFAULT_RISK,
                       min=0.1, max=10, step=0.1),
-        ], width=1),
-        dbc.Col([
-            html.Label("Fast ATR", className="text-muted small"),
-            dcc.Dropdown(id='fast-atr-dd',
-                         options=[{'label': str(n), 'value': n} for n in [5, 10, 15, 20]],
-                         value=DEFAULT_FAST_ATR, clearable=False,
-                         style={'color': 'black'}),
-        ], width=1),
-        dbc.Col([
-            html.Label("Slow ATR", className="text-muted small"),
-            dcc.Dropdown(id='slow-atr-dd',
-                         options=[{'label': str(n), 'value': n}
-                                  for n in [25, 30, 40, 50, 100]],
-                         value=DEFAULT_SLOW_ATR, clearable=False,
-                         style={'color': 'black'}),
         ], width=1),
         dbc.Col([
             html.Label("Start", className="text-muted small"),
@@ -356,18 +350,18 @@ def render_stop_params(stop_key):
      State('stop-dropdown', 'value'),
      State('or-type-dropdown', 'value'),
      State('cot-filter-toggle', 'value'),
+     State('cot-direction-toggle', 'value'),
+     State('cot-roc-toggle', 'value'),
      State('rsi-filter-toggle', 'value'),
      State('capital-input', 'value'),
      State('risk-input', 'value'),
-     State('fast-atr-dd', 'value'),
-     State('slow-atr-dd', 'value'),
      State('start-date', 'date'),
      State('end-date', 'date')],
     prevent_initial_call=True,
 )
 def run_backtest_cb(n_clicks, setup_key, entry_key, stop_key,
-                    or_type, cot_toggle, rsi_toggle,
-                    capital, risk, fast_atr, slow_atr,
+                    or_type, cot_toggle, cot_dir_toggle, cot_roc_toggle,
+                    rsi_toggle, capital, risk,
                     start_date, end_date):
     global all_results, summary_df
 
@@ -383,10 +377,14 @@ def run_backtest_cb(n_clicks, setup_key, entry_key, stop_key,
 
     # Entry params
     cot_on = 'on' in (cot_toggle or [])
+    cot_dir_on = 'on' in (cot_dir_toggle or [])
+    cot_roc_on = 'on' in (cot_roc_toggle or [])
     rsi_on = 'on' in (rsi_toggle or [])
     entry_params = {
         'or_type': or_type or '60m',
         'cot_filter': cot_on, 'cot_long': 70, 'cot_short': 30,
+        'cot_direction_filter': cot_dir_on,
+        'cot_roc_filter': cot_roc_on, 'cot_roc_threshold': 10,
         'rsi_filter': rsi_on, 'rsi_long_max': 70, 'rsi_short_min': 30,
     }
 
@@ -395,7 +393,7 @@ def run_backtest_cb(n_clicks, setup_key, entry_key, stop_key,
         setup_key=setup_key, entry_key=entry_key, stop_key=stop_key,
         setup_params=setup_params, entry_params=entry_params,
         stop_params=stop_params,
-        fast_atr=fast_atr or DEFAULT_FAST_ATR, slow_atr=slow_atr or DEFAULT_SLOW_ATR,
+        atr_period=DEFAULT_ATR_PERIOD,
         initial_capital=capital, risk_pct=risk,
         start_date=start_date, end_date=end_date,
     )

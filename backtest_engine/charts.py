@@ -88,12 +88,9 @@ def create_strategy_chart(data, trades_df, market_name, setup_key='narrowing_ran
 
     # --- Pane 2: ATR ---
     r = 2
-    if 'fast_ATR' in df.columns:
-        fig.add_trace(go.Scatter(x=df['Date'], y=df['fast_ATR'], name="Fast ATR",
+    if 'ATR' in df.columns:
+        fig.add_trace(go.Scatter(x=df['Date'], y=df['ATR'], name="ATR (10)",
                                  line=dict(color="#FF6D00", width=1.5)), row=r, col=1)
-    if 'slow_ATR' in df.columns:
-        fig.add_trace(go.Scatter(x=df['Date'], y=df['slow_ATR'], name="Slow ATR",
-                                 line=dict(color="#00BCD4", width=1.5)), row=r, col=1)
     r += 1
 
     # --- Pane 3 (optional): Setup indicator ---

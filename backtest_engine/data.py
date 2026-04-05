@@ -116,15 +116,19 @@ def prepare_base_data(cot_df, market_name):
     if df.empty:
         return pd.DataFrame()
 
-    # Merge COT
+    # Merge COT + week-on-week change + 3-week ROC
     if 'Commercial_Index' in cot_weekly.columns:
         cot_merge = (cot_weekly[['Date', 'Commercial_Index']]
                      .dropna(subset=['Commercial_Index'])
                      .sort_values('Date')
                      .reset_index(drop=True))
+        cot_merge['COT_Change'] = cot_merge['Commercial_Index'].diff()
+        cot_merge['COT_ROC'] = cot_merge['Commercial_Index'].diff(3)
         df = df.sort_values('Date').reset_index(drop=True)
         df = pd.merge_asof(df, cot_merge, on='Date', direction='backward')
     else:
         df['Commercial_Index'] = np.nan
+        df['COT_Change'] = np.nan
+        df['COT_ROC'] = np.nan
 
     return df

@@ -21,6 +21,8 @@ from .data import get_intraday_for_symbol, get_first_candle_per_day
 def apply_orb_breakout(df, market_name='', or_type='30m',
                        cot_filter=False, cot_long=70, cot_short=30,
                        rsi_filter=False, rsi_long_max=70, rsi_short_min=30,
+                       cot_direction_filter=False,
+                       cot_roc_filter=False, cot_roc_threshold=10,
                        intraday_cache=None, **_kw):
     """Entry only if the first intraday candle breaks yesterday's High/Low.
 
@@ -82,7 +84,8 @@ def apply_orb_breakout(df, market_name='', or_type='30m',
 
         direction = _apply_filters(row, direction, cot_filter, cot_long,
                                    cot_short, rsi_filter, rsi_long_max,
-                                   rsi_short_min)
+                                   rsi_short_min, cot_direction_filter,
+                                   cot_roc_filter, cot_roc_threshold)
         if direction == 0:
             continue
 
@@ -101,6 +104,8 @@ def apply_orb_breakout(df, market_name='', or_type='30m',
 
 def apply_daily_breakout(df, cot_filter=False, cot_long=70, cot_short=30,
                          rsi_filter=False, rsi_long_max=70, rsi_short_min=30,
+                         cot_direction_filter=False,
+                         cot_roc_filter=False, cot_roc_threshold=10,
                          **_kw):
     """Entry when daily bar breaks yesterday's High/Low.
 
@@ -145,7 +150,8 @@ def apply_daily_breakout(df, cot_filter=False, cot_long=70, cot_short=30,
 
         direction = _apply_filters(row, direction, cot_filter, cot_long,
                                    cot_short, rsi_filter, rsi_long_max,
-                                   rsi_short_min)
+                                   rsi_short_min, cot_direction_filter,
+                                   cot_roc_filter, cot_roc_threshold)
         if direction == 0:
             continue
 
@@ -192,12 +198,24 @@ def apply_close_entry(df, **_kw):
 # ---------------------------------------------------------------------------
 
 def _apply_filters(row, direction, cot_filter, cot_long, cot_short,
-                   rsi_filter, rsi_long_max, rsi_short_min):
-    """Apply optional COT and RSI filters; returns 0 if blocked."""
+                   rsi_filter, rsi_long_max, rsi_short_min,
+                   cot_direction_filter=False,
+                   cot_roc_filter=False, cot_roc_threshold=10):
+    """Apply optional COT, RSI, COT-direction, and COT-ROC filters; returns 0 if blocked."""
     if cot_filter and not pd.isna(row.get('Commercial_Index')):
         if direction == 1 and row['Commercial_Index'] < cot_long:
             return 0
         if direction == -1 and row['Commercial_Index'] > cot_short:
+            return 0
+    if cot_direction_filter and not pd.isna(row.get('COT_Change')):
+        if direction == 1 and row['COT_Change'] < 0:
+            return 0
+        if direction == -1 and row['COT_Change'] > 0:
+            return 0
+    if cot_roc_filter and not pd.isna(row.get('COT_ROC')):
+        if direction == 1 and row['COT_ROC'] < cot_roc_threshold:
+            return 0
+        if direction == -1 and row['COT_ROC'] > -cot_roc_threshold:
             return 0
     if rsi_filter and not pd.isna(row.get('RSI')):
         if direction == 1 and row['RSI'] >= rsi_long_max:

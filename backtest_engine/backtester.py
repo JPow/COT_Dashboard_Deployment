@@ -37,7 +37,7 @@ def calculate_position_size(risk_amount, stop_distance, market_name=""):
 
 
 def prepare_data(cot_df, market_name, setup_key, entry_key,
-                 fast_atr=10, slow_atr=25, rsi_period=10,
+                 atr_period=10, rsi_period=10,
                  start_date=None, end_date=None,
                  setup_params=None, entry_params=None,
                  intraday_cache=None):
@@ -58,7 +58,7 @@ def prepare_data(cot_df, market_name, setup_key, entry_key,
         return pd.DataFrame()
 
     # Indicators
-    df = add_standard_indicators(df, fast_atr=fast_atr, slow_atr=slow_atr,
+    df = add_standard_indicators(df, atr_period=atr_period,
                                  rsi_period=rsi_period)
 
     # Setup-specific pre-processing
@@ -199,7 +199,7 @@ def run_backtest(data, market_name, stop_strategy,
 
 def run_all_markets(cot_df, markets, setup_key, entry_key, stop_key,
                     setup_params=None, entry_params=None, stop_params=None,
-                    fast_atr=10, slow_atr=25,
+                    atr_period=10,
                     initial_capital=30000, risk_pct=1.0,
                     start_date=None, end_date=None):
     """Run the full pipeline for every market.  Returns (all_results, summary_df)."""
@@ -221,7 +221,7 @@ def run_all_markets(cot_df, markets, setup_key, entry_key, stop_key,
     for market in markets:
         data = prepare_data(
             cot_df, market, setup_key, entry_key,
-            fast_atr=fast_atr, slow_atr=slow_atr,
+            atr_period=atr_period,
             start_date=start_date, end_date=end_date,
             setup_params=setup_params, entry_params=entry_params,
             intraday_cache=intraday_cache,

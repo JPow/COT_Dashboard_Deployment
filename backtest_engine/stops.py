@@ -29,9 +29,8 @@ class TwoPhaseATRStop:
 
     label = 'Two-Phase ATR Trail'
 
-    def __init__(self, trailing_atr_mult=2.0, atr_source='slow_ATR'):
+    def __init__(self, trailing_atr_mult=2.0, **_kw):
         self.trailing_atr_mult = trailing_atr_mult
-        self.atr_source = atr_source
 
     def initial_stop(self, direction, entry_price, row, **_kw):
         or_low = row.get('or_low_signal', np.nan)
@@ -53,7 +52,7 @@ class TwoPhaseATRStop:
         close = row['Close']
         high = row.get('High', close)
         low = row.get('Low', close)
-        atr_val = row.get(self.atr_source, np.nan)
+        atr_val = row.get('ATR', np.nan)
 
         exit_reason = None
         exit_price = None
@@ -92,19 +91,18 @@ class TwoPhaseATRStop:
 # ---------------------------------------------------------------------------
 
 class ATRStopTarget:
-    """Fixed stop at N×ATR, take-profit at M×ATR, with RSI exit and max hold."""
+    """Fixed stop at N×ATR, take-profit at M×ATR, with max hold."""
 
     label = 'ATR Stop + Target'
 
     def __init__(self, atr_stop_mult=2.0, atr_target_mult=3.0,
-                 rsi_exit=60, max_hold_days=20):
+                 max_hold_days=20, **_kw):
         self.atr_stop_mult = atr_stop_mult
         self.atr_target_mult = atr_target_mult
-        self.rsi_exit = rsi_exit
         self.max_hold_days = max_hold_days
 
     def initial_stop(self, direction, entry_price, row, **_kw):
-        atr = row.get('ATR', row.get('fast_ATR', np.nan))
+        atr = row.get('ATR', np.nan)
         if pd.isna(atr) or atr <= 0:
             atr = abs(entry_price) * 0.02
         if direction == 1:
@@ -113,7 +111,7 @@ class ATRStopTarget:
             return entry_price + (self.atr_stop_mult * atr)
 
     def stop_distance(self, direction, entry_price, row, **_kw):
-        atr = row.get('ATR', row.get('fast_ATR', np.nan))
+        atr = row.get('ATR', np.nan)
         if pd.isna(atr) or atr <= 0:
             atr = abs(entry_price) * 0.02
         return self.atr_stop_mult * atr
@@ -123,14 +121,13 @@ class ATRStopTarget:
         close = row['Close']
         high = row.get('High', close)
         low = row.get('Low', close)
-        rsi = row.get('RSI', np.nan)
         days_held = bar_idx - entry_idx
 
         exit_reason = None
         exit_price = None
 
         if take_profit is None:
-            atr = row.get('ATR', row.get('fast_ATR', np.nan))
+            atr = row.get('ATR', np.nan)
             if pd.isna(atr) or atr <= 0:
                 atr = abs(entry_price) * 0.02
             if direction == 1:
@@ -143,8 +140,6 @@ class ATRStopTarget:
                 exit_reason, exit_price = "Stop Loss", stop_loss
             elif high >= take_profit:
                 exit_reason, exit_price = "Take Profit", take_profit
-            elif not pd.isna(rsi) and rsi >= self.rsi_exit:
-                exit_reason, exit_price = "RSI Exit", close
             elif days_held >= self.max_hold_days:
                 exit_reason, exit_price = "Max Hold", close
         else:
@@ -152,8 +147,6 @@ class ATRStopTarget:
                 exit_reason, exit_price = "Stop Loss", stop_loss
             elif low <= take_profit:
                 exit_reason, exit_price = "Take Profit", take_profit
-            elif not pd.isna(rsi) and rsi <= (100 - self.rsi_exit):
-                exit_reason, exit_price = "RSI Exit", close
             elif days_held >= self.max_hold_days:
                 exit_reason, exit_price = "Max Hold", close
 
@@ -172,9 +165,6 @@ STOP_REGISTRY = {
             'trailing_atr_mult': {'type': float, 'default': 2.0, 'min': 0.5,
                                   'max': 10.0, 'step': 0.5,
                                   'label': 'Trail ATR Mult'},
-            'atr_source': {'type': str, 'default': 'slow_ATR',
-                           'options': ['slow_ATR', 'fast_ATR'],
-                           'label': 'ATR Source'},
         },
     },
     'atr_stop_target': {
@@ -185,8 +175,6 @@ STOP_REGISTRY = {
                                 'max': 5.0, 'step': 0.5, 'label': 'Stop ATR Mult'},
             'atr_target_mult': {'type': float, 'default': 3.0, 'min': 1.0,
                                 'max': 10.0, 'step': 0.5, 'label': 'Target ATR Mult'},
-            'rsi_exit':        {'type': int, 'default': 60, 'min': 40,
-                                'max': 80, 'label': 'RSI Exit Level'},
             'max_hold_days':   {'type': int, 'default': 20, 'min': 5,
                                 'max': 60, 'label': 'Max Hold Days'},
         },

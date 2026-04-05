@@ -126,11 +126,9 @@ def calculate_inside_days(data):
     return df
 
 
-def add_standard_indicators(df, fast_atr=10, slow_atr=25, rsi_period=10,
-                            ma_periods=None):
+def add_standard_indicators(df, atr_period=10, rsi_period=10, ma_periods=None):
     """Convenience: attach the full indicator suite to a daily DataFrame."""
     df = calculate_rsi(df, period=rsi_period)
-    df = calculate_atr(df, period=fast_atr, col_name='fast_ATR')
-    df = calculate_atr(df, period=slow_atr, col_name='slow_ATR')
+    df = calculate_atr(df, period=atr_period, col_name='ATR')
     df = calculate_moving_averages(df, periods=ma_periods)
     return df
