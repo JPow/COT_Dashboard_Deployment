@@ -7,9 +7,9 @@
   },
   "MICRO SILVER": {
     "traded_contract": "Micro Silver (SIL)",
-    "tick_size": 0.0125,
-    "tick_value": 1.25,
-    "point_value": 100.0
+    "tick_size": 0.005,
+    "tick_value": 5.0,
+    "point_value": 1000.0
   },
   "PLATINUM": {
     "traded_contract": "Platinum (PL)",
@@ -61,27 +61,27 @@
   },
   "CORN": {
     "traded_contract": "Micro Corn (XC)",
-    "tick_size": 0.0125,
-    "tick_value": 1.25,
-    "point_value": 100.0
+    "tick_size": 0.5,
+    "tick_value": 2.50,
+    "point_value": 5.0
   },
   "OATS": {
     "traded_contract": "Oats (ZO)",
-    "tick_size": 0.0025,
+    "tick_size": 0.25,
     "tick_value": 12.50,
-    "point_value": 5000.0
+    "point_value": 50.0
   },
   "WHEAT-SRW": {
-    "traded_contract": "Wheat SRW (ZW)",
-    "tick_size": 0.0025,
-    "tick_value": 12.50,
-    "point_value": 5000.0
+    "traded_contract": "Micro Wheat (MZW)",
+    "tick_size": 0.5,
+    "tick_value": 2.50,
+    "point_value": 5.0
   },
   "SOYBEANS": {
-    "traded_contract": "Micro Soybeans (XK)",
-    "tick_size": 0.0125,
-    "tick_value": 1.25,
-    "point_value": 100.0
+    "traded_contract": "Micro Soybeans (MZS)",
+    "tick_size": 0.5,
+    "tick_value": 2.50,
+    "point_value": 5.0
   },
   "SOYBEAN MEAL": {
     "traded_contract": "Soybean Meal (ZM)",
@@ -168,10 +168,10 @@
     "point_value": 125000.0
   },
   "JAPANESE YEN": {
-    "traded_contract": "Japanese Yen (6J)",
-    "tick_size": 0.0000005,
-    "tick_value": 6.25,
-    "point_value": 12500000.0
+    "traded_contract": "Micro Japanese Yen (M6J)",
+    "tick_size": 0.000001,
+    "tick_value": 1.25,
+    "point_value": 1250000.0
   },
   "MEXICAN PESO": {
     "traded_contract": "Mexican Peso (6M)",
@@ -204,10 +204,10 @@
     "point_value": 100000.0
   },
   "E-MINI S&P 500": {
-    "traded_contract": "E-mini S&P 500 (ES)",
+    "traded_contract": "Micro E-mini S&P 500 (MES)",
     "tick_size": 0.25,
-    "tick_value": 12.50,
-    "point_value": 50.0
+    "tick_value": 1.25,
+    "point_value": 5.0
   },
   "NASDAQ MINI": {
     "traded_contract": "E-mini NASDAQ-100 (NQ)",
@@ -222,10 +222,10 @@
     "point_value": 5.0
   },
   "RUSSELL E-MINI": {
-    "traded_contract": "E-mini Russell 2000 (RTY)",
+    "traded_contract": "Micro E-mini Russell 2000 (M2K)",
     "tick_size": 0.10,
-    "tick_value": 5.0,
-    "point_value": 50.0
+    "tick_value": 0.50,
+    "point_value": 5.0
   },
   "NIKKEI STOCK AVERAGE": {
     "traded_contract": "Mini Nikkei 225 (YNK)",
@@ -240,16 +240,16 @@
     "point_value": 1000.0
   },
   "MICRO BITCOIN": {
-    "traded_contract": "Micro Bitcoin (spot-like)",
-    "tick_size": 1.0,
-    "tick_value": 1.0,
-    "point_value": 1.0
+    "traded_contract": "Micro Bitcoin (MBT)",
+    "tick_size": 5.0,
+    "tick_value": 0.50,
+    "point_value": 0.1
   },
   "MICRO ETHER": {
-    "traded_contract": "Micro Ether (spot-like)",
-    "tick_size": 1.0,
-    "tick_value": 1.0,
-    "point_value": 1.0
+    "traded_contract": "Micro Ether (MET)",
+    "tick_size": 0.50,
+    "tick_value": 0.05,
+    "point_value": 0.1
   },
   "UST 2Y NOTE": {
     "traded_contract": "2-Year T-Note (ZT)",
@@ -273,6 +273,66 @@
     "traded_contract": "30-Year T-Bond (ZB)",
     "tick_size": 0.03125,
     "tick_value": 31.25,
+    "point_value": 1000.0
+  },
+  "BITCOIN": {
+    "traded_contract": "Bitcoin (BTC)",
+    "tick_size": 5.0,
+    "tick_value": 25.0,
+    "point_value": 5.0
+  },
+  "COPPER- #1": {
+    "traded_contract": "Micro High Grade Copper (MHG)",
+    "tick_size": 0.0025,
+    "tick_value": 6.25,
+    "point_value": 2500.0
+  },
+  "E-MINI NATURAL GAS": {
+    "traded_contract": "E-mini Natural Gas (QG)",
+    "tick_size": 0.005,
+    "tick_value": 12.50,
+    "point_value": 2500.0
+  },
+  "EMINI RUSSELL 1000 GROWTH": {
+    "traded_contract": "E-mini Russell 1000 Growth",
+    "tick_size": 0.10,
+    "tick_value": 5.0,
+    "point_value": 50.0
+  },
+  "EURO FX/BRITISH POUND XRATE": {
+    "traded_contract": "Euro FX/British Pound (RP)",
+    "tick_size": 0.00005,
+    "tick_value": 6.25,
+    "point_value": 125000.0
+  },
+  "GOLD": {
+    "traded_contract": "Micro Gold (MGC)",
+    "tick_size": 0.10,
+    "tick_value": 1.0,
+    "point_value": 10.0
+  },
+  "MICRO COPPER": {
+    "traded_contract": "Micro High Grade Copper (MHG)",
+    "tick_size": 0.0025,
+    "tick_value": 6.25,
+    "point_value": 2500.0
+  },
+  "MICRO E-MINI NASDAQ-100 INDEX": {
+    "traded_contract": "Micro E-mini NASDAQ-100 (MNQ)",
+    "tick_size": 0.25,
+    "tick_value": 0.50,
+    "point_value": 2.0
+  },
+  "MINI SOYBEANS": {
+    "traded_contract": "Micro Soybeans (MZS)",
+    "tick_size": 0.5,
+    "tick_value": 2.50,
+    "point_value": 5.0
+  },
+  "SILVER": {
+    "traded_contract": "Micro Silver (SIL)",
+    "tick_size": 0.005,
+    "tick_value": 5.0,
     "point_value": 1000.0
   }
 }

@@ -9,6 +9,9 @@ import numpy as np
 
 COT_DATA_FILE = 'cot_data.json'
 INTRADAY_CACHE_FILE = 'ORB_intraday_data.json'
+CONTRACT_SPECS_FILE = 'ORB_contract_specs.json'
+
+_CONTRACT_SPECS_CACHE = None
 
 
 def load_cot_data(path=None):
@@ -27,6 +30,35 @@ def load_cot_data(path=None):
     except Exception as e:
         print(f"Error loading COT data from {path}: {e}")
         return pd.DataFrame()
+
+
+def load_contract_specs(path=None):
+    """Load futures contract specifications (tick_size, tick_value, point_value).
+
+    Specs are cached after first load. Keys are the short market name
+    (the portion before ' - ' in the COT Market column).
+    """
+    global _CONTRACT_SPECS_CACHE
+    if _CONTRACT_SPECS_CACHE is not None:
+        return _CONTRACT_SPECS_CACHE
+    path = path or CONTRACT_SPECS_FILE
+    try:
+        with open(path, 'r') as f:
+            _CONTRACT_SPECS_CACHE = json.load(f)
+    except FileNotFoundError:
+        print(f"Warning: contract specs not found at {path}")
+        _CONTRACT_SPECS_CACHE = {}
+    return _CONTRACT_SPECS_CACHE
+
+
+def get_contract_spec(market_name):
+    """Return the spec dict for a market, or None if not found.
+
+    Matches on the short name (before ' - ').
+    """
+    specs = load_contract_specs()
+    short = market_name.split(" - ")[0].strip()
+    return specs.get(short, None)
 
 
 def load_intraday_cache(path=None):

@@ -5,7 +5,8 @@ Unified backtest engine that wires Setup → Entry → Stop.
 import pandas as pd
 import numpy as np
 
-from .data import prepare_base_data, load_intraday_cache
+from .data import (prepare_base_data, load_intraday_cache,
+                   load_contract_specs, get_contract_spec)
 from .indicators import (add_standard_indicators, calculate_narrowing_ranges,
                          calculate_inside_days)
 from .setups import SETUP_REGISTRY
@@ -16,15 +17,20 @@ from .stops import STOP_REGISTRY
 STOP_BUFFER = 0.01
 
 
-def calculate_position_size(risk_amount, stop_distance, market_name=""):
-    """Position_Size = Risk_Amount / Stop_Distance.
+def calculate_position_size(risk_amount, stop_distance, market_name="",
+                            point_value=1.0):
+    """Position_Size = Risk_Amount / (Stop_Distance * point_value).
+
+    ``point_value`` converts a 1-point price move into dollars per contract
+    (e.g. 50 for E-mini S&P, 10 for Micro Gold).
 
     Crypto (BITCOIN / ETHER) allows fractional units; everything else floors
     to whole contracts.
     """
     if stop_distance <= 0:
         return 0, "Invalid stop distance"
-    raw_units = risk_amount / stop_distance
+    dollar_risk_per_contract = stop_distance * point_value
+    raw_units = risk_amount / dollar_risk_per_contract
     allows_fractional = 'BITCOIN' in market_name.upper() or 'ETHER' in market_name.upper()
     if allows_fractional:
         if raw_units < 0.0001:
@@ -32,7 +38,9 @@ def calculate_position_size(risk_amount, stop_distance, market_name=""):
         return round(raw_units, 4), None
     else:
         if raw_units < 1:
-            return 0, f"Can only afford {raw_units:.4f} units (need >= 1)"
+            return 0, (f"Can only afford {raw_units:.4f} units "
+                       f"(risk ${risk_amount:.0f} / "
+                       f"stop ${dollar_risk_per_contract:.0f} per contract)")
         return int(raw_units), None
 
 
@@ -88,16 +96,23 @@ def prepare_data(cot_df, market_name, setup_key, entry_key,
 
 
 def run_backtest(data, market_name, stop_strategy,
-                 initial_capital=30000, risk_pct=1.0):
+                 initial_capital=30000, risk_pct=1.0,
+                 point_value=None):
     """Execute the backtest loop on prepared data.
 
     ``stop_strategy`` is an instance of a stop class from stops.py.
+    ``point_value`` converts a 1-point price move to dollars per contract.
+    If *None*, it is looked up automatically from ORB_contract_specs.json.
     """
     df = data.copy().reset_index(drop=True)
     required = ['Date', 'Close', 'signal']
     missing = [c for c in required if c not in df.columns]
     if missing:
         return _empty_result(initial_capital)
+
+    if point_value is None:
+        spec = get_contract_spec(market_name)
+        point_value = spec["point_value"] if spec else 1.0
 
     in_position = False
     direction = 0
@@ -130,8 +145,10 @@ def run_backtest(data, market_name, stop_strategy,
                 **stop_state
             )
             if exit_reason:
-                pnl = _calc_pnl(direction, entry_price, exit_price, units)
-                pnl_pct = (pnl / (entry_price * units) * 100) if (entry_price * units) > 0 else 0
+                pnl = _calc_pnl(direction, entry_price, exit_price,
+                                units, point_value)
+                notional = entry_price * units * point_value
+                pnl_pct = (pnl / notional * 100) if notional > 0 else 0
                 current_capital += pnl
                 trades.append(_trade_record(
                     market_name, entry_date, date, direction,
@@ -154,8 +171,9 @@ def run_backtest(data, market_name, stop_strategy,
                 continue
 
             risk_amt = current_capital * (risk_pct / 100.0)
-            pos_units, error = calculate_position_size(risk_amt, stop_dist,
-                                                       market_name)
+            pos_units, error = calculate_position_size(
+                risk_amt, stop_dist, market_name, point_value,
+            )
             if error:
                 missed_trades.append({
                     'market': market_name, 'date': date,
@@ -179,8 +197,10 @@ def run_backtest(data, market_name, stop_strategy,
     # Close open position at end of data
     if in_position:
         final = df.iloc[-1]
-        pnl = _calc_pnl(direction, entry_price, final['Close'], units)
-        pnl_pct = (pnl / (entry_price * units) * 100) if (entry_price * units) > 0 else 0
+        pnl = _calc_pnl(direction, entry_price, final['Close'],
+                         units, point_value)
+        notional = entry_price * units * point_value
+        pnl_pct = (pnl / notional * 100) if notional > 0 else 0
         current_capital += pnl
         trades.append(_trade_record(
             market_name, entry_date, final['Date'], direction,
@@ -275,8 +295,9 @@ def run_all_markets(cot_df, markets, setup_key, entry_key, stop_key,
 # Internal helpers
 # ---------------------------------------------------------------------------
 
-def _calc_pnl(direction, entry, exit_price, units):
-    return (exit_price - entry) * units if direction == 1 else (entry - exit_price) * units
+def _calc_pnl(direction, entry, exit_price, units, point_value=1.0):
+    raw = (exit_price - entry) if direction == 1 else (entry - exit_price)
+    return raw * units * point_value
 
 
 def _trade_record(market, entry_date, exit_date, direction, entry_price,
