@@ -31,6 +31,12 @@ python app.py
 
 2. Access the dashboard at `http://localhost:8050`
 
+## IB daily price cache (volume-based front)
+
+The notebook `COT IBRK Data Grabber.ipynb` builds `ib_daily_cache.json` using the **most-traded** listed contract (summed daily volume over the last 10 sessions) as the front cap, then stitches historical expiries for a Panama back-adjusted series.
+
+After changing that logic, do a **one-time full rebuild** with IB Gateway connected: in the daily-cache cell, set `FORCE_FULL_REBUILD = True`, run the cell once, then set it back to `False`.
+
 ## Backtest Dashboards
 
 ### Unified Strategy Backtest (`unified_backtest_app.py`)

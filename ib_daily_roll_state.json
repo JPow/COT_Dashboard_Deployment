@@ -1,0 +1,6673 @@
+{
+  "GOLD - COMMODITY EXCHANGE INC.": {
+    "rebuilt_at": "2026-06-03T08:24:48",
+    "first_date": "2023-06-29",
+    "last_date": "2026-06-02",
+    "n_contracts": 27,
+    "rolls": [
+      {
+        "from": "GCN6",
+        "to": "GCQ6",
+        "nominal_roll": "2026-07-22",
+        "actual_roll": "None",
+        "gap": 0.0
+      },
+      {
+        "from": "GCM6",
+        "to": "GCN6",
+        "nominal_roll": "2026-06-19",
+        "actual_roll": "None",
+        "gap": 0.0
+      },
+      {
+        "from": "GCK6",
+        "to": "GCM6",
+        "nominal_roll": "2026-05-20",
+        "actual_roll": "2026-05-20",
+        "gap": 4.0
+      },
+      {
+        "from": "GCJ6",
+        "to": "GCK6",
+        "nominal_roll": "2026-04-21",
+        "actual_roll": "2026-04-21",
+        "gap": 4.300000000000182
+      },
+      {
+        "from": "GCH6",
+        "to": "GCJ6",
+        "nominal_roll": "2026-03-20",
+        "actual_roll": "2026-03-20",
+        "gap": 4.5
+      },
+      {
+        "from": "GCG6",
+        "to": "GCH6",
+        "nominal_roll": "2026-02-18",
+        "actual_roll": "2026-02-18",
+        "gap": 5.899999999999636
+      },
+      {
+        "from": "GCF6",
+        "to": "GCG6",
+        "nominal_roll": "2026-01-21",
+        "actual_roll": "2026-01-21",
+        "gap": 5.699999999999818
+      },
+      {
+        "from": "GCZ5",
+        "to": "GCF6",
+        "nominal_roll": "2025-12-22",
+        "actual_roll": "2025-12-22",
+        "gap": 7.099999999999454
+      },
+      {
+        "from": "GCX5",
+        "to": "GCZ5",
+        "nominal_roll": "2025-11-18",
+        "actual_roll": "2025-11-18",
+        "gap": 5.199999999999818
+      },
+      {
+        "from": "GCV5",
+        "to": "GCX5",
+        "nominal_roll": "2025-10-22",
+        "actual_roll": "2025-10-22",
+        "gap": 6.099999999999909
+      },
+      {
+        "from": "GCU5",
+        "to": "GCV5",
+        "nominal_roll": "2025-09-19",
+        "actual_roll": "2025-09-19",
+        "gap": 4.5
+      },
+      {
+        "from": "GCQ5",
+        "to": "GCU5",
+        "nominal_roll": "2025-08-20",
+        "actual_roll": "2025-08-20",
+        "gap": 5.0
+      },
+      {
+        "from": "GCN5",
+        "to": "GCQ5",
+        "nominal_roll": "2025-07-22",
+        "actual_roll": "2025-07-22",
+        "gap": 4.5
+      },
+      {
+        "from": "GCM5",
+        "to": "GCN5",
+        "nominal_roll": "2025-06-19",
+        "actual_roll": "2025-06-18",
+        "gap": 3.599999999999909
+      },
+      {
+        "from": "GCK5",
+        "to": "GCM5",
+        "nominal_roll": "2025-05-21",
+        "actual_roll": "2025-05-21",
+        "gap": 4.199999999999818
+      },
+      {
+        "from": "GCJ5",
+        "to": "GCK5",
+        "nominal_roll": "2025-04-21",
+        "actual_roll": "2025-04-21",
+        "gap": 3.800000000000182
+      },
+      {
+        "from": "GCH5",
+        "to": "GCJ5",
+        "nominal_roll": "2025-03-20",
+        "actual_roll": "2025-03-20",
+        "gap": 3.800000000000182
+      },
+      {
+        "from": "GCG5",
+        "to": "GCH5",
+        "nominal_roll": "2025-02-19",
+        "actual_roll": "2025-02-19",
+        "gap": 4.400000000000091
+      },
+      {
+        "from": "GCF5",
+        "to": "GCG5",
+        "nominal_roll": "2025-01-22",
+        "actual_roll": "2025-01-22",
+        "gap": 3.300000000000182
+      },
+      {
+        "from": "GCZ4",
+        "to": "GCF5",
+        "nominal_roll": "2024-12-20",
+        "actual_roll": "2024-12-20",
+        "gap": 3.800000000000182
+      },
+      {
+        "from": "GCX4",
+        "to": "GCZ4",
+        "nominal_roll": "2024-11-19",
+        "actual_roll": "2024-11-19",
+        "gap": 3.900000000000091
+      },
+      {
+        "from": "GCV4",
+        "to": "GCX4",
+        "nominal_roll": "2024-10-22",
+        "actual_roll": "2024-10-22",
+        "gap": 3.200000000000273
+      },
+      {
+        "from": "GCU4",
+        "to": "GCV4",
+        "nominal_roll": "2024-09-19",
+        "actual_roll": "2024-09-19",
+        "gap": 2.900000000000091
+      },
+      {
+        "from": "GCQ4",
+        "to": "GCU4",
+        "nominal_roll": "2024-08-21",
+        "actual_roll": "2024-08-21",
+        "gap": 4.400000000000091
+      },
+      {
+        "from": "GCN4",
+        "to": "GCQ4",
+        "nominal_roll": "2024-07-22",
+        "actual_roll": "2024-07-22",
+        "gap": 2.699999999999818
+      },
+      {
+        "from": "GCM4",
+        "to": "GCN4",
+        "nominal_roll": "2024-06-19",
+        "actual_roll": "2024-06-19",
+        "gap": 4.400000000000091
+      }
+    ]
+  },
+  "MICRO SILVER - COMMODITY EXCHANGE INC.": {
+    "rebuilt_at": "2026-05-22T17:58:31",
+    "first_date": "2023-06-29",
+    "last_date": "2026-06-03",
+    "n_contracts": 13,
+    "rolls": [
+      {
+        "from": "QIK6",
+        "to": "QIN6",
+        "nominal_roll": "2026-04-21",
+        "actual_roll": "2026-04-21",
+        "gap": 0.5625
+      },
+      {
+        "from": "QIH6",
+        "to": "QIK6",
+        "nominal_roll": "2026-02-18",
+        "actual_roll": "2026-02-18",
+        "gap": 0.6000000000000085
+      },
+      {
+        "from": "QIF6",
+        "to": "QIH6",
+        "nominal_roll": "2025-12-22",
+        "actual_roll": "2025-12-22",
+        "gap": 0.5125000000000028
+      },
+      {
+        "from": "QIZ5",
+        "to": "QIF6",
+        "nominal_roll": "2025-11-18",
+        "actual_roll": "2025-11-18",
+        "gap": 0.22500000000000142
+      },
+      {
+        "from": "QIU5",
+        "to": "QIZ5",
+        "nominal_roll": "2025-08-20",
+        "actual_roll": "2025-08-20",
+        "gap": 0.48750000000000426
+      },
+      {
+        "from": "QIN5",
+        "to": "QIU5",
+        "nominal_roll": "2025-06-19",
+        "actual_roll": "2025-06-18",
+        "gap": 0.3374999999999986
+      },
+      {
+        "from": "QIK5",
+        "to": "QIN5",
+        "nominal_roll": "2025-04-21",
+        "actual_roll": "2025-04-21",
+        "gap": 0.3125
+      },
+      {
+        "from": "QIH5",
+        "to": "QIK5",
+        "nominal_roll": "2025-02-19",
+        "actual_roll": "2025-02-19",
+        "gap": 0.30000000000000426
+      },
+      {
+        "from": "QIF5",
+        "to": "QIH5",
+        "nominal_roll": "2024-12-20",
+        "actual_roll": "2024-12-20",
+        "gap": 0.2624999999999993
+      },
+      {
+        "from": "QIZ4",
+        "to": "QIF5",
+        "nominal_roll": "2024-11-19",
+        "actual_roll": "2024-11-19",
+        "gap": 0.16250000000000142
+      },
+      {
+        "from": "QIU4",
+        "to": "QIZ4",
+        "nominal_roll": "2024-08-21",
+        "actual_roll": "2024-08-21",
+        "gap": 0.4375
+      },
+      {
+        "from": "QIN4",
+        "to": "QIU4",
+        "nominal_roll": "2024-06-19",
+        "actual_roll": "2024-06-19",
+        "gap": 0.3249999999999993
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:26:37"
+  },
+  "PLATINUM - NEW YORK MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-22T18:00:32",
+    "first_date": "2024-02-28",
+    "last_date": "2026-06-03",
+    "n_contracts": 27,
+    "rolls": [
+      {
+        "from": "PLM6",
+        "to": "PLN6",
+        "nominal_roll": "2026-06-19",
+        "actual_roll": "None",
+        "gap": 0.0
+      },
+      {
+        "from": "PLK6",
+        "to": "PLM6",
+        "nominal_roll": "2026-05-20",
+        "actual_roll": "2026-05-20",
+        "gap": 2.900000000000091
+      },
+      {
+        "from": "PLJ6",
+        "to": "PLK6",
+        "nominal_roll": "2026-04-21",
+        "actual_roll": "2026-04-21",
+        "gap": 1.400000000000091
+      },
+      {
+        "from": "PLH6",
+        "to": "PLJ6",
+        "nominal_roll": "2026-03-20",
+        "actual_roll": "2026-03-20",
+        "gap": -0.09999999999990905
+      },
+      {
+        "from": "PLG6",
+        "to": "PLH6",
+        "nominal_roll": "2026-02-18",
+        "actual_roll": "2026-02-18",
+        "gap": 0.0
+      },
+      {
+        "from": "PLF6",
+        "to": "PLG6",
+        "nominal_roll": "2026-01-21",
+        "actual_roll": "2026-01-21",
+        "gap": -1.0
+      },
+      {
+        "from": "PLZ5",
+        "to": "PLF6",
+        "nominal_roll": "2025-12-22",
+        "actual_roll": "2025-12-22",
+        "gap": 5.400000000000091
+      },
+      {
+        "from": "PLX5",
+        "to": "PLZ5",
+        "nominal_roll": "2025-11-18",
+        "actual_roll": "2025-11-18",
+        "gap": 2.8999999999998636
+      },
+      {
+        "from": "PLV5",
+        "to": "PLX5",
+        "nominal_roll": "2025-10-22",
+        "actual_roll": "2025-10-22",
+        "gap": 3.0
+      },
+      {
+        "from": "PLU5",
+        "to": "PLV5",
+        "nominal_roll": "2025-09-19",
+        "actual_roll": "2025-09-19",
+        "gap": 2.2000000000000455
+      },
+      {
+        "from": "PLQ5",
+        "to": "PLU5",
+        "nominal_roll": "2025-08-20",
+        "actual_roll": "2025-08-20",
+        "gap": 1.2000000000000455
+      },
+      {
+        "from": "PLN5",
+        "to": "PLQ5",
+        "nominal_roll": "2025-07-22",
+        "actual_roll": "2025-07-22",
+        "gap": 1.7999999999999545
+      },
+      {
+        "from": "PLM5",
+        "to": "PLN5",
+        "nominal_roll": "2025-06-19",
+        "actual_roll": "2025-06-18",
+        "gap": 1.599999999999909
+      },
+      {
+        "from": "PLK5",
+        "to": "PLM5",
+        "nominal_roll": "2025-05-21",
+        "actual_roll": "2025-05-21",
+        "gap": 0.7000000000000455
+      },
+      {
+        "from": "PLJ5",
+        "to": "PLK5",
+        "nominal_roll": "2025-04-21",
+        "actual_roll": "2025-04-21",
+        "gap": 2.300000000000068
+      },
+      {
+        "from": "PLH5",
+        "to": "PLJ5",
+        "nominal_roll": "2025-03-20",
+        "actual_roll": "2025-03-20",
+        "gap": 2.5
+      },
+      {
+        "from": "PLG5",
+        "to": "PLH5",
+        "nominal_roll": "2025-02-19",
+        "actual_roll": "2025-02-19",
+        "gap": 3.3999999999999773
+      },
+      {
+        "from": "PLF5",
+        "to": "PLG5",
+        "nominal_roll": "2025-01-22",
+        "actual_roll": "2025-01-22",
+        "gap": 0.8999999999999773
+      },
+      {
+        "from": "PLZ4",
+        "to": "PLF5",
+        "nominal_roll": "2024-12-20",
+        "actual_roll": "2024-12-20",
+        "gap": 2.0
+      },
+      {
+        "from": "PLX4",
+        "to": "PLZ4",
+        "nominal_roll": "2024-11-19",
+        "actual_roll": "2024-11-19",
+        "gap": 1.5
+      },
+      {
+        "from": "PLV4",
+        "to": "PLX4",
+        "nominal_roll": "2024-10-22",
+        "actual_roll": "2024-10-22",
+        "gap": 2.2999999999999545
+      },
+      {
+        "from": "PLU4",
+        "to": "PLV4",
+        "nominal_roll": "2024-09-19",
+        "actual_roll": "2024-09-19",
+        "gap": 0.2999999999999545
+      },
+      {
+        "from": "PLQ4",
+        "to": "PLU4",
+        "nominal_roll": "2024-08-21",
+        "actual_roll": "2024-08-21",
+        "gap": 1.2999999999999545
+      },
+      {
+        "from": "PLN4",
+        "to": "PLQ4",
+        "nominal_roll": "2024-07-22",
+        "actual_roll": "2024-07-22",
+        "gap": 3.0
+      },
+      {
+        "from": "PLM4",
+        "to": "PLN4",
+        "nominal_roll": "2024-06-19",
+        "actual_roll": "2024-06-19",
+        "gap": 3.1000000000000227
+      },
+      {
+        "from": "PLK4",
+        "to": "PLM4",
+        "nominal_roll": "2024-05-22",
+        "actual_roll": "2024-05-22",
+        "gap": 1.2000000000000455
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:27:17"
+  },
+  "PALLADIUM - NEW YORK MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-06-01T23:49:18",
+    "first_date": "2023-06-29",
+    "last_date": "2026-06-03",
+    "n_contracts": 28,
+    "rolls": [
+      {
+        "from": "PAQ6",
+        "to": "PAU6",
+        "nominal_roll": "2026-08-20",
+        "actual_roll": "None",
+        "gap": 0.0
+      },
+      {
+        "from": "PAN6",
+        "to": "PAQ6",
+        "nominal_roll": "2026-07-22",
+        "actual_roll": "None",
+        "gap": 0.0
+      },
+      {
+        "from": "PAM6",
+        "to": "PAN6",
+        "nominal_roll": "2026-06-19",
+        "actual_roll": "None",
+        "gap": 0.0
+      },
+      {
+        "from": "PAK6",
+        "to": "PAM6",
+        "nominal_roll": "2026-05-20",
+        "actual_roll": "2026-05-20",
+        "gap": 2.5
+      },
+      {
+        "from": "PAJ6",
+        "to": "PAK6",
+        "nominal_roll": "2026-04-21",
+        "actual_roll": "2026-04-21",
+        "gap": 2.5
+      },
+      {
+        "from": "PAH6",
+        "to": "PAJ6",
+        "nominal_roll": "2026-03-20",
+        "actual_roll": "2026-03-20",
+        "gap": 3.5
+      },
+      {
+        "from": "PAG6",
+        "to": "PAH6",
+        "nominal_roll": "2026-02-18",
+        "actual_roll": "2026-02-18",
+        "gap": 5.5
+      },
+      {
+        "from": "PAF6",
+        "to": "PAG6",
+        "nominal_roll": "2026-01-21",
+        "actual_roll": "2026-01-21",
+        "gap": 4.0
+      },
+      {
+        "from": "PAZ5",
+        "to": "PAF6",
+        "nominal_roll": "2025-12-22",
+        "actual_roll": "2025-12-22",
+        "gap": 17.0
+      },
+      {
+        "from": "PAX5",
+        "to": "PAZ5",
+        "nominal_roll": "2025-11-18",
+        "actual_roll": "2025-11-18",
+        "gap": 4.5
+      },
+      {
+        "from": "PAV5",
+        "to": "PAX5",
+        "nominal_roll": "2025-10-22",
+        "actual_roll": "2025-10-22",
+        "gap": 4.0
+      },
+      {
+        "from": "PAU5",
+        "to": "PAV5",
+        "nominal_roll": "2025-09-19",
+        "actual_roll": "2025-09-19",
+        "gap": 2.0
+      },
+      {
+        "from": "PAQ5",
+        "to": "PAU5",
+        "nominal_roll": "2025-08-20",
+        "actual_roll": "2025-08-20",
+        "gap": 10.0
+      },
+      {
+        "from": "PAN5",
+        "to": "PAQ5",
+        "nominal_roll": "2025-07-22",
+        "actual_roll": "2025-07-22",
+        "gap": 2.0
+      },
+      {
+        "from": "PAM5",
+        "to": "PAN5",
+        "nominal_roll": "2025-06-19",
+        "actual_roll": "2025-06-18",
+        "gap": 2.5
+      },
+      {
+        "from": "PAK5",
+        "to": "PAM5",
+        "nominal_roll": "2025-05-21",
+        "actual_roll": "2025-05-21",
+        "gap": 2.5
+      },
+      {
+        "from": "PAJ5",
+        "to": "PAK5",
+        "nominal_roll": "2025-04-21",
+        "actual_roll": "2025-04-21",
+        "gap": 2.5
+      },
+      {
+        "from": "PAH5",
+        "to": "PAJ5",
+        "nominal_roll": "2025-03-20",
+        "actual_roll": "2025-03-20",
+        "gap": 3.0
+      },
+      {
+        "from": "PAG5",
+        "to": "PAH5",
+        "nominal_roll": "2025-02-19",
+        "actual_roll": "2025-02-19",
+        "gap": 3.0
+      },
+      {
+        "from": "PAF5",
+        "to": "PAG5",
+        "nominal_roll": "2025-01-22",
+        "actual_roll": "2025-01-22",
+        "gap": 4.0
+      },
+      {
+        "from": "PAZ4",
+        "to": "PAF5",
+        "nominal_roll": "2024-12-20",
+        "actual_roll": "2024-12-20",
+        "gap": 13.0
+      },
+      {
+        "from": "PAX4",
+        "to": "PAZ4",
+        "nominal_roll": "2024-11-19",
+        "actual_roll": "2024-11-19",
+        "gap": 2.0
+      },
+      {
+        "from": "PAV4",
+        "to": "PAX4",
+        "nominal_roll": "2024-10-22",
+        "actual_roll": "2024-10-22",
+        "gap": 1.5
+      },
+      {
+        "from": "PAU4",
+        "to": "PAV4",
+        "nominal_roll": "2024-09-19",
+        "actual_roll": "2024-09-19",
+        "gap": -3.0
+      },
+      {
+        "from": "PAQ4",
+        "to": "PAU4",
+        "nominal_roll": "2024-08-21",
+        "actual_roll": "2024-08-21",
+        "gap": 0.5
+      },
+      {
+        "from": "PAN4",
+        "to": "PAQ4",
+        "nominal_roll": "2024-07-22",
+        "actual_roll": "2024-07-22",
+        "gap": 0.5
+      },
+      {
+        "from": "PAM4",
+        "to": "PAN4",
+        "nominal_roll": "2024-06-19",
+        "actual_roll": "2024-06-19",
+        "gap": 3.5
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:27:45"
+  },
+  "MICRO COPPER - COMMODITY EXCHANGE INC.": {
+    "rebuilt_at": "2026-05-22T18:04:38",
+    "first_date": "2023-06-01",
+    "last_date": "2026-06-03",
+    "n_contracts": 26,
+    "rolls": [
+      {
+        "from": "MHGM6",
+        "to": "MHGN6",
+        "nominal_roll": "2026-05-20",
+        "actual_roll": "2026-05-20",
+        "gap": 0.029499999999999638
+      },
+      {
+        "from": "MHGK6",
+        "to": "MHGM6",
+        "nominal_roll": "2026-04-21",
+        "actual_roll": "2026-04-21",
+        "gap": 0.030999999999999694
+      },
+      {
+        "from": "MHGJ6",
+        "to": "MHGK6",
+        "nominal_roll": "2026-03-20",
+        "actual_roll": "2026-03-20",
+        "gap": 0.025500000000000078
+      },
+      {
+        "from": "MHGH6",
+        "to": "MHGJ6",
+        "nominal_roll": "2026-02-18",
+        "actual_roll": "2026-02-18",
+        "gap": 0.028999999999999915
+      },
+      {
+        "from": "MHGG6",
+        "to": "MHGH6",
+        "nominal_roll": "2026-01-21",
+        "actual_roll": "2026-01-21",
+        "gap": 0.029499999999999638
+      },
+      {
+        "from": "MHGF6",
+        "to": "MHGG6",
+        "nominal_roll": "2025-12-22",
+        "actual_roll": "2025-12-22",
+        "gap": 0.029500000000000526
+      },
+      {
+        "from": "MHGZ5",
+        "to": "MHGF6",
+        "nominal_roll": "2025-11-18",
+        "actual_roll": "2025-11-18",
+        "gap": 0.025500000000000078
+      },
+      {
+        "from": "MHGX5",
+        "to": "MHGZ5",
+        "nominal_roll": "2025-10-22",
+        "actual_roll": "2025-10-22",
+        "gap": 0.024999999999999467
+      },
+      {
+        "from": "MHGV5",
+        "to": "MHGX5",
+        "nominal_roll": "2025-09-19",
+        "actual_roll": "2025-09-19",
+        "gap": 0.027500000000000746
+      },
+      {
+        "from": "MHGU5",
+        "to": "MHGV5",
+        "nominal_roll": "2025-08-20",
+        "actual_roll": "2025-08-20",
+        "gap": 0.022999999999999687
+      },
+      {
+        "from": "MHGQ5",
+        "to": "MHGU5",
+        "nominal_roll": "2025-07-22",
+        "actual_roll": "2025-07-22",
+        "gap": 0.017999999999999794
+      },
+      {
+        "from": "MHGN5",
+        "to": "MHGQ5",
+        "nominal_roll": "2025-06-19",
+        "actual_roll": "2025-06-18",
+        "gap": 0.026500000000000412
+      },
+      {
+        "from": "MHGM5",
+        "to": "MHGN5",
+        "nominal_roll": "2025-05-21",
+        "actual_roll": "2025-05-21",
+        "gap": 0.02400000000000002
+      },
+      {
+        "from": "MHGK5",
+        "to": "MHGM5",
+        "nominal_roll": "2025-04-21",
+        "actual_roll": "2025-04-21",
+        "gap": 0.024999999999999467
+      },
+      {
+        "from": "MHGJ5",
+        "to": "MHGK5",
+        "nominal_roll": "2025-03-20",
+        "actual_roll": "2025-03-20",
+        "gap": 0.026500000000000412
+      },
+      {
+        "from": "MHGH5",
+        "to": "MHGJ5",
+        "nominal_roll": "2025-02-19",
+        "actual_roll": "2025-02-19",
+        "gap": 0.025000000000000355
+      },
+      {
+        "from": "MHGG5",
+        "to": "MHGH5",
+        "nominal_roll": "2025-01-22",
+        "actual_roll": "2025-01-22",
+        "gap": 0.022499999999999964
+      },
+      {
+        "from": "MHGF5",
+        "to": "MHGG5",
+        "nominal_roll": "2024-12-20",
+        "actual_roll": "2024-12-20",
+        "gap": 0.02799999999999958
+      },
+      {
+        "from": "MHGZ4",
+        "to": "MHGF5",
+        "nominal_roll": "2024-11-19",
+        "actual_roll": "2024-11-19",
+        "gap": 0.010999999999999233
+      },
+      {
+        "from": "MHGX4",
+        "to": "MHGZ4",
+        "nominal_roll": "2024-10-22",
+        "actual_roll": "2024-10-22",
+        "gap": 0.02549999999999919
+      },
+      {
+        "from": "MHGV4",
+        "to": "MHGX4",
+        "nominal_roll": "2024-09-19",
+        "actual_roll": "2024-09-19",
+        "gap": 0.026499999999999524
+      },
+      {
+        "from": "MHGU4",
+        "to": "MHGV4",
+        "nominal_roll": "2024-08-21",
+        "actual_roll": "2024-08-21",
+        "gap": 0.006999999999999673
+      },
+      {
+        "from": "MHGQ4",
+        "to": "MHGU4",
+        "nominal_roll": "2024-07-22",
+        "actual_roll": "2024-07-22",
+        "gap": 0.015499999999999403
+      },
+      {
+        "from": "MHGN4",
+        "to": "MHGQ4",
+        "nominal_roll": "2024-06-19",
+        "actual_roll": "2024-06-19",
+        "gap": -0.04349999999999987
+      },
+      {
+        "from": "MHGM4",
+        "to": "MHGN4",
+        "nominal_roll": "2024-05-22",
+        "actual_roll": "2024-05-22",
+        "gap": 0.005499999999999616
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:29:20"
+  },
+  "COPPER- #1 - COMMODITY EXCHANGE INC.": {
+    "rebuilt_at": "2026-05-22T18:06:50",
+    "first_date": "2023-06-01",
+    "last_date": "2026-06-03",
+    "n_contracts": 27,
+    "rolls": [
+      {
+        "from": "HGM6",
+        "to": "HGN6",
+        "nominal_roll": "2026-06-19",
+        "actual_roll": "None",
+        "gap": 0.0
+      },
+      {
+        "from": "HGK6",
+        "to": "HGM6",
+        "nominal_roll": "2026-05-20",
+        "actual_roll": "2026-05-20",
+        "gap": 0.010500000000000398
+      },
+      {
+        "from": "HGJ6",
+        "to": "HGK6",
+        "nominal_roll": "2026-04-21",
+        "actual_roll": "2026-04-21",
+        "gap": 0.009000000000000341
+      },
+      {
+        "from": "HGH6",
+        "to": "HGJ6",
+        "nominal_roll": "2026-03-20",
+        "actual_roll": "2026-03-20",
+        "gap": 0.00649999999999995
+      },
+      {
+        "from": "HGG6",
+        "to": "HGH6",
+        "nominal_roll": "2026-02-18",
+        "actual_roll": "2026-02-18",
+        "gap": 0.009500000000000064
+      },
+      {
+        "from": "HGF6",
+        "to": "HGG6",
+        "nominal_roll": "2026-01-21",
+        "actual_roll": "2026-01-21",
+        "gap": 0.009000000000000341
+      },
+      {
+        "from": "HGZ5",
+        "to": "HGF6",
+        "nominal_roll": "2025-12-22",
+        "actual_roll": "2025-12-22",
+        "gap": 0.013499999999999623
+      },
+      {
+        "from": "HGX5",
+        "to": "HGZ5",
+        "nominal_roll": "2025-11-18",
+        "actual_roll": "2025-11-18",
+        "gap": 0.011499999999999844
+      },
+      {
+        "from": "HGV5",
+        "to": "HGX5",
+        "nominal_roll": "2025-10-22",
+        "actual_roll": "2025-10-22",
+        "gap": 0.009500000000000064
+      },
+      {
+        "from": "HGU5",
+        "to": "HGV5",
+        "nominal_roll": "2025-09-19",
+        "actual_roll": "2025-09-19",
+        "gap": 0.006999999999999673
+      },
+      {
+        "from": "HGQ5",
+        "to": "HGU5",
+        "nominal_roll": "2025-08-20",
+        "actual_roll": "2025-08-20",
+        "gap": 0.014000000000000234
+      },
+      {
+        "from": "HGN5",
+        "to": "HGQ5",
+        "nominal_roll": "2025-07-22",
+        "actual_roll": "2025-07-22",
+        "gap": 0.00649999999999995
+      },
+      {
+        "from": "HGM5",
+        "to": "HGN5",
+        "nominal_roll": "2025-06-19",
+        "actual_roll": "2025-06-18",
+        "gap": 0.008000000000000007
+      },
+      {
+        "from": "HGK5",
+        "to": "HGM5",
+        "nominal_roll": "2025-05-21",
+        "actual_roll": "2025-05-21",
+        "gap": 0.009999999999999787
+      },
+      {
+        "from": "HGJ5",
+        "to": "HGK5",
+        "nominal_roll": "2025-04-21",
+        "actual_roll": "2025-04-21",
+        "gap": 0.007500000000000284
+      },
+      {
+        "from": "HGH5",
+        "to": "HGJ5",
+        "nominal_roll": "2025-03-20",
+        "actual_roll": "2025-03-20",
+        "gap": 0.0004999999999997229
+      },
+      {
+        "from": "HGG5",
+        "to": "HGH5",
+        "nominal_roll": "2025-02-19",
+        "actual_roll": "2025-02-19",
+        "gap": 0.005499999999999616
+      },
+      {
+        "from": "HGF5",
+        "to": "HGG5",
+        "nominal_roll": "2025-01-22",
+        "actual_roll": "2025-01-22",
+        "gap": 0.007000000000000561
+      },
+      {
+        "from": "HGZ4",
+        "to": "HGF5",
+        "nominal_roll": "2024-12-20",
+        "actual_roll": "2024-12-20",
+        "gap": 0.009999999999999787
+      },
+      {
+        "from": "HGX4",
+        "to": "HGZ4",
+        "nominal_roll": "2024-11-19",
+        "actual_roll": "2024-11-19",
+        "gap": 0.012000000000000455
+      },
+      {
+        "from": "HGV4",
+        "to": "HGX4",
+        "nominal_roll": "2024-10-22",
+        "actual_roll": "2024-10-22",
+        "gap": 0.007000000000000561
+      },
+      {
+        "from": "HGU4",
+        "to": "HGV4",
+        "nominal_roll": "2024-09-19",
+        "actual_roll": "2024-09-19",
+        "gap": 0.008500000000000618
+      },
+      {
+        "from": "HGQ4",
+        "to": "HGU4",
+        "nominal_roll": "2024-08-21",
+        "actual_roll": "2024-08-21",
+        "gap": 0.008500000000000618
+      },
+      {
+        "from": "HGN4",
+        "to": "HGQ4",
+        "nominal_roll": "2024-07-22",
+        "actual_roll": "2024-07-22",
+        "gap": 0.0015000000000000568
+      },
+      {
+        "from": "HGM4",
+        "to": "HGN4",
+        "nominal_roll": "2024-06-19",
+        "actual_roll": "2024-06-19",
+        "gap": -0.07150000000000034
+      },
+      {
+        "from": "HGK4",
+        "to": "HGM4",
+        "nominal_roll": "2024-05-22",
+        "actual_roll": "2024-05-22",
+        "gap": -0.024499999999999744
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:28:29"
+  },
+  "SOYBEAN OIL - CHICAGO BOARD OF TRADE": {
+    "rebuilt_at": "2026-05-22T18:08:17",
+    "first_date": "2023-07-14",
+    "last_date": "2026-06-03",
+    "n_contracts": 17,
+    "rolls": [
+      {
+        "from": "ZLK6",
+        "to": "ZLN6",
+        "nominal_roll": "2026-05-07",
+        "actual_roll": "2026-05-07",
+        "gap": -0.9399999999999977
+      },
+      {
+        "from": "ZLH6",
+        "to": "ZLK6",
+        "nominal_roll": "2026-03-06",
+        "actual_roll": "2026-03-06",
+        "gap": 0.37000000000000455
+      },
+      {
+        "from": "ZLF6",
+        "to": "ZLH6",
+        "nominal_roll": "2026-01-07",
+        "actual_roll": "2026-01-07",
+        "gap": 0.490000000000002
+      },
+      {
+        "from": "ZLZ5",
+        "to": "ZLF6",
+        "nominal_roll": "2025-12-05",
+        "actual_roll": "2025-12-05",
+        "gap": 0.3299999999999983
+      },
+      {
+        "from": "ZLV5",
+        "to": "ZLZ5",
+        "nominal_roll": "2025-10-07",
+        "actual_roll": "2025-10-07",
+        "gap": 0.509999999999998
+      },
+      {
+        "from": "ZLU5",
+        "to": "ZLV5",
+        "nominal_roll": "2025-09-05",
+        "actual_roll": "2025-09-05",
+        "gap": 0.25
+      },
+      {
+        "from": "ZLQ5",
+        "to": "ZLU5",
+        "nominal_roll": "2025-08-07",
+        "actual_roll": "2025-08-07",
+        "gap": -0.03999999999999915
+      },
+      {
+        "from": "ZLN5",
+        "to": "ZLQ5",
+        "nominal_roll": "2025-07-07",
+        "actual_roll": "2025-07-07",
+        "gap": -0.13000000000000256
+      },
+      {
+        "from": "ZLK5",
+        "to": "ZLN5",
+        "nominal_roll": "2025-05-07",
+        "actual_roll": "2025-05-07",
+        "gap": 0.37999999999999545
+      },
+      {
+        "from": "ZLH5",
+        "to": "ZLK5",
+        "nominal_roll": "2025-03-07",
+        "actual_roll": "2025-03-07",
+        "gap": 0.5500000000000043
+      },
+      {
+        "from": "ZLF5",
+        "to": "ZLH5",
+        "nominal_roll": "2025-01-07",
+        "actual_roll": "2025-01-07",
+        "gap": 0.5300000000000011
+      },
+      {
+        "from": "ZLZ4",
+        "to": "ZLF5",
+        "nominal_roll": "2024-12-06",
+        "actual_roll": "2024-12-06",
+        "gap": 0.18999999999999773
+      },
+      {
+        "from": "ZLV4",
+        "to": "ZLZ4",
+        "nominal_roll": "2024-10-07",
+        "actual_roll": "2024-10-07",
+        "gap": 0.00999999999999801
+      },
+      {
+        "from": "ZLU4",
+        "to": "ZLV4",
+        "nominal_roll": "2024-09-06",
+        "actual_roll": "2024-09-06",
+        "gap": -0.5600000000000023
+      },
+      {
+        "from": "ZLQ4",
+        "to": "ZLU4",
+        "nominal_roll": "2024-08-07",
+        "actual_roll": "2024-08-07",
+        "gap": -0.17999999999999972
+      },
+      {
+        "from": "ZLN4",
+        "to": "ZLQ4",
+        "nominal_roll": "2024-07-05",
+        "actual_roll": "2024-07-05",
+        "gap": -0.07000000000000028
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:29:50"
+  },
+  "NAT GAS NYME - NEW YORK MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-30T17:47:04",
+    "first_date": "2023-06-29",
+    "last_date": "2026-06-03",
+    "n_contracts": 25,
+    "rolls": [
+      {
+        "from": "NGM26",
+        "to": "NGN26",
+        "nominal_roll": "2026-05-20",
+        "actual_roll": "2026-05-20",
+        "gap": 0.1509999999999998
+      },
+      {
+        "from": "NGK26",
+        "to": "NGM26",
+        "nominal_roll": "2026-04-21",
+        "actual_roll": "2026-04-21",
+        "gap": 0.14500000000000002
+      },
+      {
+        "from": "NGJ26",
+        "to": "NGK26",
+        "nominal_roll": "2026-03-20",
+        "actual_roll": "2026-03-20",
+        "gap": -0.03100000000000014
+      },
+      {
+        "from": "NGH26",
+        "to": "NGJ26",
+        "nominal_roll": "2026-02-18",
+        "actual_roll": "2026-02-18",
+        "gap": -0.07800000000000029
+      },
+      {
+        "from": "NGG26",
+        "to": "NGH26",
+        "nominal_roll": "2026-01-21",
+        "actual_roll": "2026-01-21",
+        "gap": -1.3399999999999999
+      },
+      {
+        "from": "NGF26",
+        "to": "NGG26",
+        "nominal_roll": "2025-12-22",
+        "actual_roll": "2025-12-22",
+        "gap": -0.3939999999999997
+      },
+      {
+        "from": "NGZ25",
+        "to": "NGF26",
+        "nominal_roll": "2025-11-18",
+        "actual_roll": "2025-11-18",
+        "gap": 0.22199999999999953
+      },
+      {
+        "from": "NGX25",
+        "to": "NGZ25",
+        "nominal_roll": "2025-10-22",
+        "actual_roll": "2025-10-22",
+        "gap": 0.6099999999999994
+      },
+      {
+        "from": "NGV25",
+        "to": "NGX25",
+        "nominal_roll": "2025-09-19",
+        "actual_roll": "2025-09-19",
+        "gap": 0.30200000000000005
+      },
+      {
+        "from": "NGU25",
+        "to": "NGV25",
+        "nominal_roll": "2025-08-20",
+        "actual_roll": "2025-08-20",
+        "gap": 0.0900000000000003
+      },
+      {
+        "from": "NGQ25",
+        "to": "NGU25",
+        "nominal_roll": "2025-07-22",
+        "actual_roll": "2025-07-22",
+        "gap": 0.03500000000000014
+      },
+      {
+        "from": "NGN25",
+        "to": "NGQ25",
+        "nominal_roll": "2025-06-19",
+        "actual_roll": "2025-06-18",
+        "gap": 0.08800000000000008
+      },
+      {
+        "from": "NGM5",
+        "to": "NGN25",
+        "nominal_roll": "2025-05-21",
+        "actual_roll": "2025-05-21",
+        "gap": 0.3690000000000002
+      },
+      {
+        "from": "NGK5",
+        "to": "NGM5",
+        "nominal_roll": "2025-04-21",
+        "actual_roll": "2025-04-21",
+        "gap": 0.16100000000000003
+      },
+      {
+        "from": "NGJ5",
+        "to": "NGK5",
+        "nominal_roll": "2025-03-20",
+        "actual_roll": "2025-03-20",
+        "gap": 0.06300000000000017
+      },
+      {
+        "from": "NGH5",
+        "to": "NGJ5",
+        "nominal_roll": "2025-02-19",
+        "actual_roll": "2025-02-19",
+        "gap": -0.07500000000000018
+      },
+      {
+        "from": "NGG5",
+        "to": "NGH5",
+        "nominal_roll": "2025-01-22",
+        "actual_roll": "2025-01-22",
+        "gap": -0.4540000000000002
+      },
+      {
+        "from": "NGF5",
+        "to": "NGG5",
+        "nominal_roll": "2024-12-20",
+        "actual_roll": "2024-12-20",
+        "gap": -0.3360000000000003
+      },
+      {
+        "from": "NGZ4",
+        "to": "NGF5",
+        "nominal_roll": "2024-11-19",
+        "actual_roll": "2024-11-19",
+        "gap": 0.22999999999999998
+      },
+      {
+        "from": "NGX4",
+        "to": "NGZ4",
+        "nominal_roll": "2024-10-22",
+        "actual_roll": "2024-10-22",
+        "gap": 0.5840000000000001
+      },
+      {
+        "from": "NGV4",
+        "to": "NGX4",
+        "nominal_roll": "2024-09-19",
+        "actual_roll": "2024-09-19",
+        "gap": 0.24700000000000033
+      },
+      {
+        "from": "NGU4",
+        "to": "NGV4",
+        "nominal_roll": "2024-08-21",
+        "actual_roll": "2024-08-21",
+        "gap": 0.137
+      },
+      {
+        "from": "NGQ4",
+        "to": "NGU4",
+        "nominal_roll": "2024-07-22",
+        "actual_roll": "2024-07-22",
+        "gap": 0.03500000000000014
+      },
+      {
+        "from": "NGN4",
+        "to": "NGQ4",
+        "nominal_roll": "2024-06-19",
+        "actual_roll": "2024-06-19",
+        "gap": 0.0810000000000004
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:30:32"
+  },
+  "GASOLINE RBOB - NEW YORK MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-26T23:11:23",
+    "first_date": "2023-06-02",
+    "last_date": "2026-06-03",
+    "n_contracts": 26,
+    "rolls": [
+      {
+        "from": "RBM6",
+        "to": "RBN6",
+        "nominal_roll": "2026-05-22",
+        "actual_roll": "2026-05-22",
+        "gap": -0.10250000000000004
+      },
+      {
+        "from": "RBK6",
+        "to": "RBM6",
+        "nominal_roll": "2026-04-23",
+        "actual_roll": "2026-04-23",
+        "gap": -0.1278999999999999
+      },
+      {
+        "from": "RBJ6",
+        "to": "RBK6",
+        "nominal_roll": "2026-03-24",
+        "actual_roll": "2026-03-24",
+        "gap": -0.053400000000000336
+      },
+      {
+        "from": "RBH6",
+        "to": "RBJ6",
+        "nominal_roll": "2026-02-20",
+        "actual_roll": "2026-02-20",
+        "gap": 0.24609999999999976
+      },
+      {
+        "from": "RBG6",
+        "to": "RBH6",
+        "nominal_roll": "2026-01-23",
+        "actual_roll": "2026-01-23",
+        "gap": 0.018399999999999972
+      },
+      {
+        "from": "RBF6",
+        "to": "RBG6",
+        "nominal_roll": "2025-12-24",
+        "actual_roll": "2025-12-24",
+        "gap": 0.006999999999999895
+      },
+      {
+        "from": "RBZ5",
+        "to": "RBF6",
+        "nominal_roll": "2025-11-21",
+        "actual_roll": "2025-11-21",
+        "gap": -0.06929999999999992
+      },
+      {
+        "from": "RBX5",
+        "to": "RBZ5",
+        "nominal_roll": "2025-10-24",
+        "actual_roll": "2025-10-24",
+        "gap": -0.05410000000000004
+      },
+      {
+        "from": "RBV5",
+        "to": "RBX5",
+        "nominal_roll": "2025-09-23",
+        "actual_roll": "2025-09-23",
+        "gap": -0.05930000000000013
+      },
+      {
+        "from": "RBU5",
+        "to": "RBV5",
+        "nominal_roll": "2025-08-22",
+        "actual_roll": "2025-08-22",
+        "gap": -0.16470000000000007
+      },
+      {
+        "from": "RBQ5",
+        "to": "RBU5",
+        "nominal_roll": "2025-07-24",
+        "actual_roll": "2025-07-24",
+        "gap": -0.028799999999999937
+      },
+      {
+        "from": "RBN5",
+        "to": "RBQ5",
+        "nominal_roll": "2025-06-23",
+        "actual_roll": "2025-06-23",
+        "gap": -0.019099999999999895
+      },
+      {
+        "from": "RBM5",
+        "to": "RBN5",
+        "nominal_roll": "2025-05-23",
+        "actual_roll": "2025-05-23",
+        "gap": -0.03370000000000006
+      },
+      {
+        "from": "RBK5",
+        "to": "RBM5",
+        "nominal_roll": "2025-04-23",
+        "actual_roll": "2025-04-23",
+        "gap": -0.009599999999999831
+      },
+      {
+        "from": "RBJ5",
+        "to": "RBK5",
+        "nominal_roll": "2025-03-24",
+        "actual_roll": "2025-03-24",
+        "gap": 0.0026999999999999247
+      },
+      {
+        "from": "RBH5",
+        "to": "RBJ5",
+        "nominal_roll": "2025-02-21",
+        "actual_roll": "2025-02-21",
+        "gap": 0.23899999999999988
+      },
+      {
+        "from": "RBG5",
+        "to": "RBH5",
+        "nominal_roll": "2025-01-24",
+        "actual_roll": "2025-01-24",
+        "gap": 0.027499999999999858
+      },
+      {
+        "from": "RBF5",
+        "to": "RBG5",
+        "nominal_roll": "2024-12-24",
+        "actual_roll": "2024-12-24",
+        "gap": 0.010199999999999987
+      },
+      {
+        "from": "RBZ4",
+        "to": "RBF5",
+        "nominal_roll": "2024-11-22",
+        "actual_roll": "2024-11-22",
+        "gap": -0.046499999999999986
+      },
+      {
+        "from": "RBX4",
+        "to": "RBZ4",
+        "nominal_roll": "2024-10-24",
+        "actual_roll": "2024-10-24",
+        "gap": -0.035399999999999876
+      },
+      {
+        "from": "RBV4",
+        "to": "RBX4",
+        "nominal_roll": "2024-09-23",
+        "actual_roll": "2024-09-23",
+        "gap": -0.022599999999999953
+      },
+      {
+        "from": "RBU4",
+        "to": "RBV4",
+        "nominal_roll": "2024-08-23",
+        "actual_roll": "2024-08-23",
+        "gap": -0.1665000000000001
+      },
+      {
+        "from": "RBQ4",
+        "to": "RBU4",
+        "nominal_roll": "2024-07-24",
+        "actual_roll": "2024-07-24",
+        "gap": -0.038599999999999746
+      },
+      {
+        "from": "RBN4",
+        "to": "RBQ4",
+        "nominal_roll": "2024-06-21",
+        "actual_roll": "2024-06-21",
+        "gap": -0.017100000000000115
+      },
+      {
+        "from": "RBM4",
+        "to": "RBN4",
+        "nominal_roll": "2024-05-24",
+        "actual_roll": "2024-05-24",
+        "gap": -0.014600000000000168
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:31:10"
+  },
+  "COCOA - ICE FUTURES U.S.": {
+    "rebuilt_at": "2026-05-22T18:13:28",
+    "first_date": "2023-07-19",
+    "last_date": "2026-06-02",
+    "n_contracts": 11,
+    "rolls": [
+      {
+        "from": "CCK6",
+        "to": "CCN6",
+        "nominal_roll": "2026-05-06",
+        "actual_roll": "2026-05-06",
+        "gap": 71.0
+      },
+      {
+        "from": "CCH6",
+        "to": "CCK6",
+        "nominal_roll": "2026-03-09",
+        "actual_roll": "2026-03-09",
+        "gap": 92.0
+      },
+      {
+        "from": "CCZ5",
+        "to": "CCH6",
+        "nominal_roll": "2025-12-08",
+        "actual_roll": "2025-12-08",
+        "gap": 53.0
+      },
+      {
+        "from": "CCU5",
+        "to": "CCZ5",
+        "nominal_roll": "2025-09-08",
+        "actual_roll": "2025-09-08",
+        "gap": 104.0
+      },
+      {
+        "from": "CCN5",
+        "to": "CCU5",
+        "nominal_roll": "2025-07-09",
+        "actual_roll": "2025-07-09",
+        "gap": -670.0
+      },
+      {
+        "from": "CCK5",
+        "to": "CCN5",
+        "nominal_roll": "2025-05-07",
+        "actual_roll": "2025-05-07",
+        "gap": -200.0
+      },
+      {
+        "from": "CCH5",
+        "to": "CCK5",
+        "nominal_roll": "2025-03-07",
+        "actual_roll": "2025-03-07",
+        "gap": 151.0
+      },
+      {
+        "from": "CCZ4",
+        "to": "CCH5",
+        "nominal_roll": "2024-12-06",
+        "actual_roll": "2024-12-06",
+        "gap": 86.0
+      },
+      {
+        "from": "CCU4",
+        "to": "CCZ4",
+        "nominal_roll": "2024-09-06",
+        "actual_roll": "2024-09-06",
+        "gap": -2378.0
+      },
+      {
+        "from": "CCN4",
+        "to": "CCU4",
+        "nominal_roll": "2024-07-09",
+        "actual_roll": "2024-07-09",
+        "gap": 127.0
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:31:26"
+  },
+  "CORN - CHICAGO BOARD OF TRADE": {
+    "rebuilt_at": "2026-05-22T18:14:22",
+    "first_date": "2023-07-14",
+    "last_date": "2026-06-03",
+    "n_contracts": 11,
+    "rolls": [
+      {
+        "from": "ZCK6",
+        "to": "ZCN6",
+        "nominal_roll": "2026-05-07",
+        "actual_roll": "2026-05-07",
+        "gap": 14.75
+      },
+      {
+        "from": "ZCH6",
+        "to": "ZCK6",
+        "nominal_roll": "2026-03-06",
+        "actual_roll": "2026-03-06",
+        "gap": 13.5
+      },
+      {
+        "from": "ZCZ5",
+        "to": "ZCH6",
+        "nominal_roll": "2025-12-05",
+        "actual_roll": "2025-12-05",
+        "gap": 8.0
+      },
+      {
+        "from": "ZCU5",
+        "to": "ZCZ5",
+        "nominal_roll": "2025-09-05",
+        "actual_roll": "2025-09-05",
+        "gap": 19.0
+      },
+      {
+        "from": "ZCN5",
+        "to": "ZCU5",
+        "nominal_roll": "2025-07-07",
+        "actual_roll": "2025-07-07",
+        "gap": -14.5
+      },
+      {
+        "from": "ZCK5",
+        "to": "ZCN5",
+        "nominal_roll": "2025-05-07",
+        "actual_roll": "2025-05-07",
+        "gap": 8.25
+      },
+      {
+        "from": "ZCH5",
+        "to": "ZCK5",
+        "nominal_roll": "2025-03-07",
+        "actual_roll": "2025-03-07",
+        "gap": 14.0
+      },
+      {
+        "from": "ZCZ4",
+        "to": "ZCH5",
+        "nominal_roll": "2024-12-06",
+        "actual_roll": "2024-12-06",
+        "gap": 9.25
+      },
+      {
+        "from": "ZCU4",
+        "to": "ZCZ4",
+        "nominal_roll": "2024-09-06",
+        "actual_roll": "2024-09-06",
+        "gap": 22.5
+      },
+      {
+        "from": "ZCN4",
+        "to": "ZCU4",
+        "nominal_roll": "2024-07-05",
+        "actual_roll": "2024-07-05",
+        "gap": -0.75
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:31:42"
+  },
+  "OATS - CHICAGO BOARD OF TRADE": {
+    "rebuilt_at": "2026-05-22T18:15:16",
+    "first_date": "2023-07-14",
+    "last_date": "2026-06-03",
+    "n_contracts": 11,
+    "rolls": [
+      {
+        "from": "ZOK6",
+        "to": "ZON6",
+        "nominal_roll": "2026-05-07",
+        "actual_roll": "2026-05-07",
+        "gap": 17.0
+      },
+      {
+        "from": "ZOH6",
+        "to": "ZOK6",
+        "nominal_roll": "2026-03-06",
+        "actual_roll": "2026-03-06",
+        "gap": 10.0
+      },
+      {
+        "from": "ZOZ5",
+        "to": "ZOH6",
+        "nominal_roll": "2025-12-05",
+        "actual_roll": "2025-12-05",
+        "gap": 12.0
+      },
+      {
+        "from": "ZOU5",
+        "to": "ZOZ5",
+        "nominal_roll": "2025-09-05",
+        "actual_roll": "2025-09-05",
+        "gap": 26.25
+      },
+      {
+        "from": "ZON5",
+        "to": "ZOU5",
+        "nominal_roll": "2025-07-07",
+        "actual_roll": "2025-07-07",
+        "gap": -14.75
+      },
+      {
+        "from": "ZOK5",
+        "to": "ZON5",
+        "nominal_roll": "2025-05-07",
+        "actual_roll": "2025-05-07",
+        "gap": -23.75
+      },
+      {
+        "from": "ZOH5",
+        "to": "ZOK5",
+        "nominal_roll": "2025-03-07",
+        "actual_roll": "2025-03-07",
+        "gap": 11.0
+      },
+      {
+        "from": "ZOZ4",
+        "to": "ZOH5",
+        "nominal_roll": "2024-12-06",
+        "actual_roll": "2024-12-06",
+        "gap": 22.5
+      },
+      {
+        "from": "ZOU4",
+        "to": "ZOZ4",
+        "nominal_roll": "2024-09-06",
+        "actual_roll": "2024-09-06",
+        "gap": 9.25
+      },
+      {
+        "from": "ZON4",
+        "to": "ZOU4",
+        "nominal_roll": "2024-07-05",
+        "actual_roll": "2024-07-05",
+        "gap": -3.5
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:31:58"
+  },
+  "WHEAT-SRW - CHICAGO BOARD OF TRADE": {
+    "rebuilt_at": "2026-05-22T18:16:10",
+    "first_date": "2023-07-14",
+    "last_date": "2026-06-03",
+    "n_contracts": 11,
+    "rolls": [
+      {
+        "from": "ZWK6",
+        "to": "ZWN6",
+        "nominal_roll": "2026-05-07",
+        "actual_roll": "2026-05-07",
+        "gap": 10.5
+      },
+      {
+        "from": "ZWH6",
+        "to": "ZWK6",
+        "nominal_roll": "2026-03-06",
+        "actual_roll": "2026-03-06",
+        "gap": 5.5
+      },
+      {
+        "from": "ZWZ5",
+        "to": "ZWH6",
+        "nominal_roll": "2025-12-05",
+        "actual_roll": "2025-12-05",
+        "gap": -1.75
+      },
+      {
+        "from": "ZWU5",
+        "to": "ZWZ5",
+        "nominal_roll": "2025-09-05",
+        "actual_roll": "2025-09-05",
+        "gap": 18.25
+      },
+      {
+        "from": "ZWN5",
+        "to": "ZWU5",
+        "nominal_roll": "2025-07-07",
+        "actual_roll": "2025-07-07",
+        "gap": 8.75
+      },
+      {
+        "from": "ZWK5",
+        "to": "ZWN5",
+        "nominal_roll": "2025-05-07",
+        "actual_roll": "2025-05-07",
+        "gap": 16.25
+      },
+      {
+        "from": "ZWH5",
+        "to": "ZWK5",
+        "nominal_roll": "2025-03-07",
+        "actual_roll": "2025-03-07",
+        "gap": 17.5
+      },
+      {
+        "from": "ZWZ4",
+        "to": "ZWH5",
+        "nominal_roll": "2024-12-06",
+        "actual_roll": "2024-12-06",
+        "gap": 14.75
+      },
+      {
+        "from": "ZWU4",
+        "to": "ZWZ4",
+        "nominal_roll": "2024-09-06",
+        "actual_roll": "2024-09-06",
+        "gap": 13.75
+      },
+      {
+        "from": "ZWN4",
+        "to": "ZWU4",
+        "nominal_roll": "2024-07-05",
+        "actual_roll": "2024-07-05",
+        "gap": 18.25
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:32:14"
+  },
+  "SOYBEAN MEAL - CHICAGO BOARD OF TRADE": {
+    "rebuilt_at": "2026-05-22T18:17:37",
+    "first_date": "2023-07-14",
+    "last_date": "2026-06-03",
+    "n_contracts": 17,
+    "rolls": [
+      {
+        "from": "ZMK6",
+        "to": "ZMN6",
+        "nominal_roll": "2026-05-07",
+        "actual_roll": "2026-05-07",
+        "gap": -2.400000000000034
+      },
+      {
+        "from": "ZMH6",
+        "to": "ZMK6",
+        "nominal_roll": "2026-03-06",
+        "actual_roll": "2026-03-06",
+        "gap": 4.099999999999966
+      },
+      {
+        "from": "ZMF6",
+        "to": "ZMH6",
+        "nominal_roll": "2026-01-07",
+        "actual_roll": "2026-01-07",
+        "gap": 3.8999999999999773
+      },
+      {
+        "from": "ZMZ5",
+        "to": "ZMF6",
+        "nominal_roll": "2025-12-05",
+        "actual_roll": "2025-12-05",
+        "gap": 2.6999999999999886
+      },
+      {
+        "from": "ZMV5",
+        "to": "ZMZ5",
+        "nominal_roll": "2025-10-07",
+        "actual_roll": "2025-10-07",
+        "gap": 8.0
+      },
+      {
+        "from": "ZMU5",
+        "to": "ZMV5",
+        "nominal_roll": "2025-09-05",
+        "actual_roll": "2025-09-05",
+        "gap": 0.0
+      },
+      {
+        "from": "ZMQ5",
+        "to": "ZMU5",
+        "nominal_roll": "2025-08-07",
+        "actual_roll": "2025-08-07",
+        "gap": 3.400000000000034
+      },
+      {
+        "from": "ZMN5",
+        "to": "ZMQ5",
+        "nominal_roll": "2025-07-07",
+        "actual_roll": "2025-07-07",
+        "gap": 3.6999999999999886
+      },
+      {
+        "from": "ZMK5",
+        "to": "ZMN5",
+        "nominal_roll": "2025-05-07",
+        "actual_roll": "2025-05-07",
+        "gap": 7.0
+      },
+      {
+        "from": "ZMH5",
+        "to": "ZMK5",
+        "nominal_roll": "2025-03-07",
+        "actual_roll": "2025-03-07",
+        "gap": 7.899999999999977
+      },
+      {
+        "from": "ZMF5",
+        "to": "ZMH5",
+        "nominal_roll": "2025-01-07",
+        "actual_roll": "2025-01-07",
+        "gap": 8.199999999999989
+      },
+      {
+        "from": "ZMZ4",
+        "to": "ZMF5",
+        "nominal_roll": "2024-12-06",
+        "actual_roll": "2024-12-06",
+        "gap": 3.599999999999966
+      },
+      {
+        "from": "ZMV4",
+        "to": "ZMZ4",
+        "nominal_roll": "2024-10-07",
+        "actual_roll": "2024-10-07",
+        "gap": -0.8000000000000114
+      },
+      {
+        "from": "ZMU4",
+        "to": "ZMV4",
+        "nominal_roll": "2024-09-06",
+        "actual_roll": "2024-09-06",
+        "gap": 2.400000000000034
+      },
+      {
+        "from": "ZMQ4",
+        "to": "ZMU4",
+        "nominal_roll": "2024-08-07",
+        "actual_roll": "2024-08-07",
+        "gap": -17.19999999999999
+      },
+      {
+        "from": "ZMN4",
+        "to": "ZMQ4",
+        "nominal_roll": "2024-07-05",
+        "actual_roll": "2024-07-05",
+        "gap": -29.80000000000001
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:33:37"
+  },
+  "SOYBEANS - CHICAGO BOARD OF TRADE": {
+    "rebuilt_at": "2026-05-22T18:18:57",
+    "first_date": "2023-07-14",
+    "last_date": "2026-06-03",
+    "n_contracts": 15,
+    "rolls": [
+      {
+        "from": "ZSK6",
+        "to": "ZSN6",
+        "nominal_roll": "2026-05-07",
+        "actual_roll": "2026-05-07",
+        "gap": 15.25
+      },
+      {
+        "from": "ZSH6",
+        "to": "ZSK6",
+        "nominal_roll": "2026-03-06",
+        "actual_roll": "2026-03-06",
+        "gap": 15.75
+      },
+      {
+        "from": "ZSF6",
+        "to": "ZSH6",
+        "nominal_roll": "2026-01-07",
+        "actual_roll": "2026-01-07",
+        "gap": 14.25
+      },
+      {
+        "from": "ZSX5",
+        "to": "ZSF6",
+        "nominal_roll": "2025-11-07",
+        "actual_roll": "2025-11-07",
+        "gap": 15.25
+      },
+      {
+        "from": "ZSU5",
+        "to": "ZSX5",
+        "nominal_roll": "2025-09-05",
+        "actual_roll": "2025-09-05",
+        "gap": 20.5
+      },
+      {
+        "from": "ZSQ5",
+        "to": "ZSU5",
+        "nominal_roll": "2025-08-07",
+        "actual_roll": "2025-08-07",
+        "gap": 2.25
+      },
+      {
+        "from": "ZSN5",
+        "to": "ZSQ5",
+        "nominal_roll": "2025-07-07",
+        "actual_roll": "2025-07-07",
+        "gap": -0.25
+      },
+      {
+        "from": "ZSK5",
+        "to": "ZSN5",
+        "nominal_roll": "2025-05-07",
+        "actual_roll": "2025-05-07",
+        "gap": 8.75
+      },
+      {
+        "from": "ZSH5",
+        "to": "ZSK5",
+        "nominal_roll": "2025-03-07",
+        "actual_roll": "2025-03-07",
+        "gap": 14.75
+      },
+      {
+        "from": "ZSF5",
+        "to": "ZSH5",
+        "nominal_roll": "2025-01-07",
+        "actual_roll": "2025-01-07",
+        "gap": 5.0
+      },
+      {
+        "from": "ZSX4",
+        "to": "ZSF5",
+        "nominal_roll": "2024-11-07",
+        "actual_roll": "2024-11-07",
+        "gap": 10.75
+      },
+      {
+        "from": "ZSU4",
+        "to": "ZSX4",
+        "nominal_roll": "2024-09-06",
+        "actual_roll": "2024-09-06",
+        "gap": 15.75
+      },
+      {
+        "from": "ZSQ4",
+        "to": "ZSU4",
+        "nominal_roll": "2024-08-07",
+        "actual_roll": "2024-08-07",
+        "gap": -15.0
+      },
+      {
+        "from": "ZSN4",
+        "to": "ZSQ4",
+        "nominal_roll": "2024-07-05",
+        "actual_roll": "2024-07-05",
+        "gap": -22.25
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:33:09"
+  },
+  "MINI SOYBEANS - CHICAGO BOARD OF TRADE": {
+    "rebuilt_at": "2026-05-22T18:20:16",
+    "first_date": "2023-07-14",
+    "last_date": "2026-06-03",
+    "n_contracts": 15,
+    "rolls": [
+      {
+        "from": "ZSK6",
+        "to": "ZSN6",
+        "nominal_roll": "2026-05-07",
+        "actual_roll": "2026-05-07",
+        "gap": 15.25
+      },
+      {
+        "from": "ZSH6",
+        "to": "ZSK6",
+        "nominal_roll": "2026-03-06",
+        "actual_roll": "2026-03-06",
+        "gap": 15.75
+      },
+      {
+        "from": "ZSF6",
+        "to": "ZSH6",
+        "nominal_roll": "2026-01-07",
+        "actual_roll": "2026-01-07",
+        "gap": 14.25
+      },
+      {
+        "from": "ZSX5",
+        "to": "ZSF6",
+        "nominal_roll": "2025-11-07",
+        "actual_roll": "2025-11-07",
+        "gap": 15.25
+      },
+      {
+        "from": "ZSU5",
+        "to": "ZSX5",
+        "nominal_roll": "2025-09-05",
+        "actual_roll": "2025-09-05",
+        "gap": 20.5
+      },
+      {
+        "from": "ZSQ5",
+        "to": "ZSU5",
+        "nominal_roll": "2025-08-07",
+        "actual_roll": "2025-08-07",
+        "gap": 2.25
+      },
+      {
+        "from": "ZSN5",
+        "to": "ZSQ5",
+        "nominal_roll": "2025-07-07",
+        "actual_roll": "2025-07-07",
+        "gap": -0.25
+      },
+      {
+        "from": "ZSK5",
+        "to": "ZSN5",
+        "nominal_roll": "2025-05-07",
+        "actual_roll": "2025-05-07",
+        "gap": 8.75
+      },
+      {
+        "from": "ZSH5",
+        "to": "ZSK5",
+        "nominal_roll": "2025-03-07",
+        "actual_roll": "2025-03-07",
+        "gap": 14.75
+      },
+      {
+        "from": "ZSF5",
+        "to": "ZSH5",
+        "nominal_roll": "2025-01-07",
+        "actual_roll": "2025-01-07",
+        "gap": 5.0
+      },
+      {
+        "from": "ZSX4",
+        "to": "ZSF5",
+        "nominal_roll": "2024-11-07",
+        "actual_roll": "2024-11-07",
+        "gap": 10.75
+      },
+      {
+        "from": "ZSU4",
+        "to": "ZSX4",
+        "nominal_roll": "2024-09-06",
+        "actual_roll": "2024-09-06",
+        "gap": 15.75
+      },
+      {
+        "from": "ZSQ4",
+        "to": "ZSU4",
+        "nominal_roll": "2024-08-07",
+        "actual_roll": "2024-08-07",
+        "gap": -15.0
+      },
+      {
+        "from": "ZSN4",
+        "to": "ZSQ4",
+        "nominal_roll": "2024-07-05",
+        "actual_roll": "2024-07-05",
+        "gap": -22.25
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:32:42"
+  },
+  "FEEDER CATTLE - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-22T18:21:41",
+    "first_date": "2023-05-26",
+    "last_date": "2026-06-02",
+    "n_contracts": 18,
+    "rolls": [
+      {
+        "from": "GFK6",
+        "to": "GFQ6",
+        "nominal_roll": "2026-05-14",
+        "actual_roll": "2026-05-14",
+        "gap": -9.574999999999989
+      },
+      {
+        "from": "GFJ6",
+        "to": "GFK6",
+        "nominal_roll": "2026-04-23",
+        "actual_roll": "2026-04-23",
+        "gap": -7.75
+      },
+      {
+        "from": "GFH6",
+        "to": "GFJ6",
+        "nominal_roll": "2026-03-19",
+        "actual_roll": "2026-03-19",
+        "gap": -7.524999999999977
+      },
+      {
+        "from": "GFF6",
+        "to": "GFH6",
+        "nominal_roll": "2026-01-22",
+        "actual_roll": "2026-01-22",
+        "gap": -4.4500000000000455
+      },
+      {
+        "from": "GFX5",
+        "to": "GFF6",
+        "nominal_roll": "2025-11-13",
+        "actual_roll": "2025-11-13",
+        "gap": -18.55000000000001
+      },
+      {
+        "from": "GFV5",
+        "to": "GFX5",
+        "nominal_roll": "2025-10-23",
+        "actual_roll": "2025-10-23",
+        "gap": -1.900000000000034
+      },
+      {
+        "from": "GFU5",
+        "to": "GFV5",
+        "nominal_roll": "2025-09-18",
+        "actual_roll": "2025-09-18",
+        "gap": -6.449999999999989
+      },
+      {
+        "from": "GFQ5",
+        "to": "GFU5",
+        "nominal_roll": "2025-08-21",
+        "actual_roll": "2025-08-21",
+        "gap": 1.6499999999999773
+      },
+      {
+        "from": "GFK5",
+        "to": "GFQ5",
+        "nominal_roll": "2025-05-15",
+        "actual_roll": "2025-05-15",
+        "gap": -0.35000000000002274
+      },
+      {
+        "from": "GFJ5",
+        "to": "GFK5",
+        "nominal_roll": "2025-04-10",
+        "actual_roll": "2025-04-10",
+        "gap": -7.474999999999966
+      },
+      {
+        "from": "GFH5",
+        "to": "GFJ5",
+        "nominal_roll": "2025-03-20",
+        "actual_roll": "2025-03-20",
+        "gap": 0.0999999999999659
+      },
+      {
+        "from": "GFF5",
+        "to": "GFH5",
+        "nominal_roll": "2025-01-23",
+        "actual_roll": "2025-01-23",
+        "gap": -3.0
+      },
+      {
+        "from": "GFX4",
+        "to": "GFF5",
+        "nominal_roll": "2024-11-14",
+        "actual_roll": "2024-11-14",
+        "gap": -4.425000000000011
+      },
+      {
+        "from": "GFV4",
+        "to": "GFX4",
+        "nominal_roll": "2024-10-24",
+        "actual_roll": "2024-10-24",
+        "gap": -0.875
+      },
+      {
+        "from": "GFU4",
+        "to": "GFV4",
+        "nominal_roll": "2024-09-19",
+        "actual_roll": "2024-09-19",
+        "gap": -1.5
+      },
+      {
+        "from": "GFQ4",
+        "to": "GFU4",
+        "nominal_roll": "2024-08-22",
+        "actual_roll": "2024-08-22",
+        "gap": -3.7750000000000057
+      },
+      {
+        "from": "GFK4",
+        "to": "GFQ4",
+        "nominal_roll": "2024-05-16",
+        "actual_roll": "2024-05-16",
+        "gap": 12.500000000000028
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:34:05"
+  },
+  "LEAN HOGS - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-30T17:52:13",
+    "first_date": "2023-06-16",
+    "last_date": "2026-06-02",
+    "n_contracts": 18,
+    "rolls": [
+      {
+        "from": "HEM6",
+        "to": "HEN6",
+        "nominal_roll": "2026-06-05",
+        "actual_roll": "None",
+        "gap": 0.0
+      },
+      {
+        "from": "HEK6",
+        "to": "HEM6",
+        "nominal_roll": "2026-05-07",
+        "actual_roll": "2026-05-07",
+        "gap": 7.875
+      },
+      {
+        "from": "HEJ6",
+        "to": "HEK6",
+        "nominal_roll": "2026-04-08",
+        "actual_roll": "2026-04-08",
+        "gap": 6.174999999999997
+      },
+      {
+        "from": "HEG6",
+        "to": "HEJ6",
+        "nominal_roll": "2026-02-06",
+        "actual_roll": "2026-02-06",
+        "gap": 10.575000000000003
+      },
+      {
+        "from": "HEZ5",
+        "to": "HEG6",
+        "nominal_roll": "2025-12-05",
+        "actual_roll": "2025-12-05",
+        "gap": 0.625
+      },
+      {
+        "from": "HEV5",
+        "to": "HEZ5",
+        "nominal_roll": "2025-10-07",
+        "actual_roll": "2025-10-07",
+        "gap": -11.674999999999997
+      },
+      {
+        "from": "HEQ5",
+        "to": "HEV5",
+        "nominal_roll": "2025-08-07",
+        "actual_roll": "2025-08-07",
+        "gap": -17.85000000000001
+      },
+      {
+        "from": "HEN5",
+        "to": "HEQ5",
+        "nominal_roll": "2025-07-08",
+        "actual_roll": "2025-07-08",
+        "gap": -0.19999999999998863
+      },
+      {
+        "from": "HEM5",
+        "to": "HEN5",
+        "nominal_roll": "2025-06-06",
+        "actual_roll": "2025-06-06",
+        "gap": 4.474999999999994
+      },
+      {
+        "from": "HEK5",
+        "to": "HEM5",
+        "nominal_roll": "2025-05-07",
+        "actual_roll": "2025-05-07",
+        "gap": 6.174999999999997
+      },
+      {
+        "from": "HEJ5",
+        "to": "HEK5",
+        "nominal_roll": "2025-04-07",
+        "actual_roll": "2025-04-07",
+        "gap": -3.7249999999999943
+      },
+      {
+        "from": "HEG5",
+        "to": "HEJ5",
+        "nominal_roll": "2025-02-07",
+        "actual_roll": "2025-02-07",
+        "gap": 4.900000000000006
+      },
+      {
+        "from": "HEZ4",
+        "to": "HEG5",
+        "nominal_roll": "2024-12-06",
+        "actual_roll": "2024-12-06",
+        "gap": 4.025000000000006
+      },
+      {
+        "from": "HEV4",
+        "to": "HEZ4",
+        "nominal_roll": "2024-10-07",
+        "actual_roll": "2024-10-07",
+        "gap": -7.1499999999999915
+      },
+      {
+        "from": "HEQ4",
+        "to": "HEV4",
+        "nominal_roll": "2024-08-07",
+        "actual_roll": "2024-08-07",
+        "gap": -16.02499999999999
+      },
+      {
+        "from": "HEN4",
+        "to": "HEQ4",
+        "nominal_roll": "2024-07-08",
+        "actual_roll": "2024-07-08",
+        "gap": -0.14999999999999147
+      },
+      {
+        "from": "HEM4",
+        "to": "HEN4",
+        "nominal_roll": "2024-06-07",
+        "actual_roll": "2024-06-07",
+        "gap": 0.9749999999999943
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:34:34"
+  },
+  "LIVE CATTLE - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-22T18:24:18",
+    "first_date": "2023-06-30",
+    "last_date": "2026-06-02",
+    "n_contracts": 14,
+    "rolls": [
+      {
+        "from": "LEM6",
+        "to": "LEQ6",
+        "nominal_roll": "2026-06-23",
+        "actual_roll": "None",
+        "gap": 0.0
+      },
+      {
+        "from": "LEJ6",
+        "to": "LEM6",
+        "nominal_roll": "2026-04-23",
+        "actual_roll": "2026-04-23",
+        "gap": -3.5749999999999886
+      },
+      {
+        "from": "LEG6",
+        "to": "LEJ6",
+        "nominal_roll": "2026-02-20",
+        "actual_roll": "2026-02-20",
+        "gap": -4.574999999999989
+      },
+      {
+        "from": "LEZ5",
+        "to": "LEG6",
+        "nominal_roll": "2025-12-24",
+        "actual_roll": "2025-12-24",
+        "gap": -0.14999999999997726
+      },
+      {
+        "from": "LEV5",
+        "to": "LEZ5",
+        "nominal_roll": "2025-10-24",
+        "actual_roll": "2025-10-24",
+        "gap": 0.17500000000001137
+      },
+      {
+        "from": "LEQ5",
+        "to": "LEV5",
+        "nominal_roll": "2025-08-22",
+        "actual_roll": "2025-08-22",
+        "gap": -2.0749999999999886
+      },
+      {
+        "from": "LEM5",
+        "to": "LEQ5",
+        "nominal_roll": "2025-06-23",
+        "actual_roll": "2025-06-23",
+        "gap": -12.925000000000011
+      },
+      {
+        "from": "LEJ5",
+        "to": "LEM5",
+        "nominal_roll": "2025-04-23",
+        "actual_roll": "2025-04-23",
+        "gap": -4.599999999999994
+      },
+      {
+        "from": "LEG5",
+        "to": "LEJ5",
+        "nominal_roll": "2025-02-21",
+        "actual_roll": "2025-02-21",
+        "gap": -3.875
+      },
+      {
+        "from": "LEZ4",
+        "to": "LEG5",
+        "nominal_roll": "2024-12-24",
+        "actual_roll": "2024-12-24",
+        "gap": -3.4250000000000114
+      },
+      {
+        "from": "LEV4",
+        "to": "LEZ4",
+        "nominal_roll": "2024-10-24",
+        "actual_roll": "2024-10-24",
+        "gap": -0.05000000000001137
+      },
+      {
+        "from": "LEQ4",
+        "to": "LEV4",
+        "nominal_roll": "2024-08-23",
+        "actual_roll": "2024-08-23",
+        "gap": -6.875
+      },
+      {
+        "from": "LEM4",
+        "to": "LEQ4",
+        "nominal_roll": "2024-06-21",
+        "actual_roll": "2024-06-21",
+        "gap": -4.449999999999989
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:34:56"
+  },
+  "COFFEE C - ICE FUTURES U.S.": {
+    "rebuilt_at": "2026-05-22T18:25:13",
+    "first_date": "2023-07-21",
+    "last_date": "2026-06-02",
+    "n_contracts": 11,
+    "rolls": [
+      {
+        "from": "KCK6",
+        "to": "KCN6",
+        "nominal_roll": "2026-05-11",
+        "actual_roll": "2026-05-11",
+        "gap": -16.30000000000001
+      },
+      {
+        "from": "KCH6",
+        "to": "KCK6",
+        "nominal_roll": "2026-03-12",
+        "actual_roll": "2026-03-12",
+        "gap": -4.600000000000023
+      },
+      {
+        "from": "KCZ5",
+        "to": "KCH6",
+        "nominal_roll": "2025-12-11",
+        "actual_roll": "2025-12-11",
+        "gap": -29.25
+      },
+      {
+        "from": "KCU5",
+        "to": "KCZ5",
+        "nominal_roll": "2025-09-11",
+        "actual_roll": "2025-09-11",
+        "gap": -13.949999999999989
+      },
+      {
+        "from": "KCN5",
+        "to": "KCU5",
+        "nominal_roll": "2025-07-14",
+        "actual_roll": "2025-07-14",
+        "gap": -3.849999999999966
+      },
+      {
+        "from": "KCK5",
+        "to": "KCN5",
+        "nominal_roll": "2025-05-12",
+        "actual_roll": "2025-05-12",
+        "gap": -9.5
+      },
+      {
+        "from": "KCH5",
+        "to": "KCK5",
+        "nominal_roll": "2025-03-12",
+        "actual_roll": "2025-03-12",
+        "gap": -5.449999999999989
+      },
+      {
+        "from": "KCZ4",
+        "to": "KCH5",
+        "nominal_roll": "2024-12-11",
+        "actual_roll": "2024-12-11",
+        "gap": -1.5
+      },
+      {
+        "from": "KCU4",
+        "to": "KCZ4",
+        "nominal_roll": "2024-09-11",
+        "actual_roll": "2024-09-11",
+        "gap": -2.799999999999983
+      },
+      {
+        "from": "KCN4",
+        "to": "KCU4",
+        "nominal_roll": "2024-07-12",
+        "actual_roll": "2024-07-12",
+        "gap": -1.6999999999999886
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:35:22"
+  },
+  "COTTON NO. 2 - ICE FUTURES U.S.": {
+    "rebuilt_at": "2026-05-22T18:26:10",
+    "first_date": "2023-07-12",
+    "last_date": "2026-06-03",
+    "n_contracts": 11,
+    "rolls": [
+      {
+        "from": "CTK6",
+        "to": "CTN6",
+        "nominal_roll": "2026-04-29",
+        "actual_roll": "2026-04-29",
+        "gap": 2.3400000000000034
+      },
+      {
+        "from": "CTH6",
+        "to": "CTK6",
+        "nominal_roll": "2026-03-02",
+        "actual_roll": "2026-03-02",
+        "gap": 2.0
+      },
+      {
+        "from": "CTZ5",
+        "to": "CTH6",
+        "nominal_roll": "2025-12-01",
+        "actual_roll": "2025-12-01",
+        "gap": 1.7999999999999972
+      },
+      {
+        "from": "CTV5",
+        "to": "CTZ5",
+        "nominal_roll": "2025-10-02",
+        "actual_roll": "2025-10-02",
+        "gap": 2.440000000000005
+      },
+      {
+        "from": "CTN5",
+        "to": "CTV5",
+        "nominal_roll": "2025-07-02",
+        "actual_roll": "2025-07-02",
+        "gap": 1.4000000000000057
+      },
+      {
+        "from": "CTK5",
+        "to": "CTN5",
+        "nominal_roll": "2025-04-30",
+        "actual_roll": "2025-04-30",
+        "gap": 0.25
+      },
+      {
+        "from": "CTH5",
+        "to": "CTK5",
+        "nominal_roll": "2025-02-28",
+        "actual_roll": "2025-02-28",
+        "gap": 1.3699999999999974
+      },
+      {
+        "from": "CTZ4",
+        "to": "CTH5",
+        "nominal_roll": "2024-11-29",
+        "actual_roll": "2024-11-29",
+        "gap": -1.4199999999999875
+      },
+      {
+        "from": "CTV4",
+        "to": "CTZ4",
+        "nominal_roll": "2024-10-02",
+        "actual_roll": "2024-10-02",
+        "gap": 0.2400000000000091
+      },
+      {
+        "from": "CTN4",
+        "to": "CTV4",
+        "nominal_roll": "2024-07-02",
+        "actual_roll": "2024-07-02",
+        "gap": 2.1700000000000017
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:35:39"
+  },
+  "SUGAR NO. 11 - ICE FUTURES U.S.": {
+    "rebuilt_at": "2026-05-22T18:26:59",
+    "first_date": "2023-06-30",
+    "last_date": "2026-06-02",
+    "n_contracts": 9,
+    "rolls": [
+      {
+        "from": "SBK6",
+        "to": "SBN6",
+        "nominal_roll": "2026-04-23",
+        "actual_roll": "2026-04-23",
+        "gap": 0.2900000000000009
+      },
+      {
+        "from": "SBH6",
+        "to": "SBK6",
+        "nominal_roll": "2026-02-20",
+        "actual_roll": "2026-02-20",
+        "gap": -0.4300000000000015
+      },
+      {
+        "from": "SBV5",
+        "to": "SBH6",
+        "nominal_roll": "2025-09-23",
+        "actual_roll": "2025-09-23",
+        "gap": 0.48999999999999844
+      },
+      {
+        "from": "SBN5",
+        "to": "SBV5",
+        "nominal_roll": "2025-06-23",
+        "actual_roll": "2025-06-23",
+        "gap": 0.5300000000000011
+      },
+      {
+        "from": "SBK5",
+        "to": "SBN5",
+        "nominal_roll": "2025-04-23",
+        "actual_roll": "2025-04-23",
+        "gap": -0.060000000000002274
+      },
+      {
+        "from": "SBH5",
+        "to": "SBK5",
+        "nominal_roll": "2025-02-21",
+        "actual_roll": "2025-02-21",
+        "gap": -1.389999999999997
+      },
+      {
+        "from": "SBV4",
+        "to": "SBH5",
+        "nominal_roll": "2024-09-23",
+        "actual_roll": "2024-09-23",
+        "gap": 0.05999999999999872
+      },
+      {
+        "from": "SBN4",
+        "to": "SBV4",
+        "nominal_roll": "2024-06-21",
+        "actual_roll": "2024-06-21",
+        "gap": 0.19000000000000128
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:35:53"
+  },
+  "E-MINI S&P 500 - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-22T18:27:47",
+    "first_date": "2023-06-23",
+    "last_date": "2026-06-03",
+    "n_contracts": 9,
+    "rolls": [
+      {
+        "from": "ESH6",
+        "to": "ESM6",
+        "nominal_roll": "2026-03-13",
+        "actual_roll": "2026-03-13",
+        "gap": 49.75
+      },
+      {
+        "from": "ESZ5",
+        "to": "ESH6",
+        "nominal_roll": "2025-12-12",
+        "actual_roll": "2025-12-12",
+        "gap": 59.75
+      },
+      {
+        "from": "ESU5",
+        "to": "ESZ5",
+        "nominal_roll": "2025-09-12",
+        "actual_roll": "2025-09-12",
+        "gap": 56.75
+      },
+      {
+        "from": "ESM5",
+        "to": "ESU5",
+        "nominal_roll": "2025-06-13",
+        "actual_roll": "2025-06-13",
+        "gap": 52.25
+      },
+      {
+        "from": "ESH5",
+        "to": "ESM5",
+        "nominal_roll": "2025-03-14",
+        "actual_roll": "2025-03-14",
+        "gap": 52.25
+      },
+      {
+        "from": "ESZ4",
+        "to": "ESH5",
+        "nominal_roll": "2024-12-13",
+        "actual_roll": "2024-12-13",
+        "gap": 70.25
+      },
+      {
+        "from": "ESU4",
+        "to": "ESZ4",
+        "nominal_roll": "2024-09-13",
+        "actual_roll": "2024-09-13",
+        "gap": 61.25
+      },
+      {
+        "from": "ESM4",
+        "to": "ESU4",
+        "nominal_roll": "2024-06-14",
+        "actual_roll": "2024-06-14",
+        "gap": 64.75
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:36:23"
+  },
+  "RUSSELL E-MINI - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-22T18:28:34",
+    "first_date": "2023-06-23",
+    "last_date": "2026-06-03",
+    "n_contracts": 9,
+    "rolls": [
+      {
+        "from": "RTYH6",
+        "to": "RTYM6",
+        "nominal_roll": "2026-03-13",
+        "actual_roll": "2026-03-13",
+        "gap": 15.699999999999818
+      },
+      {
+        "from": "RTYZ5",
+        "to": "RTYH6",
+        "nominal_roll": "2025-12-12",
+        "actual_roll": "2025-12-12",
+        "gap": 20.300000000000182
+      },
+      {
+        "from": "RTYU5",
+        "to": "RTYZ5",
+        "nominal_roll": "2025-09-12",
+        "actual_roll": "2025-09-12",
+        "gap": 18.299999999999727
+      },
+      {
+        "from": "RTYM5",
+        "to": "RTYU5",
+        "nominal_roll": "2025-06-13",
+        "actual_roll": "2025-06-13",
+        "gap": 16.800000000000182
+      },
+      {
+        "from": "RTYH5",
+        "to": "RTYM5",
+        "nominal_roll": "2025-03-14",
+        "actual_roll": "2025-03-14",
+        "gap": 17.0
+      },
+      {
+        "from": "RTYZ4",
+        "to": "RTYH5",
+        "nominal_roll": "2024-12-13",
+        "actual_roll": "2024-12-13",
+        "gap": 26.300000000000182
+      },
+      {
+        "from": "RTYU4",
+        "to": "RTYZ4",
+        "nominal_roll": "2024-09-13",
+        "actual_roll": "2024-09-13",
+        "gap": 21.299999999999727
+      },
+      {
+        "from": "RTYM4",
+        "to": "RTYU4",
+        "nominal_roll": "2024-06-14",
+        "actual_roll": "2024-06-14",
+        "gap": 21.0
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:36:08"
+  },
+  "E-MINI NATURAL GAS - NEW YORK MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-30T17:56:30",
+    "first_date": "2023-06-28",
+    "last_date": "2026-06-03",
+    "n_contracts": 25,
+    "rolls": [
+      {
+        "from": "QGM6",
+        "to": "QGN6",
+        "nominal_roll": "2026-05-19",
+        "actual_roll": "2026-05-19",
+        "gap": 0.16999999999999993
+      },
+      {
+        "from": "QGK6",
+        "to": "QGM6",
+        "nominal_roll": "2026-04-20",
+        "actual_roll": "2026-04-20",
+        "gap": 0.14000000000000012
+      },
+      {
+        "from": "QGJ6",
+        "to": "QGK6",
+        "nominal_roll": "2026-03-19",
+        "actual_roll": "2026-03-19",
+        "gap": -0.040000000000000036
+      },
+      {
+        "from": "QGH6",
+        "to": "QGJ6",
+        "nominal_roll": "2026-02-17",
+        "actual_roll": "2026-02-17",
+        "gap": -0.08999999999999986
+      },
+      {
+        "from": "QGG6",
+        "to": "QGH6",
+        "nominal_roll": "2026-01-20",
+        "actual_roll": "2026-01-20",
+        "gap": -0.6750000000000003
+      },
+      {
+        "from": "QGF6",
+        "to": "QGG6",
+        "nominal_roll": "2025-12-19",
+        "actual_roll": "2025-12-19",
+        "gap": -0.31999999999999984
+      },
+      {
+        "from": "QGZ5",
+        "to": "QGF6",
+        "nominal_roll": "2025-11-17",
+        "actual_roll": "2025-11-17",
+        "gap": 0.23499999999999943
+      },
+      {
+        "from": "QGX5",
+        "to": "QGZ5",
+        "nominal_roll": "2025-10-21",
+        "actual_roll": "2025-10-21",
+        "gap": 0.6149999999999998
+      },
+      {
+        "from": "QGV5",
+        "to": "QGX5",
+        "nominal_roll": "2025-09-18",
+        "actual_roll": "2025-09-18",
+        "gap": 0.29499999999999993
+      },
+      {
+        "from": "QGU5",
+        "to": "QGV5",
+        "nominal_roll": "2025-08-19",
+        "actual_roll": "2025-08-19",
+        "gap": 0.10000000000000009
+      },
+      {
+        "from": "QGQ5",
+        "to": "QGU5",
+        "nominal_roll": "2025-07-21",
+        "actual_roll": "2025-07-21",
+        "gap": 0.029999999999999805
+      },
+      {
+        "from": "QGN5",
+        "to": "QGQ5",
+        "nominal_roll": "2025-06-18",
+        "actual_roll": "2025-06-18",
+        "gap": 0.08499999999999996
+      },
+      {
+        "from": "QGM5",
+        "to": "QGN5",
+        "nominal_roll": "2025-05-20",
+        "actual_roll": "2025-05-20",
+        "gap": 0.33999999999999986
+      },
+      {
+        "from": "QGK5",
+        "to": "QGM5",
+        "nominal_roll": "2025-04-18",
+        "actual_roll": "2025-04-17",
+        "gap": 0.16500000000000004
+      },
+      {
+        "from": "QGJ5",
+        "to": "QGK5",
+        "nominal_roll": "2025-03-19",
+        "actual_roll": "2025-03-19",
+        "gap": 0.06500000000000039
+      },
+      {
+        "from": "QGH5",
+        "to": "QGJ5",
+        "nominal_roll": "2025-02-18",
+        "actual_roll": "2025-02-18",
+        "gap": -0.029999999999999805
+      },
+      {
+        "from": "QGG5",
+        "to": "QGH5",
+        "nominal_roll": "2025-01-21",
+        "actual_roll": "2025-01-21",
+        "gap": -0.4099999999999997
+      },
+      {
+        "from": "QGF5",
+        "to": "QGG5",
+        "nominal_roll": "2024-12-19",
+        "actual_roll": "2024-12-19",
+        "gap": -0.29000000000000004
+      },
+      {
+        "from": "QGZ4",
+        "to": "QGF5",
+        "nominal_roll": "2024-11-18",
+        "actual_roll": "2024-11-18",
+        "gap": 0.20999999999999996
+      },
+      {
+        "from": "QGX4",
+        "to": "QGZ4",
+        "nominal_roll": "2024-10-21",
+        "actual_roll": "2024-10-21",
+        "gap": 0.4950000000000001
+      },
+      {
+        "from": "QGV4",
+        "to": "QGX4",
+        "nominal_roll": "2024-09-18",
+        "actual_roll": "2024-09-18",
+        "gap": 0.2799999999999998
+      },
+      {
+        "from": "QGU4",
+        "to": "QGV4",
+        "nominal_roll": "2024-08-20",
+        "actual_roll": "2024-08-20",
+        "gap": 0.1299999999999999
+      },
+      {
+        "from": "QGQ4",
+        "to": "QGU4",
+        "nominal_roll": "2024-07-19",
+        "actual_roll": "2024-07-19",
+        "gap": 0.040000000000000036
+      },
+      {
+        "from": "QGN4",
+        "to": "QGQ4",
+        "nominal_roll": "2024-06-18",
+        "actual_roll": "2024-06-18",
+        "gap": 0.08000000000000007
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:36:59"
+  },
+  "MICRO BITCOIN - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-30T18:01:57",
+    "first_date": "2023-11-27",
+    "last_date": "2026-06-03",
+    "n_contracts": 26,
+    "rolls": [
+      {
+        "from": "MBTK6",
+        "to": "MBTM6",
+        "nominal_roll": "2026-05-22",
+        "actual_roll": "2026-05-22",
+        "gap": 295.0
+      },
+      {
+        "from": "MBTJ6",
+        "to": "MBTK6",
+        "nominal_roll": "2026-04-17",
+        "actual_roll": "2026-04-17",
+        "gap": 370.0
+      },
+      {
+        "from": "MBTH6",
+        "to": "MBTJ6",
+        "nominal_roll": "2026-03-20",
+        "actual_roll": "2026-03-20",
+        "gap": 265.0
+      },
+      {
+        "from": "MBTG6",
+        "to": "MBTH6",
+        "nominal_roll": "2026-02-20",
+        "actual_roll": "2026-02-20",
+        "gap": 255.0
+      },
+      {
+        "from": "MBTF6",
+        "to": "MBTG6",
+        "nominal_roll": "2026-01-23",
+        "actual_roll": "2026-01-23",
+        "gap": 350.0
+      },
+      {
+        "from": "MBTZ5",
+        "to": "MBTF6",
+        "nominal_roll": "2025-12-19",
+        "actual_roll": "2025-12-19",
+        "gap": 460.0
+      },
+      {
+        "from": "MBTX5",
+        "to": "MBTZ5",
+        "nominal_roll": "2025-11-21",
+        "actual_roll": "2025-11-21",
+        "gap": 400.0
+      },
+      {
+        "from": "MBTV5",
+        "to": "MBTX5",
+        "nominal_roll": "2025-10-24",
+        "actual_roll": "2025-10-24",
+        "gap": 560.0
+      },
+      {
+        "from": "MBTU5",
+        "to": "MBTV5",
+        "nominal_roll": "2025-09-19",
+        "actual_roll": "2025-09-19",
+        "gap": 865.0
+      },
+      {
+        "from": "MBTQ5",
+        "to": "MBTU5",
+        "nominal_roll": "2025-08-22",
+        "actual_roll": "2025-08-22",
+        "gap": 740.0
+      },
+      {
+        "from": "MBTN5",
+        "to": "MBTQ5",
+        "nominal_roll": "2025-07-18",
+        "actual_roll": "2025-07-18",
+        "gap": 860.0
+      },
+      {
+        "from": "MBTM5",
+        "to": "MBTN5",
+        "nominal_roll": "2025-06-20",
+        "actual_roll": "2025-06-20",
+        "gap": 660.0
+      },
+      {
+        "from": "MBTK5",
+        "to": "MBTM5",
+        "nominal_roll": "2025-05-23",
+        "actual_roll": "2025-05-23",
+        "gap": 740.0
+      },
+      {
+        "from": "MBTJ5",
+        "to": "MBTK5",
+        "nominal_roll": "2025-04-18",
+        "actual_roll": "2025-04-17",
+        "gap": 610.0
+      },
+      {
+        "from": "MBTH5",
+        "to": "MBTJ5",
+        "nominal_roll": "2025-03-21",
+        "actual_roll": "2025-03-21",
+        "gap": 500.0
+      },
+      {
+        "from": "MBTG5",
+        "to": "MBTH5",
+        "nominal_roll": "2025-02-21",
+        "actual_roll": "2025-02-21",
+        "gap": 620.0
+      },
+      {
+        "from": "MBTF5",
+        "to": "MBTG5",
+        "nominal_roll": "2025-01-24",
+        "actual_roll": "2025-01-24",
+        "gap": 860.0
+      },
+      {
+        "from": "MBTZ4",
+        "to": "MBTF5",
+        "nominal_roll": "2024-12-20",
+        "actual_roll": "2024-12-20",
+        "gap": 1175.0
+      },
+      {
+        "from": "MBTX4",
+        "to": "MBTZ4",
+        "nominal_roll": "2024-11-22",
+        "actual_roll": "2024-11-22",
+        "gap": 1015.0
+      },
+      {
+        "from": "MBTV4",
+        "to": "MBTX4",
+        "nominal_roll": "2024-10-18",
+        "actual_roll": "2024-10-18",
+        "gap": 615.0
+      },
+      {
+        "from": "MBTU4",
+        "to": "MBTV4",
+        "nominal_roll": "2024-09-20",
+        "actual_roll": "2024-09-20",
+        "gap": 465.0
+      },
+      {
+        "from": "MBTQ4",
+        "to": "MBTU4",
+        "nominal_roll": "2024-08-23",
+        "actual_roll": "2024-08-23",
+        "gap": 515.0
+      },
+      {
+        "from": "MBTN4",
+        "to": "MBTQ4",
+        "nominal_roll": "2024-07-19",
+        "actual_roll": "2024-07-19",
+        "gap": 765.0
+      },
+      {
+        "from": "MBTM4",
+        "to": "MBTN4",
+        "nominal_roll": "2024-06-21",
+        "actual_roll": "2024-06-21",
+        "gap": 550.0
+      },
+      {
+        "from": "MBTK4",
+        "to": "MBTM4",
+        "nominal_roll": "2024-05-24",
+        "actual_roll": "2024-05-24",
+        "gap": 590.0
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:39:44"
+  },
+  "MICRO ETHER - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-30T17:59:04",
+    "first_date": "2023-11-27",
+    "last_date": "2026-06-03",
+    "n_contracts": 26,
+    "rolls": [
+      {
+        "from": "METK6",
+        "to": "METM6",
+        "nominal_roll": "2026-05-22",
+        "actual_roll": "2026-05-22",
+        "gap": 10.0
+      },
+      {
+        "from": "METJ6",
+        "to": "METK6",
+        "nominal_roll": "2026-04-17",
+        "actual_roll": "2026-04-17",
+        "gap": 12.5
+      },
+      {
+        "from": "METH6",
+        "to": "METJ6",
+        "nominal_roll": "2026-03-20",
+        "actual_roll": "2026-03-20",
+        "gap": 8.0
+      },
+      {
+        "from": "METG6",
+        "to": "METH6",
+        "nominal_roll": "2026-02-20",
+        "actual_roll": "2026-02-20",
+        "gap": 6.5
+      },
+      {
+        "from": "METF6",
+        "to": "METG6",
+        "nominal_roll": "2026-01-23",
+        "actual_roll": "2026-01-23",
+        "gap": 12.0
+      },
+      {
+        "from": "METZ5",
+        "to": "METF6",
+        "nominal_roll": "2025-12-19",
+        "actual_roll": "2025-12-19",
+        "gap": 17.0
+      },
+      {
+        "from": "METX5",
+        "to": "METZ5",
+        "nominal_roll": "2025-11-21",
+        "actual_roll": "2025-11-21",
+        "gap": 13.5
+      },
+      {
+        "from": "METV5",
+        "to": "METX5",
+        "nominal_roll": "2025-10-24",
+        "actual_roll": "2025-10-24",
+        "gap": 23.0
+      },
+      {
+        "from": "METU5",
+        "to": "METV5",
+        "nominal_roll": "2025-09-19",
+        "actual_roll": "2025-09-19",
+        "gap": 33.5
+      },
+      {
+        "from": "METQ5",
+        "to": "METU5",
+        "nominal_roll": "2025-08-22",
+        "actual_roll": "2025-08-22",
+        "gap": 35.0
+      },
+      {
+        "from": "METN5",
+        "to": "METQ5",
+        "nominal_roll": "2025-07-18",
+        "actual_roll": "2025-07-18",
+        "gap": 34.5
+      },
+      {
+        "from": "METM5",
+        "to": "METN5",
+        "nominal_roll": "2025-06-20",
+        "actual_roll": "2025-06-20",
+        "gap": 18.0
+      },
+      {
+        "from": "METK5",
+        "to": "METM5",
+        "nominal_roll": "2025-05-23",
+        "actual_roll": "2025-05-23",
+        "gap": 21.0
+      },
+      {
+        "from": "METJ5",
+        "to": "METK5",
+        "nominal_roll": "2025-04-18",
+        "actual_roll": "2025-04-17",
+        "gap": 11.5
+      },
+      {
+        "from": "METH5",
+        "to": "METJ5",
+        "nominal_roll": "2025-03-21",
+        "actual_roll": "2025-03-21",
+        "gap": 13.5
+      },
+      {
+        "from": "METG5",
+        "to": "METH5",
+        "nominal_roll": "2025-02-21",
+        "actual_roll": "2025-02-21",
+        "gap": 19.5
+      },
+      {
+        "from": "METF5",
+        "to": "METG5",
+        "nominal_roll": "2025-01-24",
+        "actual_roll": "2025-01-24",
+        "gap": 31.5
+      },
+      {
+        "from": "METZ4",
+        "to": "METF5",
+        "nominal_roll": "2024-12-20",
+        "actual_roll": "2024-12-20",
+        "gap": 48.5
+      },
+      {
+        "from": "METX4",
+        "to": "METZ4",
+        "nominal_roll": "2024-11-22",
+        "actual_roll": "2024-11-22",
+        "gap": 42.5
+      },
+      {
+        "from": "METV4",
+        "to": "METX4",
+        "nominal_roll": "2024-10-18",
+        "actual_roll": "2024-10-18",
+        "gap": 24.0
+      },
+      {
+        "from": "METU4",
+        "to": "METV4",
+        "nominal_roll": "2024-09-20",
+        "actual_roll": "2024-09-20",
+        "gap": 19.5
+      },
+      {
+        "from": "METQ4",
+        "to": "METU4",
+        "nominal_roll": "2024-08-23",
+        "actual_roll": "2024-08-23",
+        "gap": 20.5
+      },
+      {
+        "from": "METN4",
+        "to": "METQ4",
+        "nominal_roll": "2024-07-19",
+        "actual_roll": "2024-07-19",
+        "gap": 37.5
+      },
+      {
+        "from": "METM4",
+        "to": "METN4",
+        "nominal_roll": "2024-06-21",
+        "actual_roll": "2024-06-21",
+        "gap": 17.0
+      },
+      {
+        "from": "METK4",
+        "to": "METM4",
+        "nominal_roll": "2024-05-24",
+        "actual_roll": "2024-05-24",
+        "gap": 26.5
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:37:34"
+  },
+  "MICRO GOLD - COMMODITY EXCHANGE INC.": {
+    "rebuilt_at": "2026-06-03T08:39:08",
+    "first_date": "2023-06-29",
+    "last_date": "2026-06-02",
+    "n_contracts": 14,
+    "rolls": [
+      {
+        "from": "MGCM6",
+        "to": "MGCQ6",
+        "nominal_roll": "2026-06-19",
+        "actual_roll": "None",
+        "gap": 0.0
+      },
+      {
+        "from": "MGCJ6",
+        "to": "MGCM6",
+        "nominal_roll": "2026-04-21",
+        "actual_roll": "2026-04-21",
+        "gap": 21.200000000000728
+      },
+      {
+        "from": "MGCG6",
+        "to": "MGCJ6",
+        "nominal_roll": "2026-02-18",
+        "actual_roll": "2026-02-18",
+        "gap": 23.0
+      },
+      {
+        "from": "MGCZ5",
+        "to": "MGCG6",
+        "nominal_roll": "2025-12-22",
+        "actual_roll": "2025-12-22",
+        "gap": 24.799999999999272
+      },
+      {
+        "from": "MGCV5",
+        "to": "MGCZ5",
+        "nominal_roll": "2025-10-22",
+        "actual_roll": "2025-10-22",
+        "gap": 21.0
+      },
+      {
+        "from": "MGCQ5",
+        "to": "MGCV5",
+        "nominal_roll": "2025-08-20",
+        "actual_roll": "2025-08-20",
+        "gap": 18.199999999999818
+      },
+      {
+        "from": "MGCM5",
+        "to": "MGCQ5",
+        "nominal_roll": "2025-06-19",
+        "actual_roll": "2025-06-18",
+        "gap": 18.299999999999727
+      },
+      {
+        "from": "MGCJ5",
+        "to": "MGCM5",
+        "nominal_roll": "2025-04-21",
+        "actual_roll": "2025-04-21",
+        "gap": 19.100000000000364
+      },
+      {
+        "from": "MGCG5",
+        "to": "MGCJ5",
+        "nominal_roll": "2025-02-19",
+        "actual_roll": "2025-02-19",
+        "gap": 16.699999999999818
+      },
+      {
+        "from": "MGCZ4",
+        "to": "MGCG5",
+        "nominal_roll": "2024-12-20",
+        "actual_roll": "2024-12-20",
+        "gap": 16.40000000000009
+      },
+      {
+        "from": "MGCV4",
+        "to": "MGCZ4",
+        "nominal_roll": "2024-10-22",
+        "actual_roll": "2024-10-22",
+        "gap": 15.600000000000364
+      },
+      {
+        "from": "MGCQ4",
+        "to": "MGCV4",
+        "nominal_roll": "2024-08-21",
+        "actual_roll": "2024-08-21",
+        "gap": 15.699999999999818
+      },
+      {
+        "from": "MGCM4",
+        "to": "MGCQ4",
+        "nominal_roll": "2024-06-19",
+        "actual_roll": "2024-06-19",
+        "gap": 16.5
+      }
+    ]
+  },
+  "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-22T18:38:00",
+    "first_date": "2023-06-23",
+    "last_date": "2026-06-03",
+    "n_contracts": 25,
+    "rolls": [
+      {
+        "from": "CLM6",
+        "to": "CLN6",
+        "nominal_roll": "2026-05-12",
+        "actual_roll": "2026-05-12",
+        "gap": -3.6700000000000017
+      },
+      {
+        "from": "CLK6",
+        "to": "CLM6",
+        "nominal_roll": "2026-04-14",
+        "actual_roll": "2026-04-14",
+        "gap": -3.0900000000000034
+      },
+      {
+        "from": "CLJ6",
+        "to": "CLK6",
+        "nominal_roll": "2026-03-13",
+        "actual_roll": "2026-03-13",
+        "gap": -1.8699999999999903
+      },
+      {
+        "from": "CLH6",
+        "to": "CLJ6",
+        "nominal_roll": "2026-02-13",
+        "actual_roll": "2026-02-13",
+        "gap": -0.14000000000000057
+      },
+      {
+        "from": "CLG6",
+        "to": "CLH6",
+        "nominal_roll": "2026-01-13",
+        "actual_roll": "2026-01-13",
+        "gap": -0.21999999999999886
+      },
+      {
+        "from": "CLF6",
+        "to": "CLG6",
+        "nominal_roll": "2025-12-12",
+        "actual_roll": "2025-12-12",
+        "gap": -0.19999999999999574
+      },
+      {
+        "from": "CLZ5",
+        "to": "CLF6",
+        "nominal_roll": "2025-11-13",
+        "actual_roll": "2025-11-13",
+        "gap": -0.04999999999999716
+      },
+      {
+        "from": "CLX5",
+        "to": "CLZ5",
+        "nominal_roll": "2025-10-14",
+        "actual_roll": "2025-10-14",
+        "gap": -0.4299999999999997
+      },
+      {
+        "from": "CLV5",
+        "to": "CLX5",
+        "nominal_roll": "2025-09-15",
+        "actual_roll": "2025-09-15",
+        "gap": -0.27999999999999403
+      },
+      {
+        "from": "CLU5",
+        "to": "CLV5",
+        "nominal_roll": "2025-08-13",
+        "actual_roll": "2025-08-13",
+        "gap": -0.7199999999999989
+      },
+      {
+        "from": "CLQ5",
+        "to": "CLU5",
+        "nominal_roll": "2025-07-15",
+        "actual_roll": "2025-07-15",
+        "gap": -1.1499999999999915
+      },
+      {
+        "from": "CLN5",
+        "to": "CLQ5",
+        "nominal_roll": "2025-06-13",
+        "actual_roll": "2025-06-13",
+        "gap": -1.6899999999999977
+      },
+      {
+        "from": "CLM5",
+        "to": "CLN5",
+        "nominal_roll": "2025-05-13",
+        "actual_roll": "2025-05-13",
+        "gap": -0.4200000000000017
+      },
+      {
+        "from": "CLK5",
+        "to": "CLM5",
+        "nominal_roll": "2025-04-15",
+        "actual_roll": "2025-04-15",
+        "gap": -0.5799999999999983
+      },
+      {
+        "from": "CLJ5",
+        "to": "CLK5",
+        "nominal_roll": "2025-03-13",
+        "actual_roll": "2025-03-13",
+        "gap": -0.28000000000000114
+      },
+      {
+        "from": "CLH5",
+        "to": "CLJ5",
+        "nominal_roll": "2025-02-13",
+        "actual_roll": "2025-02-13",
+        "gap": -0.15000000000000568
+      },
+      {
+        "from": "CLG5",
+        "to": "CLH5",
+        "nominal_roll": "2025-01-14",
+        "actual_roll": "2025-01-14",
+        "gap": -1.1299999999999955
+      },
+      {
+        "from": "CLF5",
+        "to": "CLG5",
+        "nominal_roll": "2024-12-12",
+        "actual_roll": "2024-12-12",
+        "gap": -0.35999999999999943
+      },
+      {
+        "from": "CLZ4",
+        "to": "CLF5",
+        "nominal_roll": "2024-11-13",
+        "actual_roll": "2024-11-13",
+        "gap": -0.1700000000000017
+      },
+      {
+        "from": "CLX4",
+        "to": "CLZ4",
+        "nominal_roll": "2024-10-15",
+        "actual_roll": "2024-10-15",
+        "gap": -0.5699999999999932
+      },
+      {
+        "from": "CLV4",
+        "to": "CLX4",
+        "nominal_roll": "2024-09-13",
+        "actual_roll": "2024-09-13",
+        "gap": -0.9000000000000057
+      },
+      {
+        "from": "CLU4",
+        "to": "CLV4",
+        "nominal_roll": "2024-08-13",
+        "actual_roll": "2024-08-13",
+        "gap": -1.5499999999999972
+      },
+      {
+        "from": "CLQ4",
+        "to": "CLU4",
+        "nominal_roll": "2024-07-15",
+        "actual_roll": "2024-07-15",
+        "gap": -1.0699999999999932
+      },
+      {
+        "from": "CLN4",
+        "to": "CLQ4",
+        "nominal_roll": "2024-06-13",
+        "actual_roll": "2024-06-13",
+        "gap": -0.35999999999999943
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:40:20"
+  },
+  "EMINI RUSSELL 1000 GROWTH - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-22T18:38:47",
+    "first_date": "2023-06-23",
+    "last_date": "2026-06-03",
+    "n_contracts": 9,
+    "rolls": [
+      {
+        "from": "RTYH6",
+        "to": "RTYM6",
+        "nominal_roll": "2026-03-13",
+        "actual_roll": "2026-03-13",
+        "gap": 15.699999999999818
+      },
+      {
+        "from": "RTYZ5",
+        "to": "RTYH6",
+        "nominal_roll": "2025-12-12",
+        "actual_roll": "2025-12-12",
+        "gap": 20.300000000000182
+      },
+      {
+        "from": "RTYU5",
+        "to": "RTYZ5",
+        "nominal_roll": "2025-09-12",
+        "actual_roll": "2025-09-12",
+        "gap": 18.299999999999727
+      },
+      {
+        "from": "RTYM5",
+        "to": "RTYU5",
+        "nominal_roll": "2025-06-13",
+        "actual_roll": "2025-06-13",
+        "gap": 16.800000000000182
+      },
+      {
+        "from": "RTYH5",
+        "to": "RTYM5",
+        "nominal_roll": "2025-03-14",
+        "actual_roll": "2025-03-14",
+        "gap": 17.0
+      },
+      {
+        "from": "RTYZ4",
+        "to": "RTYH5",
+        "nominal_roll": "2024-12-13",
+        "actual_roll": "2024-12-13",
+        "gap": 26.300000000000182
+      },
+      {
+        "from": "RTYU4",
+        "to": "RTYZ4",
+        "nominal_roll": "2024-09-13",
+        "actual_roll": "2024-09-13",
+        "gap": 21.299999999999727
+      },
+      {
+        "from": "RTYM4",
+        "to": "RTYU4",
+        "nominal_roll": "2024-06-14",
+        "actual_roll": "2024-06-14",
+        "gap": 21.0
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:40:35"
+  },
+  "MICRO E-MINI NASDAQ-100 INDEX - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-22T18:39:35",
+    "first_date": "2023-06-23",
+    "last_date": "2026-06-03",
+    "n_contracts": 9,
+    "rolls": [
+      {
+        "from": "MNQH6",
+        "to": "MNQM6",
+        "nominal_roll": "2026-03-13",
+        "actual_roll": "2026-03-13",
+        "gap": 211.5
+      },
+      {
+        "from": "MNQZ5",
+        "to": "MNQH6",
+        "nominal_roll": "2025-12-12",
+        "actual_roll": "2025-12-12",
+        "gap": 256.0
+      },
+      {
+        "from": "MNQU5",
+        "to": "MNQZ5",
+        "nominal_roll": "2025-09-12",
+        "actual_roll": "2025-09-12",
+        "gap": 237.75
+      },
+      {
+        "from": "MNQM5",
+        "to": "MNQU5",
+        "nominal_roll": "2025-06-13",
+        "actual_roll": "2025-06-13",
+        "gap": 216.5
+      },
+      {
+        "from": "MNQH5",
+        "to": "MNQM5",
+        "nominal_roll": "2025-03-14",
+        "actual_roll": "2025-03-14",
+        "gap": 207.5
+      },
+      {
+        "from": "MNQZ4",
+        "to": "MNQH5",
+        "nominal_roll": "2024-12-13",
+        "actual_roll": "2024-12-13",
+        "gap": 286.25
+      },
+      {
+        "from": "MNQU4",
+        "to": "MNQZ4",
+        "nominal_roll": "2024-09-13",
+        "actual_roll": "2024-09-13",
+        "gap": 236.75
+      },
+      {
+        "from": "MNQM4",
+        "to": "MNQU4",
+        "nominal_roll": "2024-06-14",
+        "actual_roll": "2024-06-14",
+        "gap": 260.0
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:40:50"
+  },
+  "NIKKEI STOCK AVERAGE - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-22T18:40:23",
+    "first_date": "2023-06-16",
+    "last_date": "2026-06-03",
+    "n_contracts": 9,
+    "rolls": [
+      {
+        "from": "NKDH6",
+        "to": "NKDM6",
+        "nominal_roll": "2026-03-05",
+        "actual_roll": "2026-03-05",
+        "gap": -45.0
+      },
+      {
+        "from": "NKDZ5",
+        "to": "NKDH6",
+        "nominal_roll": "2025-12-04",
+        "actual_roll": "2025-12-04",
+        "gap": 195.0
+      },
+      {
+        "from": "NKDU5",
+        "to": "NKDZ5",
+        "nominal_roll": "2025-09-04",
+        "actual_roll": "2025-09-04",
+        "gap": -130.0
+      },
+      {
+        "from": "NKDM5",
+        "to": "NKDU5",
+        "nominal_roll": "2025-06-05",
+        "actual_roll": "2025-06-05",
+        "gap": 125.0
+      },
+      {
+        "from": "NKDH5",
+        "to": "NKDM5",
+        "nominal_roll": "2025-03-06",
+        "actual_roll": "2025-03-06",
+        "gap": -125.0
+      },
+      {
+        "from": "NKDZ4",
+        "to": "NKDH5",
+        "nominal_roll": "2024-12-05",
+        "actual_roll": "2024-12-05",
+        "gap": 165.0
+      },
+      {
+        "from": "NKDU4",
+        "to": "NKDZ4",
+        "nominal_roll": "2024-09-05",
+        "actual_roll": "2024-09-05",
+        "gap": -50.0
+      },
+      {
+        "from": "NKDM4",
+        "to": "NKDU4",
+        "nominal_roll": "2024-06-06",
+        "actual_roll": "2024-06-06",
+        "gap": 45.0
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:41:05"
+  },
+  "AUSTRALIAN DOLLAR - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-22T18:42:29",
+    "first_date": "2023-06-20",
+    "last_date": "2026-06-02",
+    "n_contracts": 25,
+    "rolls": [
+      {
+        "from": "6AK6",
+        "to": "6AM6",
+        "nominal_roll": "2026-05-11",
+        "actual_roll": "2026-05-11",
+        "gap": -0.00039999999999995595
+      },
+      {
+        "from": "6AJ6",
+        "to": "6AK6",
+        "nominal_roll": "2026-04-06",
+        "actual_roll": "2026-04-06",
+        "gap": -0.00034999999999996145
+      },
+      {
+        "from": "6AH6",
+        "to": "6AJ6",
+        "nominal_roll": "2026-03-09",
+        "actual_roll": "2026-03-09",
+        "gap": -0.0001500000000000945
+      },
+      {
+        "from": "6AG6",
+        "to": "6AH6",
+        "nominal_roll": "2026-02-06",
+        "actual_roll": "2026-02-06",
+        "gap": -9.999999999998899e-05
+      },
+      {
+        "from": "6AF6",
+        "to": "6AG6",
+        "nominal_roll": "2026-01-09",
+        "actual_roll": "2026-01-09",
+        "gap": 4.999999999999449e-05
+      },
+      {
+        "from": "6AZ5",
+        "to": "6AF6",
+        "nominal_roll": "2025-12-08",
+        "actual_roll": "2025-12-08",
+        "gap": 9.999999999998899e-05
+      },
+      {
+        "from": "6AX5",
+        "to": "6AZ5",
+        "nominal_roll": "2025-11-10",
+        "actual_roll": "2025-11-10",
+        "gap": 0.00014999999999998348
+      },
+      {
+        "from": "6AV5",
+        "to": "6AX5",
+        "nominal_roll": "2025-10-03",
+        "actual_roll": "2025-10-03",
+        "gap": 0.00029999999999996696
+      },
+      {
+        "from": "6AU5",
+        "to": "6AV5",
+        "nominal_roll": "2025-09-08",
+        "actual_roll": "2025-09-08",
+        "gap": 0.00029999999999996696
+      },
+      {
+        "from": "6AQ5",
+        "to": "6AU5",
+        "nominal_roll": "2025-08-11",
+        "actual_roll": "2025-08-11",
+        "gap": 0.00040000000000006697
+      },
+      {
+        "from": "6AN5",
+        "to": "6AQ5",
+        "nominal_roll": "2025-07-07",
+        "actual_roll": "2025-07-07",
+        "gap": 0.0004999999999999449
+      },
+      {
+        "from": "6AM5",
+        "to": "6AN5",
+        "nominal_roll": "2025-06-09",
+        "actual_roll": "2025-06-09",
+        "gap": 0.000300000000000078
+      },
+      {
+        "from": "6AK5",
+        "to": "6AM5",
+        "nominal_roll": "2025-05-12",
+        "actual_roll": "2025-05-12",
+        "gap": 0.00024999999999997247
+      },
+      {
+        "from": "6AJ5",
+        "to": "6AK5",
+        "nominal_roll": "2025-04-07",
+        "actual_roll": "2025-04-07",
+        "gap": 0.00014999999999998348
+      },
+      {
+        "from": "6AH5",
+        "to": "6AJ5",
+        "nominal_roll": "2025-03-10",
+        "actual_roll": "2025-03-10",
+        "gap": 0.00014999999999998348
+      },
+      {
+        "from": "6AG5",
+        "to": "6AH5",
+        "nominal_roll": "2025-02-07",
+        "actual_roll": "2025-02-07",
+        "gap": 9.999999999998899e-05
+      },
+      {
+        "from": "6AF5",
+        "to": "6AG5",
+        "nominal_roll": "2025-01-06",
+        "actual_roll": "2025-01-06",
+        "gap": 4.999999999999449e-05
+      },
+      {
+        "from": "6AZ4",
+        "to": "6AF5",
+        "nominal_roll": "2024-12-09",
+        "actual_roll": "2024-12-09",
+        "gap": 9.999999999998899e-05
+      },
+      {
+        "from": "6AX4",
+        "to": "6AZ4",
+        "nominal_roll": "2024-11-11",
+        "actual_roll": "2024-11-11",
+        "gap": 0.00014999999999998348
+      },
+      {
+        "from": "6AV4",
+        "to": "6AX4",
+        "nominal_roll": "2024-10-04",
+        "actual_roll": "2024-10-04",
+        "gap": 0.00029999999999996696
+      },
+      {
+        "from": "6AU4",
+        "to": "6AV4",
+        "nominal_roll": "2024-09-09",
+        "actual_roll": "2024-09-09",
+        "gap": 0.00039999999999995595
+      },
+      {
+        "from": "6AQ4",
+        "to": "6AU4",
+        "nominal_roll": "2024-08-12",
+        "actual_roll": "2024-08-12",
+        "gap": 0.0004999999999999449
+      },
+      {
+        "from": "6AN4",
+        "to": "6AQ4",
+        "nominal_roll": "2024-07-08",
+        "actual_roll": "2024-07-08",
+        "gap": 0.0005999999999999339
+      },
+      {
+        "from": "6AM4",
+        "to": "6AN4",
+        "nominal_roll": "2024-06-10",
+        "actual_roll": "2024-06-10",
+        "gap": 0.0004999999999999449
+      }
+    ],
+    "last_incremental_at": "2026-06-02T00:00:38"
+  },
+  "UST 5Y NOTE - CHICAGO BOARD OF TRADE": {
+    "rebuilt_at": "2026-06-03T08:42:10",
+    "first_date": "2023-10-02",
+    "last_date": "2026-06-02",
+    "n_contracts": 10,
+    "rolls": [
+      {
+        "from": "ZFM6",
+        "to": "ZFU6",
+        "nominal_roll": "2026-06-23",
+        "actual_roll": "None",
+        "gap": 0.0
+      },
+      {
+        "from": "ZFH6",
+        "to": "ZFM6",
+        "nominal_roll": "2026-03-24",
+        "actual_roll": "2026-03-24",
+        "gap": -0.09375
+      },
+      {
+        "from": "ZFZ5",
+        "to": "ZFH6",
+        "nominal_roll": "2025-12-24",
+        "actual_roll": "2025-12-24",
+        "gap": -0.0234375
+      },
+      {
+        "from": "ZFU5",
+        "to": "ZFZ5",
+        "nominal_roll": "2025-09-23",
+        "actual_roll": "2025-09-23",
+        "gap": 0.140625
+      },
+      {
+        "from": "ZFM5",
+        "to": "ZFU5",
+        "nominal_roll": "2025-06-23",
+        "actual_roll": "2025-06-23",
+        "gap": 0.0859375
+      },
+      {
+        "from": "ZFH5",
+        "to": "ZFM5",
+        "nominal_roll": "2025-03-24",
+        "actual_roll": "2025-03-24",
+        "gap": 0.15625
+      },
+      {
+        "from": "ZFZ4",
+        "to": "ZFH5",
+        "nominal_roll": "2024-12-24",
+        "actual_roll": "2024-12-24",
+        "gap": -0.15625
+      },
+      {
+        "from": "ZFU4",
+        "to": "ZFZ4",
+        "nominal_roll": "2024-09-23",
+        "actual_roll": "2024-09-23",
+        "gap": 0.28125
+      },
+      {
+        "from": "ZFM4",
+        "to": "ZFU4",
+        "nominal_roll": "2024-06-21",
+        "actual_roll": "2024-06-21",
+        "gap": 0.3046875
+      }
+    ]
+  },
+  "UST 2Y NOTE - CHICAGO BOARD OF TRADE": {
+    "rebuilt_at": "2026-05-22T18:44:05",
+    "first_date": "2023-10-02",
+    "last_date": "2026-06-03",
+    "n_contracts": 9,
+    "rolls": [
+      {
+        "from": "ZTH6",
+        "to": "ZTM6",
+        "nominal_roll": "2026-03-24",
+        "actual_roll": "2026-03-24",
+        "gap": 0.0546875
+      },
+      {
+        "from": "ZTZ5",
+        "to": "ZTH6",
+        "nominal_roll": "2025-12-24",
+        "actual_roll": "2025-12-24",
+        "gap": 0.09765625
+      },
+      {
+        "from": "ZTU5",
+        "to": "ZTZ5",
+        "nominal_roll": "2025-09-23",
+        "actual_roll": "2025-09-23",
+        "gap": 0.24609375
+      },
+      {
+        "from": "ZTM5",
+        "to": "ZTU5",
+        "nominal_roll": "2025-06-23",
+        "actual_roll": "2025-06-23",
+        "gap": 0.25
+      },
+      {
+        "from": "ZTH5",
+        "to": "ZTM5",
+        "nominal_roll": "2025-03-24",
+        "actual_roll": "2025-03-24",
+        "gap": 0.07421875
+      },
+      {
+        "from": "ZTZ4",
+        "to": "ZTH5",
+        "nominal_roll": "2024-12-24",
+        "actual_roll": "2024-12-24",
+        "gap": -0.1640625
+      },
+      {
+        "from": "ZTU4",
+        "to": "ZTZ4",
+        "nominal_roll": "2024-09-23",
+        "actual_roll": "2024-09-23",
+        "gap": 0.2578125
+      },
+      {
+        "from": "ZTM4",
+        "to": "ZTU4",
+        "nominal_roll": "2024-06-21",
+        "actual_roll": "2024-06-21",
+        "gap": 0.24609375
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:43:32"
+  },
+  "UST 10Y NOTE - CHICAGO BOARD OF TRADE": {
+    "rebuilt_at": "2026-06-03T08:43:17",
+    "first_date": "2023-09-21",
+    "last_date": "2026-06-02",
+    "n_contracts": 10,
+    "rolls": [
+      {
+        "from": "ZNM6",
+        "to": "ZNU6",
+        "nominal_roll": "2026-06-11",
+        "actual_roll": "None",
+        "gap": 0.0
+      },
+      {
+        "from": "ZNH6",
+        "to": "ZNM6",
+        "nominal_roll": "2026-03-13",
+        "actual_roll": "2026-03-13",
+        "gap": -0.15625
+      },
+      {
+        "from": "ZNZ5",
+        "to": "ZNH6",
+        "nominal_roll": "2025-12-12",
+        "actual_roll": "2025-12-12",
+        "gap": -0.171875
+      },
+      {
+        "from": "ZNU5",
+        "to": "ZNZ5",
+        "nominal_roll": "2025-09-12",
+        "actual_roll": "2025-09-12",
+        "gap": 0.03125
+      },
+      {
+        "from": "ZNM5",
+        "to": "ZNU5",
+        "nominal_roll": "2025-06-11",
+        "actual_roll": "2025-06-11",
+        "gap": 0.0
+      },
+      {
+        "from": "ZNH5",
+        "to": "ZNM5",
+        "nominal_roll": "2025-03-13",
+        "actual_roll": "2025-03-13",
+        "gap": 0.03125
+      },
+      {
+        "from": "ZNZ4",
+        "to": "ZNH5",
+        "nominal_roll": "2024-12-12",
+        "actual_roll": "2024-12-12",
+        "gap": 0.0625
+      },
+      {
+        "from": "ZNU4",
+        "to": "ZNZ4",
+        "nominal_roll": "2024-09-12",
+        "actual_roll": "2024-09-12",
+        "gap": 0.5
+      },
+      {
+        "from": "ZNM4",
+        "to": "ZNU4",
+        "nominal_roll": "2024-06-11",
+        "actual_roll": "2024-06-11",
+        "gap": 0.265625
+      }
+    ]
+  },
+  "UST BOND - CHICAGO BOARD OF TRADE": {
+    "rebuilt_at": "2026-06-03T08:44:37",
+    "first_date": "2023-09-21",
+    "last_date": "2026-06-02",
+    "n_contracts": 10,
+    "rolls": [
+      {
+        "from": "ZBM6",
+        "to": "ZBU6",
+        "nominal_roll": "2026-06-11",
+        "actual_roll": "None",
+        "gap": 0.0
+      },
+      {
+        "from": "ZBH6",
+        "to": "ZBM6",
+        "nominal_roll": "2026-03-13",
+        "actual_roll": "2026-03-13",
+        "gap": -0.46875
+      },
+      {
+        "from": "ZBZ5",
+        "to": "ZBH6",
+        "nominal_roll": "2025-12-12",
+        "actual_roll": "2025-12-12",
+        "gap": -0.625
+      },
+      {
+        "from": "ZBU5",
+        "to": "ZBZ5",
+        "nominal_roll": "2025-09-12",
+        "actual_roll": "2025-09-12",
+        "gap": -0.4375
+      },
+      {
+        "from": "ZBM5",
+        "to": "ZBU5",
+        "nominal_roll": "2025-06-11",
+        "actual_roll": "2025-06-11",
+        "gap": -0.5
+      },
+      {
+        "from": "ZBH5",
+        "to": "ZBM5",
+        "nominal_roll": "2025-03-13",
+        "actual_roll": "2025-03-13",
+        "gap": -0.28125
+      },
+      {
+        "from": "ZBZ4",
+        "to": "ZBH5",
+        "nominal_roll": "2024-12-12",
+        "actual_roll": "2024-12-12",
+        "gap": 0.09375
+      },
+      {
+        "from": "ZBU4",
+        "to": "ZBZ4",
+        "nominal_roll": "2024-09-12",
+        "actual_roll": "2024-09-12",
+        "gap": 0.15625
+      },
+      {
+        "from": "ZBM4",
+        "to": "ZBU4",
+        "nominal_roll": "2024-06-11",
+        "actual_roll": "2024-06-11",
+        "gap": 0.125
+      }
+    ]
+  },
+  "EURO FX/BRITISH POUND XRATE - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-22T18:47:47",
+    "first_date": "2023-06-20",
+    "last_date": "2026-06-02",
+    "n_contracts": 25,
+    "rolls": [
+      {
+        "from": "6EK6",
+        "to": "6EM6",
+        "nominal_roll": "2026-05-11",
+        "actual_roll": "2026-05-11",
+        "gap": 0.0015500000000001624
+      },
+      {
+        "from": "6EJ6",
+        "to": "6EK6",
+        "nominal_roll": "2026-04-06",
+        "actual_roll": "2026-04-06",
+        "gap": 0.0018500000000001293
+      },
+      {
+        "from": "6EH6",
+        "to": "6EJ6",
+        "nominal_roll": "2026-03-09",
+        "actual_roll": "2026-03-09",
+        "gap": 0.0016000000000000458
+      },
+      {
+        "from": "6EG6",
+        "to": "6EH6",
+        "nominal_roll": "2026-02-06",
+        "actual_roll": "2026-02-06",
+        "gap": 0.0015500000000001624
+      },
+      {
+        "from": "6EF6",
+        "to": "6EG6",
+        "nominal_roll": "2026-01-09",
+        "actual_roll": "2026-01-09",
+        "gap": 0.0015500000000001624
+      },
+      {
+        "from": "6EZ5",
+        "to": "6EF6",
+        "nominal_roll": "2025-12-08",
+        "actual_roll": "2025-12-08",
+        "gap": 0.0021999999999999797
+      },
+      {
+        "from": "6EX5",
+        "to": "6EZ5",
+        "nominal_roll": "2025-11-10",
+        "actual_roll": "2025-11-10",
+        "gap": 0.0017499999999999183
+      },
+      {
+        "from": "6EV5",
+        "to": "6EX5",
+        "nominal_roll": "2025-10-03",
+        "actual_roll": "2025-10-03",
+        "gap": 0.0023500000000000743
+      },
+      {
+        "from": "6EU5",
+        "to": "6EV5",
+        "nominal_roll": "2025-09-08",
+        "actual_roll": "2025-09-08",
+        "gap": 0.0020000000000000018
+      },
+      {
+        "from": "6EQ5",
+        "to": "6EU5",
+        "nominal_roll": "2025-08-11",
+        "actual_roll": "2025-08-11",
+        "gap": 0.0021999999999999797
+      },
+      {
+        "from": "6EN5",
+        "to": "6EQ5",
+        "nominal_roll": "2025-07-07",
+        "actual_roll": "2025-07-07",
+        "gap": 0.002749999999999808
+      },
+      {
+        "from": "6EM5",
+        "to": "6EN5",
+        "nominal_roll": "2025-06-09",
+        "actual_roll": "2025-06-09",
+        "gap": 0.0021499999999998742
+      },
+      {
+        "from": "6EK5",
+        "to": "6EM5",
+        "nominal_roll": "2025-05-12",
+        "actual_roll": "2025-05-12",
+        "gap": 0.0019000000000000128
+      },
+      {
+        "from": "6EJ5",
+        "to": "6EK5",
+        "nominal_roll": "2025-04-07",
+        "actual_roll": "2025-04-07",
+        "gap": 0.0021999999999999797
+      },
+      {
+        "from": "6EH5",
+        "to": "6EJ5",
+        "nominal_roll": "2025-03-10",
+        "actual_roll": "2025-03-10",
+        "gap": 0.0016000000000000458
+      },
+      {
+        "from": "6EG5",
+        "to": "6EH5",
+        "nominal_roll": "2025-02-07",
+        "actual_roll": "2025-02-07",
+        "gap": 0.0013499999999999623
+      },
+      {
+        "from": "6EF5",
+        "to": "6EG5",
+        "nominal_roll": "2025-01-06",
+        "actual_roll": "2025-01-06",
+        "gap": 0.0015000000000000568
+      },
+      {
+        "from": "6EZ4",
+        "to": "6EF5",
+        "nominal_roll": "2024-12-09",
+        "actual_roll": "2024-12-09",
+        "gap": 0.0013499999999999623
+      },
+      {
+        "from": "6EX4",
+        "to": "6EZ4",
+        "nominal_roll": "2024-11-11",
+        "actual_roll": "2024-11-11",
+        "gap": 0.0011500000000002064
+      },
+      {
+        "from": "6EV4",
+        "to": "6EX4",
+        "nominal_roll": "2024-10-04",
+        "actual_roll": "2024-10-04",
+        "gap": 0.0016500000000001513
+      },
+      {
+        "from": "6EU4",
+        "to": "6EV4",
+        "nominal_roll": "2024-09-09",
+        "actual_roll": "2024-09-09",
+        "gap": 0.0014000000000000679
+      },
+      {
+        "from": "6EQ4",
+        "to": "6EU4",
+        "nominal_roll": "2024-08-12",
+        "actual_roll": "2024-08-12",
+        "gap": 0.0014000000000000679
+      },
+      {
+        "from": "6EN4",
+        "to": "6EQ4",
+        "nominal_roll": "2024-07-08",
+        "actual_roll": "2024-07-08",
+        "gap": 0.0017499999999999183
+      },
+      {
+        "from": "6EM4",
+        "to": "6EN4",
+        "nominal_roll": "2024-06-10",
+        "actual_roll": "2024-06-10",
+        "gap": 0.0013499999999999623
+      }
+    ],
+    "last_incremental_at": "2026-06-02T00:02:12"
+  },
+  "MEXICAN PESO - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-22T18:49:52",
+    "first_date": "2023-06-20",
+    "last_date": "2026-06-02",
+    "n_contracts": 24,
+    "rolls": [
+      {
+        "from": "6MK6",
+        "to": "6MM6",
+        "nominal_roll": "2026-05-11",
+        "actual_roll": "2026-05-11",
+        "gap": -0.00012999999999999817
+      },
+      {
+        "from": "6MJ6",
+        "to": "6MK6",
+        "nominal_roll": "2026-04-06",
+        "actual_roll": "2026-04-06",
+        "gap": -0.00016999999999999654
+      },
+      {
+        "from": "6MH6",
+        "to": "6MJ6",
+        "nominal_roll": "2026-03-09",
+        "actual_roll": "2026-03-09",
+        "gap": -0.00014000000000000123
+      },
+      {
+        "from": "6MG6",
+        "to": "6MH6",
+        "nominal_roll": "2026-02-06",
+        "actual_roll": "2026-02-06",
+        "gap": -0.00014999999999999736
+      },
+      {
+        "from": "6MF6",
+        "to": "6MG6",
+        "nominal_roll": "2026-01-09",
+        "actual_roll": "2026-01-09",
+        "gap": -0.00014000000000000123
+      },
+      {
+        "from": "6MZ5",
+        "to": "6MF6",
+        "nominal_roll": "2025-12-08",
+        "actual_roll": "2025-12-08",
+        "gap": -0.0001799999999999996
+      },
+      {
+        "from": "6MX5",
+        "to": "6MZ5",
+        "nominal_roll": "2025-11-10",
+        "actual_roll": "2025-11-10",
+        "gap": -0.0001500000000000043
+      },
+      {
+        "from": "6MV5",
+        "to": "6MX5",
+        "nominal_roll": "2025-10-03",
+        "actual_roll": "2025-10-03",
+        "gap": -0.00016000000000000042
+      },
+      {
+        "from": "6MU5",
+        "to": "6MV5",
+        "nominal_roll": "2025-09-08",
+        "actual_roll": "2025-09-08",
+        "gap": -0.00014000000000000123
+      },
+      {
+        "from": "6MQ5",
+        "to": "6MU5",
+        "nominal_roll": "2025-08-11",
+        "actual_roll": "2025-08-11",
+        "gap": -0.0001500000000000043
+      },
+      {
+        "from": "6MN5",
+        "to": "6MQ5",
+        "nominal_roll": "2025-07-07",
+        "actual_roll": "2025-07-07",
+        "gap": -0.00018999999999999573
+      },
+      {
+        "from": "6MM5",
+        "to": "6MN5",
+        "nominal_roll": "2025-06-09",
+        "actual_roll": "2025-06-09",
+        "gap": -0.00016000000000000042
+      },
+      {
+        "from": "6MJ5",
+        "to": "6MM5",
+        "nominal_roll": "2025-04-07",
+        "actual_roll": "None",
+        "gap": 0.0
+      },
+      {
+        "from": "6MH5",
+        "to": "6MJ5",
+        "nominal_roll": "2025-03-10",
+        "actual_roll": "2025-03-10",
+        "gap": -0.0001799999999999996
+      },
+      {
+        "from": "6MG5",
+        "to": "6MH5",
+        "nominal_roll": "2025-02-07",
+        "actual_roll": "2025-02-07",
+        "gap": -0.00021999999999999797
+      },
+      {
+        "from": "6MF5",
+        "to": "6MG5",
+        "nominal_roll": "2025-01-06",
+        "actual_roll": "2025-01-06",
+        "gap": -0.00028000000000000247
+      },
+      {
+        "from": "6MZ4",
+        "to": "6MF5",
+        "nominal_roll": "2024-12-09",
+        "actual_roll": "2024-12-09",
+        "gap": -0.0002400000000000041
+      },
+      {
+        "from": "6MX4",
+        "to": "6MZ4",
+        "nominal_roll": "2024-11-11",
+        "actual_roll": "2024-11-11",
+        "gap": -0.00023000000000000104
+      },
+      {
+        "from": "6MV4",
+        "to": "6MX4",
+        "nominal_roll": "2024-10-04",
+        "actual_roll": "2024-10-04",
+        "gap": -0.0002999999999999947
+      },
+      {
+        "from": "6MU4",
+        "to": "6MV4",
+        "nominal_roll": "2024-09-09",
+        "actual_roll": "2024-09-09",
+        "gap": -0.00018999999999999573
+      },
+      {
+        "from": "6MQ4",
+        "to": "6MU4",
+        "nominal_roll": "2024-08-12",
+        "actual_roll": "2024-08-12",
+        "gap": -0.00021999999999999797
+      },
+      {
+        "from": "6MN4",
+        "to": "6MQ4",
+        "nominal_roll": "2024-07-08",
+        "actual_roll": "2024-07-08",
+        "gap": -0.0002999999999999947
+      },
+      {
+        "from": "6MM4",
+        "to": "6MN4",
+        "nominal_roll": "2024-06-10",
+        "actual_roll": "2024-06-10",
+        "gap": -0.00023999999999999716
+      }
+    ],
+    "last_incremental_at": "2026-06-02T00:02:47"
+  },
+  "BRAZILIAN REAL - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-30T18:08:42",
+    "first_date": "2023-06-02",
+    "last_date": "2026-06-02",
+    "n_contracts": 26,
+    "rolls": [
+      {
+        "from": "6LM6",
+        "to": "6LN6",
+        "nominal_roll": "2026-05-22",
+        "actual_roll": "2026-05-22",
+        "gap": -0.0013999999999999846
+      },
+      {
+        "from": "6LK6",
+        "to": "6LM6",
+        "nominal_roll": "2026-04-23",
+        "actual_roll": "2026-04-23",
+        "gap": -0.0012999999999999956
+      },
+      {
+        "from": "6LJ6",
+        "to": "6LK6",
+        "nominal_roll": "2026-03-24",
+        "actual_roll": "2026-03-24",
+        "gap": -0.0011500000000000121
+      },
+      {
+        "from": "6LH6",
+        "to": "6LJ6",
+        "nominal_roll": "2026-02-20",
+        "actual_roll": "2026-02-20",
+        "gap": -0.0015000000000000013
+      },
+      {
+        "from": "6LG6",
+        "to": "6LH6",
+        "nominal_roll": "2026-01-23",
+        "actual_roll": "2026-01-23",
+        "gap": -0.0010999999999999899
+      },
+      {
+        "from": "6LF6",
+        "to": "6LG6",
+        "nominal_roll": "2025-12-23",
+        "actual_roll": "2025-12-23",
+        "gap": -0.0013000000000000234
+      },
+      {
+        "from": "6LZ5",
+        "to": "6LF6",
+        "nominal_roll": "2025-11-21",
+        "actual_roll": "2025-11-21",
+        "gap": -0.0012999999999999956
+      },
+      {
+        "from": "6LX5",
+        "to": "6LZ5",
+        "nominal_roll": "2025-10-24",
+        "actual_roll": "2025-10-24",
+        "gap": -0.0011499999999999844
+      },
+      {
+        "from": "6LV5",
+        "to": "6LX5",
+        "nominal_roll": "2025-09-23",
+        "actual_roll": "2025-09-23",
+        "gap": -0.0013500000000000179
+      },
+      {
+        "from": "6LU5",
+        "to": "6LV5",
+        "nominal_roll": "2025-08-22",
+        "actual_roll": "2025-08-22",
+        "gap": -0.0012999999999999956
+      },
+      {
+        "from": "6LQ5",
+        "to": "6LU5",
+        "nominal_roll": "2025-07-24",
+        "actual_roll": "2025-07-24",
+        "gap": -0.0012999999999999956
+      },
+      {
+        "from": "6LN5",
+        "to": "6LQ5",
+        "nominal_roll": "2025-06-23",
+        "actual_roll": "2025-06-23",
+        "gap": -0.0012999999999999956
+      },
+      {
+        "from": "6LM5",
+        "to": "6LN5",
+        "nominal_roll": "2025-05-23",
+        "actual_roll": "2025-05-23",
+        "gap": -0.0011000000000000176
+      },
+      {
+        "from": "6LK5",
+        "to": "6LM5",
+        "nominal_roll": "2025-04-23",
+        "actual_roll": "2025-04-23",
+        "gap": -0.0011499999999999844
+      },
+      {
+        "from": "6LJ5",
+        "to": "6LK5",
+        "nominal_roll": "2025-03-24",
+        "actual_roll": "2025-03-24",
+        "gap": -0.0009000000000000119
+      },
+      {
+        "from": "6LH5",
+        "to": "6LJ5",
+        "nominal_roll": "2025-02-21",
+        "actual_roll": "2025-02-21",
+        "gap": -0.0009000000000000119
+      },
+      {
+        "from": "6LG5",
+        "to": "6LH5",
+        "nominal_roll": "2025-01-24",
+        "actual_roll": "2025-01-24",
+        "gap": -0.0008499999999999897
+      },
+      {
+        "from": "6LF5",
+        "to": "6LG5",
+        "nominal_roll": "2024-12-23",
+        "actual_roll": "2024-12-23",
+        "gap": -0.0008499999999999897
+      },
+      {
+        "from": "6LZ4",
+        "to": "6LF5",
+        "nominal_roll": "2024-11-22",
+        "actual_roll": "2024-11-22",
+        "gap": -0.0006499999999999839
+      },
+      {
+        "from": "6LX4",
+        "to": "6LZ4",
+        "nominal_roll": "2024-10-24",
+        "actual_roll": "2024-10-24",
+        "gap": -0.0005499999999999949
+      },
+      {
+        "from": "6LV4",
+        "to": "6LX4",
+        "nominal_roll": "2024-09-23",
+        "actual_roll": "2024-09-23",
+        "gap": -0.0006000000000000172
+      },
+      {
+        "from": "6LU4",
+        "to": "6LV4",
+        "nominal_roll": "2024-08-23",
+        "actual_roll": "2024-08-23",
+        "gap": -0.0006000000000000172
+      },
+      {
+        "from": "6LQ4",
+        "to": "6LU4",
+        "nominal_roll": "2024-07-24",
+        "actual_roll": "2024-07-24",
+        "gap": -0.0006000000000000172
+      },
+      {
+        "from": "6LN4",
+        "to": "6LQ4",
+        "nominal_roll": "2024-06-21",
+        "actual_roll": "2024-06-21",
+        "gap": -0.0005999999999999894
+      },
+      {
+        "from": "6LM4",
+        "to": "6LN4",
+        "nominal_roll": "2024-05-24",
+        "actual_roll": "2024-05-24",
+        "gap": -0.0005499999999999949
+      }
+    ],
+    "last_incremental_at": "2026-06-02T00:03:17"
+  },
+  "SWISS FRANC - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-22T18:52:47",
+    "first_date": "2023-06-20",
+    "last_date": "2026-06-02",
+    "n_contracts": 9,
+    "rolls": [
+      {
+        "from": "6SH6",
+        "to": "6SM6",
+        "nominal_roll": "2026-03-09",
+        "actual_roll": "2026-03-09",
+        "gap": 0.012699999999999934
+      },
+      {
+        "from": "6SZ5",
+        "to": "6SH6",
+        "nominal_roll": "2025-12-08",
+        "actual_roll": "2025-12-08",
+        "gap": 0.012450000000000072
+      },
+      {
+        "from": "6SU5",
+        "to": "6SZ5",
+        "nominal_roll": "2025-09-08",
+        "actual_roll": "2025-09-08",
+        "gap": 0.013349999999999973
+      },
+      {
+        "from": "6SM5",
+        "to": "6SU5",
+        "nominal_roll": "2025-06-09",
+        "actual_roll": "2025-06-09",
+        "gap": 0.014050000000000118
+      },
+      {
+        "from": "6SH5",
+        "to": "6SM5",
+        "nominal_roll": "2025-03-10",
+        "actual_roll": "2025-03-10",
+        "gap": 0.01200000000000001
+      },
+      {
+        "from": "6SZ4",
+        "to": "6SH5",
+        "nominal_roll": "2024-12-09",
+        "actual_roll": "2024-12-09",
+        "gap": 0.011649999999999938
+      },
+      {
+        "from": "6SU4",
+        "to": "6SZ4",
+        "nominal_roll": "2024-09-09",
+        "actual_roll": "2024-09-09",
+        "gap": 0.012249999999999872
+      },
+      {
+        "from": "6SM4",
+        "to": "6SU4",
+        "nominal_roll": "2024-06-10",
+        "actual_roll": "2024-06-10",
+        "gap": 0.01154999999999995
+      }
+    ],
+    "last_incremental_at": "2026-06-02T00:03:32"
+  },
+  "CANADIAN DOLLAR - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-22T18:54:54",
+    "first_date": "2023-06-21",
+    "last_date": "2026-06-02",
+    "n_contracts": 25,
+    "rolls": [
+      {
+        "from": "6CK6",
+        "to": "6CM6",
+        "nominal_roll": "2026-05-12",
+        "actual_roll": "2026-05-12",
+        "gap": 0.0009000000000000119
+      },
+      {
+        "from": "6CJ6",
+        "to": "6CK6",
+        "nominal_roll": "2026-04-07",
+        "actual_roll": "2026-04-07",
+        "gap": 0.0010999999999999899
+      },
+      {
+        "from": "6CH6",
+        "to": "6CJ6",
+        "nominal_roll": "2026-03-10",
+        "actual_roll": "2026-03-10",
+        "gap": 0.0009000000000000119
+      },
+      {
+        "from": "6CG6",
+        "to": "6CH6",
+        "nominal_roll": "2026-02-10",
+        "actual_roll": "2026-02-10",
+        "gap": 0.0009000000000000119
+      },
+      {
+        "from": "6CF6",
+        "to": "6CG6",
+        "nominal_roll": "2026-01-13",
+        "actual_roll": "2026-01-13",
+        "gap": 0.0008500000000000174
+      },
+      {
+        "from": "6CZ5",
+        "to": "6CF6",
+        "nominal_roll": "2025-12-09",
+        "actual_roll": "2025-12-09",
+        "gap": 0.0012499999999999734
+      },
+      {
+        "from": "6CX5",
+        "to": "6CZ5",
+        "nominal_roll": "2025-11-11",
+        "actual_roll": "2025-11-11",
+        "gap": 0.0010000000000000009
+      },
+      {
+        "from": "6CV5",
+        "to": "6CX5",
+        "nominal_roll": "2025-10-07",
+        "actual_roll": "2025-10-07",
+        "gap": 0.0012000000000000899
+      },
+      {
+        "from": "6CU5",
+        "to": "6CV5",
+        "nominal_roll": "2025-09-09",
+        "actual_roll": "2025-09-09",
+        "gap": 0.0009500000000000064
+      },
+      {
+        "from": "6CQ5",
+        "to": "6CU5",
+        "nominal_roll": "2025-08-12",
+        "actual_roll": "2025-08-12",
+        "gap": 0.0010000000000000009
+      },
+      {
+        "from": "6CN5",
+        "to": "6CQ5",
+        "nominal_roll": "2025-07-08",
+        "actual_roll": "2025-07-08",
+        "gap": 0.0013000000000000789
+      },
+      {
+        "from": "6CM5",
+        "to": "6CN5",
+        "nominal_roll": "2025-06-10",
+        "actual_roll": "2025-06-10",
+        "gap": 0.0010000000000000009
+      },
+      {
+        "from": "6CK5",
+        "to": "6CM5",
+        "nominal_roll": "2025-05-13",
+        "actual_roll": "2025-05-13",
+        "gap": 0.0010499999999999954
+      },
+      {
+        "from": "6CJ5",
+        "to": "6CK5",
+        "nominal_roll": "2025-04-08",
+        "actual_roll": "2025-04-08",
+        "gap": 0.0012499999999999734
+      },
+      {
+        "from": "6CH5",
+        "to": "6CJ5",
+        "nominal_roll": "2025-03-11",
+        "actual_roll": "2025-03-11",
+        "gap": 0.0009000000000000119
+      },
+      {
+        "from": "6CG5",
+        "to": "6CH5",
+        "nominal_roll": "2025-02-11",
+        "actual_roll": "2025-02-11",
+        "gap": 0.0008000000000000229
+      },
+      {
+        "from": "6CF5",
+        "to": "6CG5",
+        "nominal_roll": "2025-01-07",
+        "actual_roll": "2025-01-07",
+        "gap": 0.0008499999999999064
+      },
+      {
+        "from": "6CZ4",
+        "to": "6CF5",
+        "nominal_roll": "2024-12-10",
+        "actual_roll": "2024-12-10",
+        "gap": 0.0008499999999999064
+      },
+      {
+        "from": "6CX4",
+        "to": "6CZ4",
+        "nominal_roll": "2024-11-12",
+        "actual_roll": "2024-11-12",
+        "gap": 0.0006000000000000449
+      },
+      {
+        "from": "6CV4",
+        "to": "6CX4",
+        "nominal_roll": "2024-10-08",
+        "actual_roll": "2024-10-08",
+        "gap": 0.0006999999999999229
+      },
+      {
+        "from": "6CU4",
+        "to": "6CV4",
+        "nominal_roll": "2024-09-10",
+        "actual_roll": "2024-09-10",
+        "gap": 0.0005500000000000504
+      },
+      {
+        "from": "6CQ4",
+        "to": "6CU4",
+        "nominal_roll": "2024-08-13",
+        "actual_roll": "2024-08-13",
+        "gap": 0.0006499999999999284
+      },
+      {
+        "from": "6CN4",
+        "to": "6CQ4",
+        "nominal_roll": "2024-07-09",
+        "actual_roll": "2024-07-09",
+        "gap": 0.0006000000000000449
+      },
+      {
+        "from": "6CM4",
+        "to": "6CN4",
+        "nominal_roll": "2024-06-11",
+        "actual_roll": "2024-06-11",
+        "gap": 0.00040000000000006697
+      }
+    ],
+    "last_incremental_at": "2026-06-02T00:04:07"
+  },
+  "BRITISH POUND - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-22T18:57:01",
+    "first_date": "2023-06-20",
+    "last_date": "2026-06-02",
+    "n_contracts": 25,
+    "rolls": [
+      {
+        "from": "6BK6",
+        "to": "6BM6",
+        "nominal_roll": "2026-05-11",
+        "actual_roll": "2026-05-11",
+        "gap": 0.0
+      },
+      {
+        "from": "6BJ6",
+        "to": "6BK6",
+        "nominal_roll": "2026-04-06",
+        "actual_roll": "2026-04-06",
+        "gap": -9.999999999998899e-05
+      },
+      {
+        "from": "6BH6",
+        "to": "6BJ6",
+        "nominal_roll": "2026-03-09",
+        "actual_roll": "2026-03-09",
+        "gap": 0.0
+      },
+      {
+        "from": "6BG6",
+        "to": "6BH6",
+        "nominal_roll": "2026-02-06",
+        "actual_roll": "2026-02-06",
+        "gap": 0.0
+      },
+      {
+        "from": "6BF6",
+        "to": "6BG6",
+        "nominal_roll": "2026-01-09",
+        "actual_roll": "2026-01-09",
+        "gap": 0.0
+      },
+      {
+        "from": "6BZ5",
+        "to": "6BF6",
+        "nominal_roll": "2025-12-08",
+        "actual_roll": "2025-12-08",
+        "gap": 0.0
+      },
+      {
+        "from": "6BX5",
+        "to": "6BZ5",
+        "nominal_roll": "2025-11-10",
+        "actual_roll": "2025-11-10",
+        "gap": -9.999999999998899e-05
+      },
+      {
+        "from": "6BV5",
+        "to": "6BX5",
+        "nominal_roll": "2025-10-03",
+        "actual_roll": "2025-10-03",
+        "gap": 9.999999999998899e-05
+      },
+      {
+        "from": "6BU5",
+        "to": "6BV5",
+        "nominal_roll": "2025-09-08",
+        "actual_roll": "2025-09-08",
+        "gap": 0.00019999999999997797
+      },
+      {
+        "from": "6BQ5",
+        "to": "6BU5",
+        "nominal_roll": "2025-08-11",
+        "actual_roll": "2025-08-11",
+        "gap": 0.000400000000000178
+      },
+      {
+        "from": "6BN5",
+        "to": "6BQ5",
+        "nominal_roll": "2025-07-07",
+        "actual_roll": "2025-07-07",
+        "gap": 0.00029999999999996696
+      },
+      {
+        "from": "6BM5",
+        "to": "6BN5",
+        "nominal_roll": "2025-06-09",
+        "actual_roll": "2025-06-09",
+        "gap": 0.00019999999999997797
+      },
+      {
+        "from": "6BK5",
+        "to": "6BM5",
+        "nominal_roll": "2025-05-12",
+        "actual_roll": "2025-05-12",
+        "gap": 0.00019999999999997797
+      },
+      {
+        "from": "6BJ5",
+        "to": "6BK5",
+        "nominal_roll": "2025-04-07",
+        "actual_roll": "2025-04-07",
+        "gap": -9.999999999998899e-05
+      },
+      {
+        "from": "6BH5",
+        "to": "6BJ5",
+        "nominal_roll": "2025-03-10",
+        "actual_roll": "2025-03-10",
+        "gap": -9.999999999998899e-05
+      },
+      {
+        "from": "6BG5",
+        "to": "6BH5",
+        "nominal_roll": "2025-02-07",
+        "actual_roll": "2025-02-07",
+        "gap": -9.999999999998899e-05
+      },
+      {
+        "from": "6BF5",
+        "to": "6BG5",
+        "nominal_roll": "2025-01-06",
+        "actual_roll": "2025-01-06",
+        "gap": -0.000300000000000189
+      },
+      {
+        "from": "6BZ4",
+        "to": "6BF5",
+        "nominal_roll": "2024-12-09",
+        "actual_roll": "2024-12-09",
+        "gap": -9.999999999998899e-05
+      },
+      {
+        "from": "6BX4",
+        "to": "6BZ4",
+        "nominal_roll": "2024-11-11",
+        "actual_roll": "2024-11-11",
+        "gap": -9.999999999998899e-05
+      },
+      {
+        "from": "6BV4",
+        "to": "6BX4",
+        "nominal_roll": "2024-10-04",
+        "actual_roll": "2024-10-04",
+        "gap": -9.999999999998899e-05
+      },
+      {
+        "from": "6BU4",
+        "to": "6BV4",
+        "nominal_roll": "2024-09-09",
+        "actual_roll": "2024-09-09",
+        "gap": 0.00019999999999997797
+      },
+      {
+        "from": "6BQ4",
+        "to": "6BU4",
+        "nominal_roll": "2024-08-12",
+        "actual_roll": "2024-08-12",
+        "gap": 0.000400000000000178
+      },
+      {
+        "from": "6BN4",
+        "to": "6BQ4",
+        "nominal_roll": "2024-07-08",
+        "actual_roll": "2024-07-08",
+        "gap": 0.00029999999999996696
+      },
+      {
+        "from": "6BM4",
+        "to": "6BN4",
+        "nominal_roll": "2024-06-10",
+        "actual_roll": "2024-06-10",
+        "gap": 0.00019999999999997797
+      }
+    ],
+    "last_incremental_at": "2026-06-02T00:04:43"
+  },
+  "JAPANESE YEN - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-22T18:59:08",
+    "first_date": "2023-06-20",
+    "last_date": "2026-06-02",
+    "n_contracts": 25,
+    "rolls": [
+      {
+        "from": "6JK6",
+        "to": "6JM6",
+        "nominal_roll": "2026-05-11",
+        "actual_roll": "2026-05-11",
+        "gap": 1.4000000000000123e-05
+      },
+      {
+        "from": "6JJ6",
+        "to": "6JK6",
+        "nominal_roll": "2026-04-06",
+        "actual_roll": "2026-04-06",
+        "gap": 1.899999999999992e-05
+      },
+      {
+        "from": "6JH6",
+        "to": "6JJ6",
+        "nominal_roll": "2026-03-09",
+        "actual_roll": "2026-03-09",
+        "gap": 1.600000000000039e-05
+      },
+      {
+        "from": "6JG6",
+        "to": "6JH6",
+        "nominal_roll": "2026-02-06",
+        "actual_roll": "2026-02-06",
+        "gap": 1.5000000000000256e-05
+      },
+      {
+        "from": "6JF6",
+        "to": "6JG6",
+        "nominal_roll": "2026-01-09",
+        "actual_roll": "2026-01-09",
+        "gap": 1.4000000000000123e-05
+      },
+      {
+        "from": "6JZ5",
+        "to": "6JF6",
+        "nominal_roll": "2025-12-08",
+        "actual_roll": "2025-12-08",
+        "gap": 2.2999999999999583e-05
+      },
+      {
+        "from": "6JX5",
+        "to": "6JZ5",
+        "nominal_roll": "2025-11-10",
+        "actual_roll": "2025-11-10",
+        "gap": 1.7999999999999787e-05
+      },
+      {
+        "from": "6JV5",
+        "to": "6JX5",
+        "nominal_roll": "2025-10-03",
+        "actual_roll": "2025-10-03",
+        "gap": 2.3999999999999716e-05
+      },
+      {
+        "from": "6JU5",
+        "to": "6JV5",
+        "nominal_roll": "2025-09-08",
+        "actual_roll": "2025-09-08",
+        "gap": 2.1000000000000185e-05
+      },
+      {
+        "from": "6JQ5",
+        "to": "6JU5",
+        "nominal_roll": "2025-08-11",
+        "actual_roll": "2025-08-11",
+        "gap": 2.1000000000000185e-05
+      },
+      {
+        "from": "6JN5",
+        "to": "6JQ5",
+        "nominal_roll": "2025-07-07",
+        "actual_roll": "2025-07-07",
+        "gap": 2.7000000000000114e-05
+      },
+      {
+        "from": "6JM5",
+        "to": "6JN5",
+        "nominal_roll": "2025-06-09",
+        "actual_roll": "2025-06-09",
+        "gap": 2.2999999999999583e-05
+      },
+      {
+        "from": "6JK5",
+        "to": "6JM5",
+        "nominal_roll": "2025-05-12",
+        "actual_roll": "2025-05-12",
+        "gap": 2.199999999999945e-05
+      },
+      {
+        "from": "6JJ5",
+        "to": "6JK5",
+        "nominal_roll": "2025-04-07",
+        "actual_roll": "2025-04-07",
+        "gap": 2.8000000000000247e-05
+      },
+      {
+        "from": "6JH5",
+        "to": "6JJ5",
+        "nominal_roll": "2025-03-10",
+        "actual_roll": "2025-03-10",
+        "gap": 2.2000000000000318e-05
+      },
+      {
+        "from": "6JG5",
+        "to": "6JH5",
+        "nominal_roll": "2025-02-07",
+        "actual_roll": "2025-02-07",
+        "gap": 2.1000000000000185e-05
+      },
+      {
+        "from": "6JF5",
+        "to": "6JG5",
+        "nominal_roll": "2025-01-06",
+        "actual_roll": "2025-01-06",
+        "gap": 2.599999999999998e-05
+      },
+      {
+        "from": "6JZ4",
+        "to": "6JF5",
+        "nominal_roll": "2024-12-09",
+        "actual_roll": "2024-12-09",
+        "gap": 2.5000000000000716e-05
+      },
+      {
+        "from": "6JX4",
+        "to": "6JZ4",
+        "nominal_roll": "2024-11-11",
+        "actual_roll": "2024-11-11",
+        "gap": 2.2999999999999583e-05
+      },
+      {
+        "from": "6JV4",
+        "to": "6JX4",
+        "nominal_roll": "2024-10-04",
+        "actual_roll": "2024-10-04",
+        "gap": 3.199999999999991e-05
+      },
+      {
+        "from": "6JU4",
+        "to": "6JV4",
+        "nominal_roll": "2024-09-09",
+        "actual_roll": "2024-09-09",
+        "gap": 2.8000000000000247e-05
+      },
+      {
+        "from": "6JQ4",
+        "to": "6JU4",
+        "nominal_roll": "2024-08-12",
+        "actual_roll": "2024-08-12",
+        "gap": 2.8000000000000247e-05
+      },
+      {
+        "from": "6JN4",
+        "to": "6JQ4",
+        "nominal_roll": "2024-07-08",
+        "actual_roll": "2024-07-08",
+        "gap": 3.300000000000004e-05
+      },
+      {
+        "from": "6JM4",
+        "to": "6JN4",
+        "nominal_roll": "2024-06-10",
+        "actual_roll": "2024-06-10",
+        "gap": 2.599999999999998e-05
+      }
+    ],
+    "last_incremental_at": "2026-06-02T00:05:18"
+  },
+  "NEW ZEALAND DOLLAR - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-22T18:59:56",
+    "first_date": "2023-06-20",
+    "last_date": "2026-06-02",
+    "n_contracts": 9,
+    "rolls": [
+      {
+        "from": "6NH6",
+        "to": "6NM6",
+        "nominal_roll": "2026-03-09",
+        "actual_roll": "2026-03-09",
+        "gap": 0.0019500000000000073
+      },
+      {
+        "from": "6NZ5",
+        "to": "6NH6",
+        "nominal_roll": "2025-12-08",
+        "actual_roll": "2025-12-08",
+        "gap": 0.0020499999999999963
+      },
+      {
+        "from": "6NU5",
+        "to": "6NZ5",
+        "nominal_roll": "2025-09-08",
+        "actual_roll": "2025-09-08",
+        "gap": 0.0018500000000000183
+      },
+      {
+        "from": "6NM5",
+        "to": "6NU5",
+        "nominal_roll": "2025-06-09",
+        "actual_roll": "2025-06-09",
+        "gap": 0.0019000000000000128
+      },
+      {
+        "from": "6NH5",
+        "to": "6NM5",
+        "nominal_roll": "2025-03-10",
+        "actual_roll": "2025-03-10",
+        "gap": 0.0010999999999999899
+      },
+      {
+        "from": "6NZ4",
+        "to": "6NH5",
+        "nominal_roll": "2024-12-09",
+        "actual_roll": "2024-12-09",
+        "gap": 0.0006000000000000449
+      },
+      {
+        "from": "6NU4",
+        "to": "6NZ4",
+        "nominal_roll": "2024-09-09",
+        "actual_roll": "2024-09-09",
+        "gap": 0.0001500000000000945
+      },
+      {
+        "from": "6NM4",
+        "to": "6NU4",
+        "nominal_roll": "2024-06-10",
+        "actual_roll": "2024-06-10",
+        "gap": -4.999999999999449e-05
+      }
+    ],
+    "last_incremental_at": "2026-06-02T00:05:33"
+  },
+  "SO AFRICAN RAND - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-22T19:02:05",
+    "first_date": "2023-06-20",
+    "last_date": "2026-06-02",
+    "n_contracts": 25,
+    "rolls": [
+      {
+        "from": "6ZK6",
+        "to": "6ZM6",
+        "nominal_roll": "2026-05-11",
+        "actual_roll": "2026-05-11",
+        "gap": -0.0001250000000000001
+      },
+      {
+        "from": "6ZJ6",
+        "to": "6ZK6",
+        "nominal_roll": "2026-04-06",
+        "actual_roll": "2026-04-06",
+        "gap": -0.0001500000000000043
+      },
+      {
+        "from": "6ZH6",
+        "to": "6ZJ6",
+        "nominal_roll": "2026-03-09",
+        "actual_roll": "2026-03-09",
+        "gap": -0.0001250000000000001
+      },
+      {
+        "from": "6ZG6",
+        "to": "6ZH6",
+        "nominal_roll": "2026-02-06",
+        "actual_roll": "2026-02-06",
+        "gap": -0.0001250000000000001
+      },
+      {
+        "from": "6ZF6",
+        "to": "6ZG6",
+        "nominal_roll": "2026-01-09",
+        "actual_roll": "2026-01-09",
+        "gap": -0.0001250000000000001
+      },
+      {
+        "from": "6ZZ5",
+        "to": "6ZF6",
+        "nominal_roll": "2025-12-08",
+        "actual_roll": "2025-12-08",
+        "gap": -0.00014999999999999736
+      },
+      {
+        "from": "6ZX5",
+        "to": "6ZZ5",
+        "nominal_roll": "2025-11-10",
+        "actual_roll": "2025-11-10",
+        "gap": -0.0001250000000000001
+      },
+      {
+        "from": "6ZV5",
+        "to": "6ZX5",
+        "nominal_roll": "2025-10-03",
+        "actual_roll": "2025-10-03",
+        "gap": -0.00014999999999999736
+      },
+      {
+        "from": "6ZU5",
+        "to": "6ZV5",
+        "nominal_roll": "2025-09-08",
+        "actual_roll": "2025-09-08",
+        "gap": -9.999999999999593e-05
+      },
+      {
+        "from": "6ZQ5",
+        "to": "6ZU5",
+        "nominal_roll": "2025-08-11",
+        "actual_roll": "2025-08-11",
+        "gap": -0.00010000000000000286
+      },
+      {
+        "from": "6ZN5",
+        "to": "6ZQ5",
+        "nominal_roll": "2025-07-07",
+        "actual_roll": "2025-07-07",
+        "gap": -0.00014999999999999736
+      },
+      {
+        "from": "6ZM5",
+        "to": "6ZN5",
+        "nominal_roll": "2025-06-09",
+        "actual_roll": "2025-06-09",
+        "gap": -0.0001250000000000001
+      },
+      {
+        "from": "6ZK5",
+        "to": "6ZM5",
+        "nominal_roll": "2025-05-12",
+        "actual_roll": "2025-05-12",
+        "gap": -9.999999999999593e-05
+      },
+      {
+        "from": "6ZJ5",
+        "to": "6ZK5",
+        "nominal_roll": "2025-04-07",
+        "actual_roll": "2025-04-07",
+        "gap": -0.0001250000000000001
+      },
+      {
+        "from": "6ZH5",
+        "to": "6ZJ5",
+        "nominal_roll": "2025-03-10",
+        "actual_roll": "2025-03-10",
+        "gap": -0.0001250000000000001
+      },
+      {
+        "from": "6ZG5",
+        "to": "6ZH5",
+        "nominal_roll": "2025-02-07",
+        "actual_roll": "2025-02-07",
+        "gap": -0.0001500000000000043
+      },
+      {
+        "from": "6ZF5",
+        "to": "6ZG5",
+        "nominal_roll": "2025-01-06",
+        "actual_roll": "2025-01-06",
+        "gap": -0.00014999999999999736
+      },
+      {
+        "from": "6ZZ4",
+        "to": "6ZF5",
+        "nominal_roll": "2024-12-09",
+        "actual_roll": "2024-12-09",
+        "gap": -0.0001500000000000043
+      },
+      {
+        "from": "6ZX4",
+        "to": "6ZZ4",
+        "nominal_roll": "2024-11-11",
+        "actual_roll": "2024-11-11",
+        "gap": -0.0001250000000000001
+      },
+      {
+        "from": "6ZV4",
+        "to": "6ZX4",
+        "nominal_roll": "2024-10-04",
+        "actual_roll": "2024-10-04",
+        "gap": -0.00017500000000000154
+      },
+      {
+        "from": "6ZU4",
+        "to": "6ZV4",
+        "nominal_roll": "2024-09-09",
+        "actual_roll": "2024-09-09",
+        "gap": -0.00010000000000000286
+      },
+      {
+        "from": "6ZQ4",
+        "to": "6ZU4",
+        "nominal_roll": "2024-08-12",
+        "actual_roll": "2024-08-12",
+        "gap": -0.0001250000000000001
+      },
+      {
+        "from": "6ZN4",
+        "to": "6ZQ4",
+        "nominal_roll": "2024-07-08",
+        "actual_roll": "2024-07-08",
+        "gap": -0.0001250000000000001
+      },
+      {
+        "from": "6ZM4",
+        "to": "6ZN4",
+        "nominal_roll": "2024-06-10",
+        "actual_roll": "2024-06-10",
+        "gap": -0.0001250000000000001
+      }
+    ],
+    "last_incremental_at": "2026-06-02T00:06:13"
+  },
+  "BITCOIN - CHICAGO MERCANTILE EXCHANGE": {
+    "rebuilt_at": "2026-05-30T18:14:08",
+    "first_date": "2023-11-27",
+    "last_date": "2026-06-02",
+    "n_contracts": 26,
+    "rolls": [
+      {
+        "from": "BTCK6",
+        "to": "BTCM6",
+        "nominal_roll": "2026-05-22",
+        "actual_roll": "2026-05-22",
+        "gap": 295.0
+      },
+      {
+        "from": "BTCJ6",
+        "to": "BTCK6",
+        "nominal_roll": "2026-04-17",
+        "actual_roll": "2026-04-17",
+        "gap": 370.0
+      },
+      {
+        "from": "BTCH6",
+        "to": "BTCJ6",
+        "nominal_roll": "2026-03-20",
+        "actual_roll": "2026-03-20",
+        "gap": 265.0
+      },
+      {
+        "from": "BTCG6",
+        "to": "BTCH6",
+        "nominal_roll": "2026-02-20",
+        "actual_roll": "2026-02-20",
+        "gap": 255.0
+      },
+      {
+        "from": "BTCF6",
+        "to": "BTCG6",
+        "nominal_roll": "2026-01-23",
+        "actual_roll": "2026-01-23",
+        "gap": 350.0
+      },
+      {
+        "from": "BTCZ5",
+        "to": "BTCF6",
+        "nominal_roll": "2025-12-19",
+        "actual_roll": "2025-12-19",
+        "gap": 460.0
+      },
+      {
+        "from": "BTCX5",
+        "to": "BTCZ5",
+        "nominal_roll": "2025-11-21",
+        "actual_roll": "2025-11-21",
+        "gap": 400.0
+      },
+      {
+        "from": "BTCV5",
+        "to": "BTCX5",
+        "nominal_roll": "2025-10-24",
+        "actual_roll": "2025-10-24",
+        "gap": 560.0
+      },
+      {
+        "from": "BTCU5",
+        "to": "BTCV5",
+        "nominal_roll": "2025-09-19",
+        "actual_roll": "2025-09-19",
+        "gap": 865.0
+      },
+      {
+        "from": "BTCQ5",
+        "to": "BTCU5",
+        "nominal_roll": "2025-08-22",
+        "actual_roll": "2025-08-22",
+        "gap": 740.0
+      },
+      {
+        "from": "BTCN5",
+        "to": "BTCQ5",
+        "nominal_roll": "2025-07-18",
+        "actual_roll": "2025-07-18",
+        "gap": 860.0
+      },
+      {
+        "from": "BTCM5",
+        "to": "BTCN5",
+        "nominal_roll": "2025-06-20",
+        "actual_roll": "2025-06-20",
+        "gap": 660.0
+      },
+      {
+        "from": "BTCK5",
+        "to": "BTCM5",
+        "nominal_roll": "2025-05-23",
+        "actual_roll": "2025-05-23",
+        "gap": 740.0
+      },
+      {
+        "from": "BTCJ5",
+        "to": "BTCK5",
+        "nominal_roll": "2025-04-18",
+        "actual_roll": "2025-04-17",
+        "gap": 610.0
+      },
+      {
+        "from": "BTCH5",
+        "to": "BTCJ5",
+        "nominal_roll": "2025-03-21",
+        "actual_roll": "2025-03-21",
+        "gap": 500.0
+      },
+      {
+        "from": "BTCG5",
+        "to": "BTCH5",
+        "nominal_roll": "2025-02-21",
+        "actual_roll": "2025-02-21",
+        "gap": 620.0
+      },
+      {
+        "from": "BTCF5",
+        "to": "BTCG5",
+        "nominal_roll": "2025-01-24",
+        "actual_roll": "2025-01-24",
+        "gap": 860.0
+      },
+      {
+        "from": "BTCZ4",
+        "to": "BTCF5",
+        "nominal_roll": "2024-12-20",
+        "actual_roll": "2024-12-20",
+        "gap": 1175.0
+      },
+      {
+        "from": "BTCX4",
+        "to": "BTCZ4",
+        "nominal_roll": "2024-11-22",
+        "actual_roll": "2024-11-22",
+        "gap": 1015.0
+      },
+      {
+        "from": "BTCV4",
+        "to": "BTCX4",
+        "nominal_roll": "2024-10-18",
+        "actual_roll": "2024-10-18",
+        "gap": 615.0
+      },
+      {
+        "from": "BTCU4",
+        "to": "BTCV4",
+        "nominal_roll": "2024-09-20",
+        "actual_roll": "2024-09-20",
+        "gap": 465.0
+      },
+      {
+        "from": "BTCQ4",
+        "to": "BTCU4",
+        "nominal_roll": "2024-08-23",
+        "actual_roll": "2024-08-23",
+        "gap": 515.0
+      },
+      {
+        "from": "BTCN4",
+        "to": "BTCQ4",
+        "nominal_roll": "2024-07-19",
+        "actual_roll": "2024-07-19",
+        "gap": 765.0
+      },
+      {
+        "from": "BTCM4",
+        "to": "BTCN4",
+        "nominal_roll": "2024-06-21",
+        "actual_roll": "2024-06-21",
+        "gap": 550.0
+      },
+      {
+        "from": "BTCK4",
+        "to": "BTCM4",
+        "nominal_roll": "2024-05-24",
+        "actual_roll": "2024-05-24",
+        "gap": 590.0
+      }
+    ],
+    "last_incremental_at": "2026-06-02T00:06:48"
+  },
+  "VIX FUTURES - CBOE FUTURES EXCHANGE": {
+    "rebuilt_at": "2026-05-22T19:11:48",
+    "first_date": "2024-04-11",
+    "last_date": "2026-06-03",
+    "n_contracts": 108,
+    "rolls": [
+      {
+        "from": "VX23M6",
+        "to": "VXM6",
+        "nominal_roll": "2026-06-03",
+        "actual_roll": "None",
+        "gap": 0.0
+      },
+      {
+        "from": "VX22M6",
+        "to": "VX23M6",
+        "nominal_roll": "2026-05-26",
+        "actual_roll": "None",
+        "gap": 0.0
+      },
+      {
+        "from": "VX21K6",
+        "to": "VX22M6",
+        "nominal_roll": "2026-05-20",
+        "actual_roll": "2026-05-20",
+        "gap": 0.0
+      },
+      {
+        "from": "VXK6",
+        "to": "VX21K6",
+        "nominal_roll": "2026-05-12",
+        "actual_roll": "2026-05-12",
+        "gap": 0.0
+      },
+      {
+        "from": "VX19K6",
+        "to": "VXK6",
+        "nominal_roll": "2026-05-06",
+        "actual_roll": "2026-05-06",
+        "gap": 0.0
+      },
+      {
+        "from": "VX18K6",
+        "to": "VX19K6",
+        "nominal_roll": "2026-04-29",
+        "actual_roll": "2026-04-29",
+        "gap": 0.0
+      },
+      {
+        "from": "VX17J6",
+        "to": "VX18K6",
+        "nominal_roll": "2026-04-22",
+        "actual_roll": "2026-04-22",
+        "gap": 0.0
+      },
+      {
+        "from": "VX16J6",
+        "to": "VX17J6",
+        "nominal_roll": "2026-04-15",
+        "actual_roll": "2026-04-15",
+        "gap": 0.75
+      },
+      {
+        "from": "VXJ6",
+        "to": "VX16J6",
+        "nominal_roll": "2026-04-08",
+        "actual_roll": "2026-04-08",
+        "gap": 0.0
+      },
+      {
+        "from": "VX14J6",
+        "to": "VXJ6",
+        "nominal_roll": "2026-04-01",
+        "actual_roll": "2026-04-01",
+        "gap": 0.0
+      },
+      {
+        "from": "VX13J6",
+        "to": "VX14J6",
+        "nominal_roll": "2026-03-25",
+        "actual_roll": "2026-03-25",
+        "gap": 0.0
+      },
+      {
+        "from": "VX12H6",
+        "to": "VX13J6",
+        "nominal_roll": "2026-03-18",
+        "actual_roll": "2026-03-18",
+        "gap": 0.0
+      },
+      {
+        "from": "VXH6",
+        "to": "VX12H6",
+        "nominal_roll": "2026-03-11",
+        "actual_roll": "2026-03-11",
+        "gap": 0.0
+      },
+      {
+        "from": "VX10H6",
+        "to": "VXH6",
+        "nominal_roll": "2026-03-04",
+        "actual_roll": "2026-03-04",
+        "gap": 0.0
+      },
+      {
+        "from": "VX09H6",
+        "to": "VX10H6",
+        "nominal_roll": "2026-02-24",
+        "actual_roll": "2026-02-24",
+        "gap": 0.0
+      },
+      {
+        "from": "VX08G6",
+        "to": "VX09H6",
+        "nominal_roll": "2026-02-18",
+        "actual_roll": "2026-02-18",
+        "gap": 0.0
+      },
+      {
+        "from": "VXG6",
+        "to": "VX08G6",
+        "nominal_roll": "2026-02-11",
+        "actual_roll": "2026-02-11",
+        "gap": 0.0
+      },
+      {
+        "from": "VX06G6",
+        "to": "VXG6",
+        "nominal_roll": "2026-02-04",
+        "actual_roll": "2026-02-04",
+        "gap": 0.0
+      },
+      {
+        "from": "VX05G6",
+        "to": "VX06G6",
+        "nominal_roll": "2026-01-28",
+        "actual_roll": "2026-01-28",
+        "gap": 0.0
+      },
+      {
+        "from": "VX04F6",
+        "to": "VX05G6",
+        "nominal_roll": "2026-01-21",
+        "actual_roll": "2026-01-21",
+        "gap": 0.0
+      },
+      {
+        "from": "VXF6",
+        "to": "VX04F6",
+        "nominal_roll": "2026-01-14",
+        "actual_roll": "2026-01-14",
+        "gap": 0.0
+      },
+      {
+        "from": "VX02F6",
+        "to": "VXF6",
+        "nominal_roll": "2026-01-07",
+        "actual_roll": "2026-01-07",
+        "gap": 0.0
+      },
+      {
+        "from": "VX01F6",
+        "to": "VX02F6",
+        "nominal_roll": "2025-12-31",
+        "actual_roll": "2025-12-31",
+        "gap": 0.0
+      },
+      {
+        "from": "VX52Z5",
+        "to": "VX01F6",
+        "nominal_roll": "2025-12-24",
+        "actual_roll": "2025-12-24",
+        "gap": 0.0
+      },
+      {
+        "from": "VX51Z5",
+        "to": "VX52Z5",
+        "nominal_roll": "2025-12-17",
+        "actual_roll": "2025-12-17",
+        "gap": 0.0
+      },
+      {
+        "from": "VXZ5",
+        "to": "VX51Z5",
+        "nominal_roll": "2025-12-10",
+        "actual_roll": "2025-12-10",
+        "gap": 0.0
+      },
+      {
+        "from": "VX49Z5",
+        "to": "VXZ5",
+        "nominal_roll": "2025-12-03",
+        "actual_roll": "2025-12-03",
+        "gap": 0.0
+      },
+      {
+        "from": "VX48Z5",
+        "to": "VX49Z5",
+        "nominal_roll": "2025-11-26",
+        "actual_roll": "2025-11-26",
+        "gap": 0.0
+      },
+      {
+        "from": "VX47X5",
+        "to": "VX48Z5",
+        "nominal_roll": "2025-11-19",
+        "actual_roll": "2025-11-19",
+        "gap": 0.0
+      },
+      {
+        "from": "VXX5",
+        "to": "VX47X5",
+        "nominal_roll": "2025-11-12",
+        "actual_roll": "2025-11-12",
+        "gap": 0.0
+      },
+      {
+        "from": "VX45X5",
+        "to": "VXX5",
+        "nominal_roll": "2025-11-05",
+        "actual_roll": "2025-11-05",
+        "gap": 0.0
+      },
+      {
+        "from": "VX44X5",
+        "to": "VX45X5",
+        "nominal_roll": "2025-10-29",
+        "actual_roll": "2025-10-29",
+        "gap": 2.1999999999999993
+      },
+      {
+        "from": "VX43V5",
+        "to": "VX44X5",
+        "nominal_roll": "2025-10-22",
+        "actual_roll": "2025-10-22",
+        "gap": 0.0
+      },
+      {
+        "from": "VXV5",
+        "to": "VX43V5",
+        "nominal_roll": "2025-10-15",
+        "actual_roll": "2025-10-15",
+        "gap": 0.0
+      },
+      {
+        "from": "VX41V5",
+        "to": "VXV5",
+        "nominal_roll": "2025-10-08",
+        "actual_roll": "2025-10-08",
+        "gap": 0.0
+      },
+      {
+        "from": "VX40V5",
+        "to": "VX41V5",
+        "nominal_roll": "2025-10-01",
+        "actual_roll": "2025-10-01",
+        "gap": 0.0
+      },
+      {
+        "from": "VX39V5",
+        "to": "VX40V5",
+        "nominal_roll": "2025-09-24",
+        "actual_roll": "2025-09-24",
+        "gap": 0.0
+      },
+      {
+        "from": "VX38U5",
+        "to": "VX39V5",
+        "nominal_roll": "2025-09-17",
+        "actual_roll": "2025-09-17",
+        "gap": 0.0
+      },
+      {
+        "from": "VXU5",
+        "to": "VX38U5",
+        "nominal_roll": "2025-09-10",
+        "actual_roll": "2025-09-10",
+        "gap": 0.0
+      },
+      {
+        "from": "VX36U5",
+        "to": "VXU5",
+        "nominal_roll": "2025-09-03",
+        "actual_roll": "2025-09-03",
+        "gap": 0.0
+      },
+      {
+        "from": "VX35U5",
+        "to": "VX36U5",
+        "nominal_roll": "2025-08-27",
+        "actual_roll": "2025-08-27",
+        "gap": 0.0
+      },
+      {
+        "from": "VX34Q5",
+        "to": "VX35U5",
+        "nominal_roll": "2025-08-20",
+        "actual_roll": "2025-08-20",
+        "gap": 0.0
+      },
+      {
+        "from": "VXQ5",
+        "to": "VX34Q5",
+        "nominal_roll": "2025-08-13",
+        "actual_roll": "2025-08-13",
+        "gap": 0.0
+      },
+      {
+        "from": "VX32Q5",
+        "to": "VXQ5",
+        "nominal_roll": "2025-08-06",
+        "actual_roll": "2025-08-06",
+        "gap": 0.0
+      },
+      {
+        "from": "VX31Q5",
+        "to": "VX32Q5",
+        "nominal_roll": "2025-07-30",
+        "actual_roll": "2025-07-30",
+        "gap": 0.0
+      },
+      {
+        "from": "VX30N5",
+        "to": "VX31Q5",
+        "nominal_roll": "2025-07-23",
+        "actual_roll": "2025-07-23",
+        "gap": 0.0
+      },
+      {
+        "from": "VX29N5",
+        "to": "VX30N5",
+        "nominal_roll": "2025-07-16",
+        "actual_roll": "2025-07-16",
+        "gap": 0.0
+      },
+      {
+        "from": "VXN5",
+        "to": "VX29N5",
+        "nominal_roll": "2025-07-09",
+        "actual_roll": "2025-07-09",
+        "gap": 0.0
+      },
+      {
+        "from": "VX27N5",
+        "to": "VXN5",
+        "nominal_roll": "2025-07-02",
+        "actual_roll": "2025-07-02",
+        "gap": 0.0
+      },
+      {
+        "from": "VX26N5",
+        "to": "VX27N5",
+        "nominal_roll": "2025-06-25",
+        "actual_roll": "2025-06-25",
+        "gap": 0.0
+      },
+      {
+        "from": "VX25M5",
+        "to": "VX26N5",
+        "nominal_roll": "2025-06-18",
+        "actual_roll": "2025-06-18",
+        "gap": 0.0
+      },
+      {
+        "from": "VXM5",
+        "to": "VX25M5",
+        "nominal_roll": "2025-06-11",
+        "actual_roll": "2025-06-11",
+        "gap": 0.0
+      },
+      {
+        "from": "VX23M5",
+        "to": "VXM5",
+        "nominal_roll": "2025-06-04",
+        "actual_roll": "2025-06-04",
+        "gap": 0.0
+      },
+      {
+        "from": "VX22M5",
+        "to": "VX23M5",
+        "nominal_roll": "2025-05-27",
+        "actual_roll": "2025-05-27",
+        "gap": 0.0
+      },
+      {
+        "from": "VX21K5",
+        "to": "VX22M5",
+        "nominal_roll": "2025-05-21",
+        "actual_roll": "2025-05-21",
+        "gap": 0.0
+      },
+      {
+        "from": "VXK5",
+        "to": "VX21K5",
+        "nominal_roll": "2025-05-14",
+        "actual_roll": "2025-05-14",
+        "gap": 0.0
+      },
+      {
+        "from": "VX19K5",
+        "to": "VXK5",
+        "nominal_roll": "2025-05-07",
+        "actual_roll": "2025-05-07",
+        "gap": -1.1499999999999986
+      },
+      {
+        "from": "VX18K5",
+        "to": "VX19K5",
+        "nominal_roll": "2025-04-30",
+        "actual_roll": "2025-04-30",
+        "gap": 0.0
+      },
+      {
+        "from": "VX17J5",
+        "to": "VX18K5",
+        "nominal_roll": "2025-04-23",
+        "actual_roll": "2025-04-23",
+        "gap": 0.0
+      },
+      {
+        "from": "VX16J5",
+        "to": "VX17J5",
+        "nominal_roll": "2025-04-16",
+        "actual_roll": "2025-04-16",
+        "gap": 0.0
+      },
+      {
+        "from": "VXJ5",
+        "to": "VX16J5",
+        "nominal_roll": "2025-04-09",
+        "actual_roll": "2025-04-09",
+        "gap": 0.0
+      },
+      {
+        "from": "VX14J5",
+        "to": "VXJ5",
+        "nominal_roll": "2025-04-02",
+        "actual_roll": "2025-04-02",
+        "gap": 0.0
+      },
+      {
+        "from": "VX13J5",
+        "to": "VX14J5",
+        "nominal_roll": "2025-03-26",
+        "actual_roll": "2025-03-26",
+        "gap": 0.0
+      },
+      {
+        "from": "VX12H5",
+        "to": "VX13J5",
+        "nominal_roll": "2025-03-19",
+        "actual_roll": "2025-03-19",
+        "gap": 0.0
+      },
+      {
+        "from": "VXH5",
+        "to": "VX12H5",
+        "nominal_roll": "2025-03-11",
+        "actual_roll": "2025-03-11",
+        "gap": 0.0
+      },
+      {
+        "from": "VX10H5",
+        "to": "VXH5",
+        "nominal_roll": "2025-03-05",
+        "actual_roll": "2025-03-05",
+        "gap": 0.0
+      },
+      {
+        "from": "VX09H5",
+        "to": "VX10H5",
+        "nominal_roll": "2025-02-26",
+        "actual_roll": "2025-02-26",
+        "gap": -0.10000000000000142
+      },
+      {
+        "from": "VX08G5",
+        "to": "VX09H5",
+        "nominal_roll": "2025-02-19",
+        "actual_roll": "2025-02-19",
+        "gap": 0.0
+      },
+      {
+        "from": "VXG5",
+        "to": "VX08G5",
+        "nominal_roll": "2025-02-12",
+        "actual_roll": "2025-02-12",
+        "gap": 0.0
+      },
+      {
+        "from": "VX06G5",
+        "to": "VXG5",
+        "nominal_roll": "2025-02-05",
+        "actual_roll": "2025-02-05",
+        "gap": -0.1999999999999993
+      },
+      {
+        "from": "VX05G5",
+        "to": "VX06G5",
+        "nominal_roll": "2025-01-29",
+        "actual_roll": "2025-01-29",
+        "gap": 0.0
+      },
+      {
+        "from": "VX04F5",
+        "to": "VX05G5",
+        "nominal_roll": "2025-01-22",
+        "actual_roll": "2025-01-22",
+        "gap": 0.40000000000000036
+      },
+      {
+        "from": "VXF5",
+        "to": "VX04F5",
+        "nominal_roll": "2025-01-15",
+        "actual_roll": "2025-01-15",
+        "gap": 0.0
+      },
+      {
+        "from": "VX02F5",
+        "to": "VXF5",
+        "nominal_roll": "2025-01-08",
+        "actual_roll": "2025-01-08",
+        "gap": 0.0
+      },
+      {
+        "from": "VX01F5",
+        "to": "VX02F5",
+        "nominal_roll": "2025-01-01",
+        "actual_roll": "2024-12-31",
+        "gap": 0.0
+      },
+      {
+        "from": "VX53Z4",
+        "to": "VX01F5",
+        "nominal_roll": "2024-12-24",
+        "actual_roll": "2024-12-24",
+        "gap": 0.0
+      },
+      {
+        "from": "VX52Z4",
+        "to": "VX53Z4",
+        "nominal_roll": "2024-12-17",
+        "actual_roll": "2024-12-17",
+        "gap": 0.0
+      },
+      {
+        "from": "VXZ4",
+        "to": "VX52Z4",
+        "nominal_roll": "2024-12-11",
+        "actual_roll": "2024-12-11",
+        "gap": 0.0
+      },
+      {
+        "from": "VX50Z4",
+        "to": "VXZ4",
+        "nominal_roll": "2024-12-04",
+        "actual_roll": "2024-12-04",
+        "gap": 0.0
+      },
+      {
+        "from": "VX49Z4",
+        "to": "VX50Z4",
+        "nominal_roll": "2024-11-27",
+        "actual_roll": "2024-11-27",
+        "gap": 0.0
+      },
+      {
+        "from": "VX48X4",
+        "to": "VX49Z4",
+        "nominal_roll": "2024-11-20",
+        "actual_roll": "2024-11-20",
+        "gap": 0.0
+      },
+      {
+        "from": "VXX4",
+        "to": "VX48X4",
+        "nominal_roll": "2024-11-13",
+        "actual_roll": "2024-11-13",
+        "gap": 0.0
+      },
+      {
+        "from": "VX46X4",
+        "to": "VXX4",
+        "nominal_roll": "2024-11-06",
+        "actual_roll": "2024-11-06",
+        "gap": 0.0
+      },
+      {
+        "from": "VX45X4",
+        "to": "VX46X4",
+        "nominal_roll": "2024-10-30",
+        "actual_roll": "2024-10-30",
+        "gap": 0.0
+      },
+      {
+        "from": "VX44V4",
+        "to": "VX45X4",
+        "nominal_roll": "2024-10-23",
+        "actual_roll": "2024-10-23",
+        "gap": 0.0
+      },
+      {
+        "from": "VX43V4",
+        "to": "VX44V4",
+        "nominal_roll": "2024-10-16",
+        "actual_roll": "2024-10-16",
+        "gap": 0.0
+      },
+      {
+        "from": "VXV4",
+        "to": "VX43V4",
+        "nominal_roll": "2024-10-09",
+        "actual_roll": "2024-10-09",
+        "gap": 0.3000000000000007
+      },
+      {
+        "from": "VX41V4",
+        "to": "VXV4",
+        "nominal_roll": "2024-10-02",
+        "actual_roll": "2024-10-02",
+        "gap": -1.0999999999999979
+      },
+      {
+        "from": "VX40V4",
+        "to": "VX41V4",
+        "nominal_roll": "2024-09-25",
+        "actual_roll": "2024-09-25",
+        "gap": 2.3500000000000014
+      },
+      {
+        "from": "VX39U4",
+        "to": "VX40V4",
+        "nominal_roll": "2024-09-18",
+        "actual_roll": "2024-09-18",
+        "gap": 0.0
+      },
+      {
+        "from": "VXU4",
+        "to": "VX39U4",
+        "nominal_roll": "2024-09-11",
+        "actual_roll": "2024-09-11",
+        "gap": 0.1999999999999993
+      },
+      {
+        "from": "VX37U4",
+        "to": "VXU4",
+        "nominal_roll": "2024-09-04",
+        "actual_roll": "2024-09-04",
+        "gap": -1.0
+      },
+      {
+        "from": "VX36U4",
+        "to": "VX37U4",
+        "nominal_roll": "2024-08-28",
+        "actual_roll": "2024-08-28",
+        "gap": -0.3500000000000014
+      },
+      {
+        "from": "VX35Q4",
+        "to": "VX36U4",
+        "nominal_roll": "2024-08-21",
+        "actual_roll": "2024-08-21",
+        "gap": 0.05000000000000071
+      },
+      {
+        "from": "VXQ4",
+        "to": "VX35Q4",
+        "nominal_roll": "2024-08-14",
+        "actual_roll": "2024-08-14",
+        "gap": 0.0
+      },
+      {
+        "from": "VX33Q4",
+        "to": "VXQ4",
+        "nominal_roll": "2024-08-07",
+        "actual_roll": "2024-08-07",
+        "gap": 0.0
+      },
+      {
+        "from": "VX32Q4",
+        "to": "VX33Q4",
+        "nominal_roll": "2024-07-31",
+        "actual_roll": "2024-07-31",
+        "gap": -0.14999999999999858
+      },
+      {
+        "from": "VX31N4",
+        "to": "VX32Q4",
+        "nominal_roll": "2024-07-24",
+        "actual_roll": "2024-07-24",
+        "gap": -0.9499999999999993
+      },
+      {
+        "from": "VX30N4",
+        "to": "VX31N4",
+        "nominal_roll": "2024-07-17",
+        "actual_roll": "2024-07-17",
+        "gap": 0.25
+      },
+      {
+        "from": "VXN4",
+        "to": "VX30N4",
+        "nominal_roll": "2024-07-10",
+        "actual_roll": "2024-07-10",
+        "gap": 0.5
+      },
+      {
+        "from": "VX28N4",
+        "to": "VXN4",
+        "nominal_roll": "2024-07-03",
+        "actual_roll": "2024-07-02",
+        "gap": 0.14999999999999858
+      },
+      {
+        "from": "VX27N4",
+        "to": "VX28N4",
+        "nominal_roll": "2024-06-26",
+        "actual_roll": "2024-06-26",
+        "gap": 0.5499999999999989
+      },
+      {
+        "from": "VX26M4",
+        "to": "VX27N4",
+        "nominal_roll": "2024-06-19",
+        "actual_roll": "2024-06-19",
+        "gap": 0.8499999999999996
+      },
+      {
+        "from": "VXM4",
+        "to": "VX26M4",
+        "nominal_roll": "2024-06-11",
+        "actual_roll": "2024-06-11",
+        "gap": 0.0
+      },
+      {
+        "from": "VX24M4",
+        "to": "VXM4",
+        "nominal_roll": "2024-06-05",
+        "actual_roll": "2024-06-05",
+        "gap": 0.0
+      },
+      {
+        "from": "VX23M4",
+        "to": "VX24M4",
+        "nominal_roll": "2024-05-29",
+        "actual_roll": "2024-05-29",
+        "gap": 0.15000000000000036
+      },
+      {
+        "from": "VX22K4",
+        "to": "VX23M4",
+        "nominal_roll": "2024-05-22",
+        "actual_roll": "2024-05-22",
+        "gap": 0.3000000000000007
+      }
+    ],
+    "last_incremental_at": "2026-06-03T08:45:55"
+  }
+}

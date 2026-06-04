@@ -24,6 +24,8 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from datetime import datetime, timedelta
 
+from backtest_engine.data import describe_contract
+
 # =============================================================================
 # CONSTANTS
 # =============================================================================
@@ -254,6 +256,8 @@ def prepare_orb_data(cot_df, market_name, or_type='30m',
     # Build strategy data from price columns
     price_cols = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume']
     available_cols = [col for col in price_cols if col in price_daily.columns]
+    if 'Contract' in price_daily.columns:
+        available_cols.append('Contract')
     strategy_data = price_daily[available_cols].copy()
     strategy_data = strategy_data.sort_values('Date').reset_index(drop=True)
 
@@ -838,7 +842,19 @@ def create_orb_strategy_chart(data, trades_df, market_name):
     n_rows = 5 if has_cot else 4
     heights = [0.40, 0.15, 0.15, 0.15, 0.15] if has_cot else [0.45, 0.18, 0.18, 0.19]
 
-    subtitles = [f"Price & Narrowing Range: {market_name}", "ATR (Fast & Slow)", "Narrowing Range Days"]
+    last_contract = None
+    if 'Contract' in df.columns and df['Contract'].notna().any():
+        last_contract = df['Contract'].dropna().iloc[-1]
+    ref_date = df['Date'].iloc[-1] if len(df) and 'Date' in df.columns else None
+    active_suffix = (
+        f"  -  Active: {describe_contract(last_contract, ref_date=ref_date)}"
+        if last_contract else ''
+    )
+    subtitles = [
+        f"Price & Narrowing Range: {market_name}{active_suffix}",
+        "ATR (Fast & Slow)",
+        "Narrowing Range Days",
+    ]
     if has_cot:
         subtitles.append("Commercial Index (COT)")
     subtitles.append("RSI")
@@ -882,6 +898,30 @@ def create_orb_strategy_chart(data, trades_df, market_name):
             name="OR Low", mode='markers',
             marker=dict(symbol='line-ew', size=10, color='#FF1744', line=dict(width=2))
         ), row=1, col=1)
+
+    # Opening-candle range whiskers on signal days (intraday breakout hint)
+    if (not signal_rows.empty
+            and 'or_candle_high' in signal_rows.columns
+            and 'or_candle_low' in signal_rows.columns):
+        whisker_rows = signal_rows[
+            signal_rows['or_candle_high'].notna() & signal_rows['or_candle_low'].notna()
+        ]
+        if not whisker_rows.empty:
+            for _, wrow in whisker_rows.iterrows():
+                fig.add_shape(
+                    type='line',
+                    x0=wrow['Date'], x1=wrow['Date'],
+                    y0=wrow['or_candle_low'], y1=wrow['or_candle_high'],
+                    line=dict(color='#FF9800', width=2),
+                    xref='x', yref='y',
+                )
+            fig.add_trace(go.Scatter(
+                x=whisker_rows['Date'],
+                y=(whisker_rows['or_candle_high'] + whisker_rows['or_candle_low']) / 2,
+                name="OR Candle Range",
+                mode='markers',
+                marker=dict(size=5, color='#FF9800'),
+            ), row=1, col=1)
 
     if not trades_df.empty:
         longs = trades_df[trades_df['direction'] == 'Long']
@@ -956,6 +996,198 @@ def create_orb_strategy_chart(data, trades_df, market_name):
     fig.update_yaxes(title_text="ATR", row=2, col=1)
     fig.update_yaxes(title_text="Count", row=3, col=1)
 
+    return fig
+
+
+def create_or_detail_placeholder():
+    """Empty state for the opening-range detail chart."""
+    fig = go.Figure()
+    fig.update_layout(
+        title="Opening Range Detail",
+        template="plotly_white",
+        height=420,
+        uirevision='orb-detail',
+        xaxis=dict(visible=False, fixedrange=True),
+        yaxis=dict(visible=False, fixedrange=True),
+        margin=dict(l=40, r=40, t=60, b=40),
+        annotations=[dict(
+            text="Select a trade in the table above to view the opening range breakout",
+            xref="paper", yref="paper", x=0.5, y=0.5,
+            showarrow=False, font=dict(size=14, color="#666"),
+        )],
+    )
+    return fig
+
+
+def create_or_detail_message(title, message):
+    """Detail chart with an informational message (e.g. missing intraday data)."""
+    fig = go.Figure()
+    fig.update_layout(
+        title=title,
+        template="plotly_white",
+        height=420,
+        uirevision='orb-detail',
+        xaxis=dict(visible=False, fixedrange=True),
+        yaxis=dict(visible=False, fixedrange=True),
+        margin=dict(l=40, r=40, t=60, b=40),
+        annotations=[dict(
+            text=message,
+            xref="paper", yref="paper", x=0.5, y=0.5,
+            showarrow=False, font=dict(size=13, color="#666"),
+        )],
+    )
+    return fig
+
+
+def get_opening_bar_for_date(intraday_df, entry_date):
+    """Return the first intraday bar row for a calendar date (OR session open)."""
+    if intraday_df.empty:
+        return None
+    entry_day = pd.Timestamp(entry_date).date()
+    day_bars = intraday_df[intraday_df['datetime'].dt.date == entry_day].sort_values('datetime')
+    if day_bars.empty:
+        return None
+    return day_bars.iloc[0]
+
+
+def get_chart_bars_for_trade(intraday_df, entry_date, or_type='60m', lookback_hours=6):
+    """Bars for detail chart: up to lookback_hours before open through end of entry day."""
+    opening_bar = get_opening_bar_for_date(intraday_df, entry_date)
+    if opening_bar is None:
+        return pd.DataFrame()
+
+    opening_dt = opening_bar['datetime']
+    entry_day = pd.Timestamp(entry_date).date()
+    day_bars = intraday_df[intraday_df['datetime'].dt.date == entry_day].sort_values('datetime')
+    window_end = day_bars['datetime'].max()
+    window_start = opening_dt - pd.Timedelta(hours=lookback_hours)
+    bars_per_hour = 2 if or_type == '30m' else 1
+    min_prior_bars = lookback_hours * bars_per_hour
+
+    prior = intraday_df[
+        (intraday_df['datetime'] >= window_start) &
+        (intraday_df['datetime'] < opening_dt)
+    ].sort_values('datetime')
+
+    # Overnight gaps: take the last N bars before the open if the 6h window is sparse
+    if len(prior) < min_prior_bars:
+        prior = intraday_df[intraday_df['datetime'] < opening_dt].sort_values('datetime').tail(min_prior_bars)
+
+    session = intraday_df[
+        (intraday_df['datetime'] >= opening_dt) &
+        (intraday_df['datetime'] <= window_end)
+    ].sort_values('datetime')
+
+    chart_bars = pd.concat([prior, session]).drop_duplicates(subset=['datetime']).sort_values('datetime')
+    for col in ('open', 'high', 'low', 'close'):
+        chart_bars[col] = pd.to_numeric(chart_bars[col], errors='coerce')
+    return chart_bars.dropna(subset=['open', 'high', 'low', 'close']).reset_index(drop=True)
+
+
+def create_or_detail_chart(market_name, trade, or_type='60m'):
+    """Intraday chart for one trade entry day: 6h lookback, OR levels, opening candle."""
+    entry_date = pd.Timestamp(trade['entry_date'])
+    or_high = trade.get('or_high')
+    or_low = trade.get('or_low')
+    entry_price = trade.get('entry_price')
+    direction = trade.get('direction', 'Long')
+
+    if or_high is None or or_low is None or pd.isna(or_high) or pd.isna(or_low):
+        return create_or_detail_message(
+            "Opening Range Detail",
+            "OR High/Low not available for this trade.",
+        )
+
+    interval = '30m' if or_type == '30m' else '60m'
+    or_label = '30-min' if or_type == '30m' else '60-min'
+    intraday = get_intraday_from_cache(market_name, interval=interval)
+    if intraday.empty:
+        return create_or_detail_message(
+            f"{market_name} — {entry_date.strftime('%Y-%m-%d')} ({or_label} OR)",
+            f"No {or_label} intraday cache for this market. "
+            f"Refresh ORB_intraday_data.json via the IBKR data grabber.",
+        )
+
+    opening_bar = get_opening_bar_for_date(intraday, entry_date)
+    if opening_bar is None:
+        cache_hint = "60 days" if or_type == '30m' else "~2 years"
+        return create_or_detail_message(
+            f"{market_name} — {entry_date.strftime('%Y-%m-%d')} ({or_label} OR)",
+            f"No intraday bars for this date (cache window: {cache_hint}).",
+        )
+
+    chart_bars = get_chart_bars_for_trade(intraday, entry_date, or_type=or_type)
+    if chart_bars.empty:
+        return create_or_detail_message(
+            f"{market_name} — {entry_date.strftime('%Y-%m-%d')} ({or_label} OR)",
+            "No price bars available for this trade window.",
+        )
+
+    opening_dt = opening_bar['datetime']
+    bar_mins = 30 if or_type == '30m' else 60
+
+    fig = go.Figure()
+    fig.add_trace(go.Candlestick(
+        x=chart_bars['datetime'],
+        open=chart_bars['open'], high=chart_bars['high'],
+        low=chart_bars['low'], close=chart_bars['close'],
+        name="Intraday",
+        increasing_line_color='#26A69A', decreasing_line_color='#EF5350',
+        increasing_fillcolor='#26A69A', decreasing_fillcolor='#EF5350',
+    ))
+
+    fig.add_vrect(
+        x0=opening_dt,
+        x1=opening_dt + pd.Timedelta(minutes=bar_mins),
+        fillcolor='rgba(255, 152, 0, 0.25)',
+        line_width=1,
+        line_color='#FF9800',
+        annotation_text=f"Opening {or_label}",
+        annotation_position="top left",
+    )
+
+    fig.add_hline(
+        y=or_high, line_dash="dash", line_color="#00E676",
+        annotation_text="Yesterday OR High", annotation_position="right",
+    )
+    fig.add_hline(
+        y=or_low, line_dash="dash", line_color="#FF1744",
+        annotation_text="Yesterday OR Low", annotation_position="right",
+    )
+
+    entry_y = float(entry_price) if entry_price is not None else (
+        float(or_high) if direction == 'Long' else float(or_low)
+    )
+    marker_symbol = 'triangle-up' if direction == 'Long' else 'triangle-down'
+    marker_color = '#00C853' if direction == 'Long' else '#FF1744'
+    fig.add_trace(go.Scatter(
+        x=[opening_dt], y=[entry_y],
+        mode='markers', name=f"{direction} entry @ OR",
+        marker=dict(symbol=marker_symbol, size=16, color=marker_color,
+                    line=dict(width=2, color='white')),
+    ))
+
+    pad = pd.Timedelta(minutes=bar_mins)
+    fig.update_layout(
+        title=(
+            f"{market_name} — {entry_date.strftime('%Y-%m-%d')} entry "
+            f"({or_label} opening range, 6h lookback)"
+        ),
+        template="plotly_white",
+        height=420,
+        uirevision='orb-detail',
+        hovermode="x unified",
+        xaxis_title="Time (ET)",
+        yaxis_title="Price",
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5),
+        margin=dict(l=50, r=50, t=80, b=50),
+    )
+    fig.update_xaxes(
+        range=[chart_bars['datetime'].min() - pad, chart_bars['datetime'].max() + pad],
+        rangeslider_visible=False,
+        fixedrange=False,
+    )
+    fig.update_yaxes(fixedrange=False)
     return fig
 
 
@@ -1152,7 +1384,7 @@ TRADES_COLUMNS = [
     {"name": "Exit Reason", "id": "exit_reason"},
 ]
 
-app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
+app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY], suppress_callback_exceptions=True)
 server = app.server
 
 # =============================================================================
@@ -1325,6 +1557,8 @@ app.layout = dbc.Container([
             html.H5("Recent Trades"),
             dash_table.DataTable(
                 id='orb-trades-table', columns=TRADES_COLUMNS, data=[],
+                row_selectable='single',
+                selected_rows=[],
                 style_table={'overflowX': 'auto'},
                 style_header={'backgroundColor': '#1a1a2e', 'color': 'white'},
                 style_cell={'backgroundColor': '#16213e', 'color': 'white', 'textAlign': 'center'},
@@ -1333,7 +1567,28 @@ app.layout = dbc.Container([
         ], width=6)
     ]),
 
+    dbc.Row([
+        dbc.Col([
+            html.H5("Opening Range Detail", className="mt-3 mb-2"),
+            html.P(
+                "Click a row in Recent Trades to inspect the 30/60-min opening candle "
+                "vs yesterday's range.",
+                className="text-muted small",
+            ),
+            html.Div(
+                dcc.Graph(
+                    id='orb-or-detail-chart',
+                    style={'height': '420px'},
+                    config={'scrollZoom': False, 'displayModeBar': True},
+                ),
+                style={'height': '420px', 'overflow': 'hidden'},
+            ),
+        ])
+    ], className="mb-4"),
+
     dcc.Store(id='orb-results-store'),
+    dcc.Store(id='orb-trades-store'),
+    dcc.Store(id='orb-selected-trade'),
 ], fluid=True)
 
 
@@ -1419,7 +1674,8 @@ def run_backtest_callback(n_clicks, or_type, narrowing_days, capital, risk_pct,
      Output('orb-strategy-chart', 'figure'),
      Output('orb-equity-chart', 'figure'),
      Output('orb-trades-table', 'data'),
-     Output('orb-trades-table', 'columns')],
+     Output('orb-trades-table', 'columns'),
+     Output('orb-trades-store', 'data')],
     [Input('orb-market-dropdown', 'value'),
      Input('orb-results-store', 'data')]
 )
@@ -1428,7 +1684,7 @@ def update_market_view(selected_market, _store):
     if not selected_market or selected_market not in all_results:
         empty_fig = go.Figure()
         empty_fig.update_layout(template="plotly_white")
-        return [], empty_fig, empty_fig, [], TRADES_COLUMNS
+        return [], empty_fig, empty_fig, [], TRADES_COLUMNS, []
 
     result = all_results[selected_market]
     metrics = result['metrics']
@@ -1479,10 +1735,63 @@ def update_market_view(selected_market, _store):
                       'exit_price', 'units', 'pnl', 'days_held', 'exit_reason']
         available = [c for c in table_cols if c in display_trades.columns]
         table_data = display_trades[available].to_dict('records')
+
+        raw_trades = []
+        for _, row in trades_df.iterrows():
+            or_h = row.get('or_high', np.nan)
+            or_l = row.get('or_low', np.nan)
+            raw_trades.append({
+                'entry_date': pd.Timestamp(row['entry_date']).strftime('%Y-%m-%d'),
+                'direction': row['direction'],
+                'entry_price': float(row['entry_price']),
+                'or_high': None if pd.isna(or_h) else float(or_h),
+                'or_low': None if pd.isna(or_l) else float(or_l),
+            })
     else:
         table_data = []
+        raw_trades = []
 
-    return cards, strategy_fig, equity_fig, table_data, TRADES_COLUMNS
+    return cards, strategy_fig, equity_fig, table_data, TRADES_COLUMNS, raw_trades
+
+
+@app.callback(
+    Output('orb-trades-table', 'selected_rows'),
+    [Input('orb-market-dropdown', 'value'),
+     Input('orb-results-store', 'data')],
+)
+def reset_trade_selection(_market, _store):
+    """Clear row selection when market or backtest results change."""
+    return []
+
+
+@app.callback(
+    Output('orb-selected-trade', 'data'),
+    [Input('orb-trades-table', 'selected_rows'),
+     Input('orb-trades-store', 'data')],
+)
+def store_selected_trade(selected_rows, trades_store):
+    """Map selected table row to raw trade payload for the detail chart."""
+    if not selected_rows or not trades_store:
+        return None
+    row_idx = selected_rows[0]
+    if row_idx < 0 or row_idx >= len(trades_store):
+        return None
+    return trades_store[row_idx]
+
+
+@app.callback(
+    Output('orb-or-detail-chart', 'figure'),
+    [Input('orb-selected-trade', 'data'),
+     Input('orb-market-dropdown', 'value'),
+     Input('orb-or-type', 'value')],
+)
+def update_or_detail_chart(selected_trade, selected_market, or_type):
+    """Show intraday opening-range breakout for the selected trade."""
+    if not selected_trade or not selected_market:
+        return create_or_detail_placeholder()
+    return create_or_detail_chart(
+        selected_market, selected_trade, or_type=or_type or '60m',
+    )
 
 
 # =============================================================================

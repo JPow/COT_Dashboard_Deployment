@@ -22,6 +22,8 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from datetime import datetime, timedelta
 
+from backtest_engine.data import describe_contract
+
 
 # =============================================================================
 # CONSTANTS
@@ -212,6 +214,8 @@ def prepare_orb_data(cot_df, market_name,
     # Build strategy data from price columns
     price_cols = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume']
     available_cols = [col for col in price_cols if col in price_daily.columns]
+    if 'Contract' in price_daily.columns:
+        available_cols.append('Contract')
     strategy_data = price_daily[available_cols].copy()
     strategy_data = strategy_data.sort_values('Date').reset_index(drop=True)
 
@@ -854,7 +858,19 @@ def create_orb_strategy_chart(data, trades_df, market_name):
     n_rows = 5 if has_cot else 4
     heights = [0.40, 0.15, 0.15, 0.15, 0.15] if has_cot else [0.45, 0.18, 0.18, 0.19]
 
-    subtitles = [f"Price & Opening Range: {market_name}", "ATR (Fast & Slow)", "Inside Days"]
+    last_contract = None
+    if 'Contract' in df.columns and df['Contract'].notna().any():
+        last_contract = df['Contract'].dropna().iloc[-1]
+    ref_date = df['Date'].iloc[-1] if len(df) and 'Date' in df.columns else None
+    active_suffix = (
+        f"  -  Active: {describe_contract(last_contract, ref_date=ref_date)}"
+        if last_contract else ''
+    )
+    subtitles = [
+        f"Price & Opening Range: {market_name}{active_suffix}",
+        "ATR (Fast & Slow)",
+        "Inside Days",
+    ]
     if has_cot:
         subtitles.append("Commercial Index (COT)")
     subtitles.append("RSI")
