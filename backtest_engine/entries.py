@@ -11,7 +11,8 @@ All filters share the signature:
 import pandas as pd
 import numpy as np
 
-from .data import get_intraday_for_symbol, get_first_candle_per_day
+from .data import (get_intraday_for_symbol, get_contract_spec,
+                   prepare_intraday_sessions, find_post_or_breakout)
 
 
 # ---------------------------------------------------------------------------
@@ -24,64 +25,50 @@ def apply_orb_breakout(df, market_name='', or_type='30m',
                        cot_direction_filter=False,
                        cot_roc_filter=False, cot_roc_threshold=10,
                        intraday_cache=None, **_kw):
-    """Entry only if the first intraday candle breaks yesterday's High/Low.
+    """Enter on first post-opening-range breakout (30m or 60m window per spec).
 
-    Requires OR_High and OR_Low columns (previous day's H/L).
-    Uses IBKR intraday cache for first-candle data.
+    Requires a boolean ``setup`` column. Uses IBKR intraday cache and
+    ORB_contract_specs.json session times. Entry fill includes 2-tick slippage.
     """
     out = df.copy()
     out['signal'] = 0
     out['entry_price'] = np.nan
     out['or_high_signal'] = np.nan
     out['or_low_signal'] = np.nan
+    out['entry_datetime'] = pd.Series([pd.NaT] * len(out), dtype='datetime64[ns]')
+    out['or_window_start'] = pd.Series([pd.NaT] * len(out), dtype='datetime64[ns]')
+    out['or_window_end'] = pd.Series([pd.NaT] * len(out), dtype='datetime64[ns]')
+    out['tick_size'] = np.nan
 
-    # Add OR levels if missing
-    if 'OR_High' not in out.columns:
-        out['OR_High'] = out['High'].shift(1)
-        out['OR_Low'] = out['Low'].shift(1)
-        out['OR_Range'] = out['OR_High'] - out['OR_Low']
+    if not market_name:
+        return out
 
-    # Load first-candle data from IBKR cache
+    spec = get_contract_spec(market_name)
+    if not spec or 'rth_open' not in spec:
+        return out
+    tick_size = float(spec.get('tick_size', 0.01))
+    slippage = 2 * tick_size
+
     interval = '30m' if or_type == '30m' else '60m'
     intraday = get_intraday_for_symbol(market_name, interval=interval,
                                        cache_df=intraday_cache)
-    first_candles = get_first_candle_per_day(intraday) if not intraday.empty else {}
+    if intraday.empty:
+        return out
 
-    out['or_candle_high'] = out['Date'].map(
-        lambda d: first_candles.get(d, {}).get('high', np.nan))
-    out['or_candle_low'] = out['Date'].map(
-        lambda d: first_candles.get(d, {}).get('low', np.nan))
+    _, sessions = prepare_intraday_sessions(intraday)
 
-    for i in range(1, len(out)):
+    for i in range(len(out)):
         row = out.iloc[i]
         if not row.get('setup', False):
             continue
 
-        or_high = row.get('OR_High', np.nan)
-        or_low = row.get('OR_Low', np.nan)
-        if pd.isna(or_high) or pd.isna(or_low) or (or_high - or_low) <= 0:
+        breakout = find_post_or_breakout(
+            intraday, market_name, row['Date'], or_type, sessions=sessions,
+        )
+        if not breakout:
             continue
 
-        candle_high = row.get('or_candle_high', np.nan)
-        candle_low = row.get('or_candle_low', np.nan)
-        if pd.isna(candle_high) or pd.isna(candle_low):
-            continue
-
-        long_bo = candle_high > or_high
-        short_bo = candle_low < or_low
-
-        direction = 0
-        if long_bo and short_bo:
-            mid = (or_high + or_low) / 2
-            direction = 1 if row.get('Open', mid) >= mid else -1
-        elif long_bo:
-            direction = 1
-        elif short_bo:
-            direction = -1
-
-        if direction == 0:
-            continue
-
+        direction = breakout['direction']
         direction = _apply_filters(row, direction, cot_filter, cot_long,
                                    cot_short, rsi_filter, rsi_long_max,
                                    rsi_short_min, cot_direction_filter,
@@ -89,11 +76,21 @@ def apply_orb_breakout(df, market_name='', or_type='30m',
         if direction == 0:
             continue
 
+        entry = breakout['entry_price']
+        if direction == 1:
+            entry += slippage
+        else:
+            entry -= slippage
+
         idx = out.index[i]
         out.at[idx, 'signal'] = direction
-        out.at[idx, 'entry_price'] = or_high if direction == 1 else or_low
-        out.at[idx, 'or_high_signal'] = or_high
-        out.at[idx, 'or_low_signal'] = or_low
+        out.at[idx, 'entry_price'] = entry
+        out.at[idx, 'or_high_signal'] = breakout['or_high']
+        out.at[idx, 'or_low_signal'] = breakout['or_low']
+        out.at[idx, 'entry_datetime'] = _naive_et(breakout['entry_datetime'])
+        out.at[idx, 'or_window_start'] = _naive_et(breakout['window_start'])
+        out.at[idx, 'or_window_end'] = _naive_et(breakout['window_end'])
+        out.at[idx, 'tick_size'] = tick_size
 
     return out
 
@@ -196,6 +193,17 @@ def apply_close_entry(df, **_kw):
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
+def _naive_et(ts):
+    """Store timezone-aware ET timestamps as naive local times for pandas."""
+    if ts is None or (isinstance(ts, float) and pd.isna(ts)):
+        return pd.NaT
+    t = pd.Timestamp(ts)
+    if t.tzinfo is not None:
+        from .data import ET
+        return t.tz_convert(ET).tz_localize(None)
+    return t
+
 
 def _apply_filters(row, direction, cot_filter, cot_long, cot_short,
                    rsi_filter, rsi_long_max, rsi_short_min,

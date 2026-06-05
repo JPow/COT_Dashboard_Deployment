@@ -1,0 +1,762 @@
+{
+  "GOLD - COMMODITY EXCHANGE INC.|30m": {
+    "rebuilt_at": "2026-06-03T08:47:26",
+    "first": "2026-04-20 22:00:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 3,
+    "n_rolls": 2,
+    "last_incremental_at": "2026-06-05T14:18:46"
+  },
+  "GOLD - COMMODITY EXCHANGE INC.|60m": {
+    "rebuilt_at": "2026-06-03T08:48:53",
+    "first": "2026-04-20 22:00:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 3,
+    "n_rolls": 2,
+    "last_incremental_at": "2026-06-05T14:19:24"
+  },
+  "MICRO SILVER - COMMODITY EXCHANGE INC.|30m": {
+    "rebuilt_at": "2026-05-22T19:35:40",
+    "first": "2026-04-10 00:30:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-05T14:19:45"
+  },
+  "MICRO SILVER - COMMODITY EXCHANGE INC.|60m": {
+    "rebuilt_at": "2026-05-22T19:36:01",
+    "first": "2026-04-10 00:00:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-05T14:20:07"
+  },
+  "PLATINUM - NEW YORK MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-22T19:36:41",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 3,
+    "n_rolls": 2,
+    "last_incremental_at": "2026-06-05T14:20:33"
+  },
+  "PLATINUM - NEW YORK MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-22T19:37:21",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 3,
+    "n_rolls": 2,
+    "last_incremental_at": "2026-06-05T14:21:00"
+  },
+  "PALLADIUM - NEW YORK MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-06-02T00:11:56",
+    "first": "2026-04-19 22:00:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 3,
+    "n_rolls": 2,
+    "last_incremental_at": "2026-06-05T14:21:28"
+  },
+  "PALLADIUM - NEW YORK MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-06-02T00:13:04",
+    "first": "2026-04-19 22:00:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 3,
+    "n_rolls": 2,
+    "last_incremental_at": "2026-06-05T14:21:54"
+  },
+  "MICRO COPPER - COMMODITY EXCHANGE INC.|30m": {
+    "rebuilt_at": "2026-05-22T19:39:24",
+    "first": "2026-04-09 22:30:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 2,
+    "n_rolls": 1,
+    "last_incremental_at": "2026-06-05T14:23:48"
+  },
+  "MICRO COPPER - COMMODITY EXCHANGE INC.|60m": {
+    "rebuilt_at": "2026-05-22T19:40:13",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 2,
+    "n_rolls": 1,
+    "last_incremental_at": "2026-06-05T14:24:25"
+  },
+  "COPPER- #1 - COMMODITY EXCHANGE INC.|30m": {
+    "rebuilt_at": "2026-05-22T19:41:06",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 3,
+    "n_rolls": 2,
+    "last_incremental_at": "2026-06-05T14:22:33"
+  },
+  "COPPER- #1 - COMMODITY EXCHANGE INC.|60m": {
+    "rebuilt_at": "2026-05-22T19:41:59",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 3,
+    "n_rolls": 2,
+    "last_incremental_at": "2026-06-05T14:23:10"
+  },
+  "SOYBEAN OIL - CHICAGO BOARD OF TRADE|30m": {
+    "rebuilt_at": "2026-05-22T19:42:32",
+    "first": "2026-04-10 00:00:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-05T14:24:53"
+  },
+  "SOYBEAN OIL - CHICAGO BOARD OF TRADE|60m": {
+    "rebuilt_at": "2026-05-22T19:43:06",
+    "first": "2026-04-10 00:00:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-05T14:25:21"
+  },
+  "NAT GAS NYME - NEW YORK MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-30T18:23:26",
+    "first": "2026-04-16 22:00:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-05T14:25:58"
+  },
+  "NAT GAS NYME - NEW YORK MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-30T18:24:47",
+    "first": "2026-04-16 22:00:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-05T14:26:36"
+  },
+  "GASOLINE RBOB - NEW YORK MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-26T23:24:52",
+    "first": "2026-04-13 22:00:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 2,
+    "n_rolls": 1,
+    "last_incremental_at": "2026-06-05T14:27:15"
+  },
+  "GASOLINE RBOB - NEW YORK MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-26T23:26:16",
+    "first": "2026-04-13 22:00:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 2,
+    "n_rolls": 1,
+    "last_incremental_at": "2026-06-05T14:27:52"
+  },
+  "COCOA - ICE FUTURES U.S.|30m": {
+    "rebuilt_at": "2026-05-22T19:46:38",
+    "first": "2026-04-10 08:45:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-05T14:28:07"
+  },
+  "COCOA - ICE FUTURES U.S.|60m": {
+    "rebuilt_at": "2026-05-22T19:46:59",
+    "first": "2026-04-10 08:45:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-05T14:28:23"
+  },
+  "CORN - CHICAGO BOARD OF TRADE|30m": {
+    "rebuilt_at": "2026-05-22T19:47:20",
+    "first": "2026-04-10 00:00:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-05T14:28:39"
+  },
+  "CORN - CHICAGO BOARD OF TRADE|60m": {
+    "rebuilt_at": "2026-05-22T19:47:41",
+    "first": "2026-04-10 00:00:00",
+    "last": "2026-06-05 12:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-05T14:28:55"
+  },
+  "OATS - CHICAGO BOARD OF TRADE|30m": {
+    "rebuilt_at": "2026-05-22T19:48:03",
+    "first": "2026-04-10 00:00:00",
+    "last": "2026-06-03 06:30:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T08:58:30"
+  },
+  "OATS - CHICAGO BOARD OF TRADE|60m": {
+    "rebuilt_at": "2026-05-22T19:48:24",
+    "first": "2026-04-10 00:00:00",
+    "last": "2026-06-03 06:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T08:58:46"
+  },
+  "WHEAT-SRW - CHICAGO BOARD OF TRADE|30m": {
+    "rebuilt_at": "2026-05-22T19:48:45",
+    "first": "2026-04-10 00:00:00",
+    "last": "2026-06-03 06:30:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T08:59:01"
+  },
+  "WHEAT-SRW - CHICAGO BOARD OF TRADE|60m": {
+    "rebuilt_at": "2026-05-22T19:49:06",
+    "first": "2026-04-10 00:00:00",
+    "last": "2026-06-03 06:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T08:59:17"
+  },
+  "SOYBEAN MEAL - CHICAGO BOARD OF TRADE|30m": {
+    "rebuilt_at": "2026-05-22T19:49:40",
+    "first": "2026-04-10 00:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:01:31"
+  },
+  "SOYBEAN MEAL - CHICAGO BOARD OF TRADE|60m": {
+    "rebuilt_at": "2026-05-22T19:50:13",
+    "first": "2026-04-10 00:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:01:57"
+  },
+  "SOYBEANS - CHICAGO BOARD OF TRADE|30m": {
+    "rebuilt_at": "2026-05-22T19:50:47",
+    "first": "2026-04-10 00:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:00:36"
+  },
+  "SOYBEANS - CHICAGO BOARD OF TRADE|60m": {
+    "rebuilt_at": "2026-05-22T19:51:21",
+    "first": "2026-04-10 00:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:01:03"
+  },
+  "MINI SOYBEANS - CHICAGO BOARD OF TRADE|30m": {
+    "rebuilt_at": "2026-05-22T19:51:54",
+    "first": "2026-04-10 00:00:00",
+    "last": "2026-06-03 06:30:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T08:59:44"
+  },
+  "MINI SOYBEANS - CHICAGO BOARD OF TRADE|60m": {
+    "rebuilt_at": "2026-05-22T19:52:28",
+    "first": "2026-04-10 00:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:00:10"
+  },
+  "FEEDER CATTLE - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-22T19:52:55",
+    "first": "2026-04-10 13:30:00",
+    "last": "2026-06-02 18:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:02:23"
+  },
+  "FEEDER CATTLE - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-22T19:53:22",
+    "first": "2026-04-10 13:30:00",
+    "last": "2026-06-02 18:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:02:49"
+  },
+  "LEAN HOGS - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-30T18:32:21",
+    "first": "2026-04-17 13:30:00",
+    "last": "2026-06-02 18:00:00",
+    "n_contracts": 2,
+    "n_rolls": 1,
+    "last_incremental_at": "2026-06-03T09:03:15"
+  },
+  "LEAN HOGS - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-30T18:33:21",
+    "first": "2026-04-17 13:30:00",
+    "last": "2026-06-02 18:00:00",
+    "n_contracts": 2,
+    "n_rolls": 1,
+    "last_incremental_at": "2026-06-03T09:03:41"
+  },
+  "LIVE CATTLE - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-22T19:55:00",
+    "first": "2026-04-10 13:30:00",
+    "last": "2026-06-02 18:00:00",
+    "n_contracts": 2,
+    "n_rolls": 1,
+    "last_incremental_at": "2026-06-03T09:04:02"
+  },
+  "LIVE CATTLE - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-22T19:55:31",
+    "first": "2026-04-10 13:30:00",
+    "last": "2026-06-02 18:00:00",
+    "n_contracts": 2,
+    "n_rolls": 1,
+    "last_incremental_at": "2026-06-03T09:04:23"
+  },
+  "COFFEE C - ICE FUTURES U.S.|30m": {
+    "rebuilt_at": "2026-05-22T19:55:52",
+    "first": "2026-04-10 08:15:00",
+    "last": "2026-06-02 17:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:04:38"
+  },
+  "COFFEE C - ICE FUTURES U.S.|60m": {
+    "rebuilt_at": "2026-05-22T19:56:13",
+    "first": "2026-04-10 08:15:00",
+    "last": "2026-06-02 17:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:04:54"
+  },
+  "COTTON NO. 2 - ICE FUTURES U.S.|30m": {
+    "rebuilt_at": "2026-05-22T19:56:34",
+    "first": "2026-04-10 01:00:00",
+    "last": "2026-06-03 06:30:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:05:09"
+  },
+  "COTTON NO. 2 - ICE FUTURES U.S.|60m": {
+    "rebuilt_at": "2026-05-22T19:56:56",
+    "first": "2026-04-10 01:00:00",
+    "last": "2026-06-03 06:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:05:24"
+  },
+  "SUGAR NO. 11 - ICE FUTURES U.S.|30m": {
+    "rebuilt_at": "2026-05-22T19:57:17",
+    "first": "2026-04-10 07:30:00",
+    "last": "2026-06-02 16:30:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:05:40"
+  },
+  "SUGAR NO. 11 - ICE FUTURES U.S.|60m": {
+    "rebuilt_at": "2026-05-22T19:57:38",
+    "first": "2026-04-10 07:30:00",
+    "last": "2026-06-02 16:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:05:55"
+  },
+  "E-MINI S&P 500 - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-22T19:58:00",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:06:42"
+  },
+  "E-MINI S&P 500 - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-22T19:58:21",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:06:57"
+  },
+  "RUSSELL E-MINI - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-22T19:58:42",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:06:10"
+  },
+  "RUSSELL E-MINI - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-22T19:59:03",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:06:26"
+  },
+  "E-MINI NATURAL GAS - NEW YORK MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-31T13:52:30",
+    "first": "2026-04-17 00:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:07:34"
+  },
+  "E-MINI NATURAL GAS - NEW YORK MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-31T13:53:50",
+    "first": "2026-04-17 00:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:08:10"
+  },
+  "MICRO BITCOIN - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-31T13:58:30",
+    "first": "2026-04-16 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:11:40"
+  },
+  "MICRO BITCOIN - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-31T13:59:49",
+    "first": "2026-04-16 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:12:17"
+  },
+  "MICRO ETHER - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-31T13:55:10",
+    "first": "2026-04-17 01:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:08:46"
+  },
+  "MICRO ETHER - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-31T13:56:29",
+    "first": "2026-04-17 01:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:09:23"
+  },
+  "MICRO GOLD - COMMODITY EXCHANGE INC.|30m": {
+    "rebuilt_at": "2026-06-03T09:10:13",
+    "first": "2026-04-20 22:00:00",
+    "last": "2026-06-02 20:30:00",
+    "n_contracts": 2,
+    "n_rolls": 1
+  },
+  "MICRO GOLD - COMMODITY EXCHANGE INC.|60m": {
+    "rebuilt_at": "2026-06-03T09:11:04",
+    "first": "2026-04-20 22:00:00",
+    "last": "2026-06-02 20:00:00",
+    "n_contracts": 2,
+    "n_rolls": 1
+  },
+  "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-22T20:05:16",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:12:54"
+  },
+  "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-22T20:05:56",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:13:30"
+  },
+  "EMINI RUSSELL 1000 GROWTH - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-22T20:06:18",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:13:45"
+  },
+  "EMINI RUSSELL 1000 GROWTH - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-22T20:06:39",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:14:01"
+  },
+  "MICRO E-MINI NASDAQ-100 INDEX - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-22T20:07:01",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:14:16"
+  },
+  "MICRO E-MINI NASDAQ-100 INDEX - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-22T20:07:22",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:14:32"
+  },
+  "NIKKEI STOCK AVERAGE - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-22T20:07:44",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:14:47"
+  },
+  "NIKKEI STOCK AVERAGE - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-22T20:08:05",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:15:02"
+  },
+  "AUSTRALIAN DOLLAR - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-22T20:08:52",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:15:39"
+  },
+  "AUSTRALIAN DOLLAR - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-22T20:09:38",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:16:16"
+  },
+  "UST 5Y NOTE - CHICAGO BOARD OF TRADE|30m": {
+    "rebuilt_at": "2026-06-03T09:16:54",
+    "first": "2026-04-20 22:00:00",
+    "last": "2026-06-02 20:30:00",
+    "n_contracts": 2,
+    "n_rolls": 1
+  },
+  "UST 5Y NOTE - CHICAGO BOARD OF TRADE|60m": {
+    "rebuilt_at": "2026-06-03T09:17:32",
+    "first": "2026-04-20 22:00:00",
+    "last": "2026-06-02 20:00:00",
+    "n_contracts": 2,
+    "n_rolls": 1
+  },
+  "UST 2Y NOTE - CHICAGO BOARD OF TRADE|30m": {
+    "rebuilt_at": "2026-05-22T20:10:42",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:19:03"
+  },
+  "UST 2Y NOTE - CHICAGO BOARD OF TRADE|60m": {
+    "rebuilt_at": "2026-05-22T20:11:04",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:19:19"
+  },
+  "UST 10Y NOTE - CHICAGO BOARD OF TRADE|30m": {
+    "rebuilt_at": "2026-06-03T09:18:10",
+    "first": "2026-04-20 22:00:00",
+    "last": "2026-06-02 20:30:00",
+    "n_contracts": 2,
+    "n_rolls": 1
+  },
+  "UST 10Y NOTE - CHICAGO BOARD OF TRADE|60m": {
+    "rebuilt_at": "2026-06-03T09:18:48",
+    "first": "2026-04-20 22:00:00",
+    "last": "2026-06-02 20:00:00",
+    "n_contracts": 2,
+    "n_rolls": 1
+  },
+  "UST BOND - CHICAGO BOARD OF TRADE|30m": {
+    "rebuilt_at": "2026-06-03T09:19:56",
+    "first": "2026-04-20 22:00:00",
+    "last": "2026-06-02 20:30:00",
+    "n_contracts": 2,
+    "n_rolls": 1
+  },
+  "UST BOND - CHICAGO BOARD OF TRADE|60m": {
+    "rebuilt_at": "2026-06-03T09:20:35",
+    "first": "2026-04-20 22:00:00",
+    "last": "2026-06-02 20:00:00",
+    "n_contracts": 2,
+    "n_rolls": 1
+  },
+  "EURO FX/BRITISH POUND XRATE - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-22T20:13:17",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:21:11"
+  },
+  "EURO FX/BRITISH POUND XRATE - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-22T20:14:03",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:21:47"
+  },
+  "MEXICAN PESO - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-22T20:14:49",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:22:24"
+  },
+  "MEXICAN PESO - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-22T20:15:36",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:23:01"
+  },
+  "BRAZILIAN REAL - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-31T14:09:18",
+    "first": "2026-04-27 06:30:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:23:37"
+  },
+  "BRAZILIAN REAL - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-31T14:10:27",
+    "first": "2026-04-27 06:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:24:13"
+  },
+  "SWISS FRANC - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-22T20:17:30",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:24:29"
+  },
+  "SWISS FRANC - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-22T20:17:52",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:24:44"
+  },
+  "CANADIAN DOLLAR - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-22T20:18:39",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:25:21"
+  },
+  "CANADIAN DOLLAR - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-22T20:19:25",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:25:57"
+  },
+  "BRITISH POUND - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-22T20:20:12",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:26:34"
+  },
+  "BRITISH POUND - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-22T20:20:58",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:27:12"
+  },
+  "JAPANESE YEN - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-22T20:21:45",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:27:49"
+  },
+  "JAPANESE YEN - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-22T20:22:32",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:28:25"
+  },
+  "NEW ZEALAND DOLLAR - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-22T20:22:54",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:28:41"
+  },
+  "NEW ZEALAND DOLLAR - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-22T20:23:15",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:28:56"
+  },
+  "SO AFRICAN RAND - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-22T20:24:02",
+    "first": "2026-04-09 22:30:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:29:33"
+  },
+  "SO AFRICAN RAND - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-22T20:24:48",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:30:10"
+  },
+  "BITCOIN - CHICAGO MERCANTILE EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-31T14:17:35",
+    "first": "2026-04-17 08:00:00",
+    "last": "2026-06-03 07:30:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:30:47"
+  },
+  "BITCOIN - CHICAGO MERCANTILE EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-31T14:18:55",
+    "first": "2026-04-17 08:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:31:23"
+  },
+  "VIX FUTURES - CBOE FUTURES EXCHANGE|30m": {
+    "rebuilt_at": "2026-05-22T20:27:49",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:32:43"
+  },
+  "VIX FUTURES - CBOE FUTURES EXCHANGE|60m": {
+    "rebuilt_at": "2026-05-22T20:29:19",
+    "first": "2026-04-09 22:00:00",
+    "last": "2026-06-03 07:00:00",
+    "n_contracts": 1,
+    "n_rolls": 0,
+    "last_incremental_at": "2026-06-03T09:34:02"
+  }
+}

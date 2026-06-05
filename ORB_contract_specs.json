@@ -1,338 +1,511 @@
+
 {
   "MICRO GOLD": {
     "traded_contract": "Micro Gold (MGC)",
     "tick_size": 0.10,
     "tick_value": 1.0,
-    "point_value": 10.0
+    "point_value": 10.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
   },
   "MICRO SILVER": {
     "traded_contract": "Micro Silver (SIL)",
     "tick_size": 0.005,
     "tick_value": 5.0,
-    "point_value": 1000.0
+    "point_value": 1000.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
   },
   "PLATINUM": {
     "traded_contract": "Platinum (PL)",
     "tick_size": 0.10,
     "tick_value": 5.0,
-    "point_value": 50.0
+    "point_value": 50.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
   },
   "PALLADIUM": {
     "traded_contract": "Palladium (PA)",
     "tick_size": 0.50,
     "tick_value": 50.0,
-    "point_value": 100.0
+    "point_value": 100.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
   },
   "COPPER-GRADE #1": {
     "traded_contract": "Micro High Grade Copper (MHG)",
     "tick_size": 0.0025,
     "tick_value": 6.25,
-    "point_value": 2500.0
+    "point_value": 2500.0,
+    "rth_open": "08:00",
+    "30_close": "08:30",
+    "60_close": "09:00"
   },
   "WTI-PHYSICAL": {
     "traded_contract": "Micro Crude Oil (MCL)",
     "tick_size": 0.01,
     "tick_value": 1.0,
-    "point_value": 100.0
+    "point_value": 100.0,
+    "rth_open": "09:00",
+    "30_close": "09:30",
+    "60_close": "10:00"
   },
   "GASOLINE RBOB": {
     "traded_contract": "RBOB Gasoline (RB)",
     "tick_size": 0.0001,
     "tick_value": 4.20,
-    "point_value": 42000.0
+    "point_value": 42000.0,
+    "rth_open": "09:00",
+    "30_close": "09:30",
+    "60_close": "10:00"
   },
   "NAT GAS NYME": {
     "traded_contract": "E-mini Natural Gas (QG)",
     "tick_size": 0.005,
     "tick_value": 12.50,
-    "point_value": 2500.0
+    "point_value": 2500.0,
+    "rth_open": "09:00",
+    "30_close": "09:30",
+    "60_close": "10:00"
   },
   "HEATING OIL": {
     "traded_contract": "Heating Oil (HO)",
     "tick_size": 0.0001,
     "tick_value": 4.20,
-    "point_value": 42000.0
+    "point_value": 42000.0,
+    "rth_open": "09:00",
+    "30_close": "09:30",
+    "60_close": "10:00"
   },
   "BRENT LAST DAY": {
     "traded_contract": "Brent Crude (BZ)",
     "tick_size": 0.01,
     "tick_value": 10.0,
-    "point_value": 1000.0
+    "point_value": 1000.0,
+    "rth_open": "09:00",
+    "30_close": "09:30",
+    "60_close": "10:00"
   },
   "CORN": {
     "traded_contract": "Micro Corn (XC)",
     "tick_size": 0.5,
     "tick_value": 2.50,
-    "point_value": 5.0
+    "point_value": 5.0,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "OATS": {
     "traded_contract": "Oats (ZO)",
     "tick_size": 0.25,
     "tick_value": 12.50,
-    "point_value": 50.0
+    "point_value": 50.0,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "WHEAT-SRW": {
     "traded_contract": "Micro Wheat (MZW)",
     "tick_size": 0.5,
     "tick_value": 2.50,
-    "point_value": 5.0
+    "point_value": 5.0,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "SOYBEANS": {
     "traded_contract": "Micro Soybeans (MZS)",
     "tick_size": 0.5,
     "tick_value": 2.50,
-    "point_value": 5.0
+    "point_value": 5.0,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "SOYBEAN MEAL": {
     "traded_contract": "Soybean Meal (ZM)",
     "tick_size": 0.10,
     "tick_value": 10.0,
-    "point_value": 100.0
+    "point_value": 100.0,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "SOYBEAN OIL": {
     "traded_contract": "Soybean Oil (ZL)",
     "tick_size": 0.01,
     "tick_value": 6.0,
-    "point_value": 600.0
+    "point_value": 600.0,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "COCOA": {
     "traded_contract": "Cocoa (CC)",
     "tick_size": 1.0,
     "tick_value": 10.0,
-    "point_value": 10.0
+    "point_value": 10.0,
+    "rth_open": "05:00",
+    "30_close": "05:30",
+    "60_close": "06:00"
   },
   "COFFEE C": {
     "traded_contract": "Coffee C (KC)",
     "tick_size": 0.05,
     "tick_value": 18.75,
-    "point_value": 375.0
+    "point_value": 375.0,
+    "rth_open": "04:00",
+    "30_close": "04:30",
+    "60_close": "05:00"
   },
   "COTTON NO. 2": {
     "traded_contract": "Cotton No. 2 (CT)",
     "tick_size": 0.01,
     "tick_value": 5.0,
-    "point_value": 500.0
+    "point_value": 500.0,
+    "rth_open": "09:00",
+    "30_close": "09:30",
+    "60_close": "10:00"
   },
   "SUGAR NO. 11": {
     "traded_contract": "Sugar No. 11 (SB)",
     "tick_size": 0.01,
     "tick_value": 11.20,
-    "point_value": 1120.0
+    "point_value": 1120.0,
+    "rth_open": "03:30",
+    "30_close": "04:00",
+    "60_close": "04:30"
   },
   "ORANGE JUICE": {
     "traded_contract": "Orange Juice (OJ)",
     "tick_size": 0.05,
     "tick_value": 7.50,
-    "point_value": 150.0
+    "point_value": 150.0,
+    "rth_open": "08:00",
+    "30_close": "08:30",
+    "60_close": "09:00"
   },
   "LIVE CATTLE": {
     "traded_contract": "Live Cattle (LE)",
     "tick_size": 0.025,
     "tick_value": 10.0,
-    "point_value": 400.0
+    "point_value": 400.0,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "FEEDER CATTLE": {
     "traded_contract": "Feeder Cattle (GF)",
     "tick_size": 0.025,
     "tick_value": 12.50,
-    "point_value": 500.0
+    "point_value": 500.0,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "LEAN HOGS": {
     "traded_contract": "Lean Hogs (HE)",
     "tick_size": 0.025,
     "tick_value": 10.0,
-    "point_value": 400.0
+    "point_value": 400.0,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "AUSTRALIAN DOLLAR": {
     "traded_contract": "Micro Australian Dollar (M6A)",
     "tick_size": 0.0001,
     "tick_value": 1.0,
-    "point_value": 10000.0
+    "point_value": 10000.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
   },
   "BRITISH POUND": {
     "traded_contract": "Micro British Pound (M6B)",
     "tick_size": 0.0001,
     "tick_value": 0.625,
-    "point_value": 6250.0
+    "point_value": 6250.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
   },
   "CANADIAN DOLLAR": {
     "traded_contract": "Micro Canadian Dollar (M6C)",
     "tick_size": 0.00005,
     "tick_value": 0.5,
-    "point_value": 10000.0
+    "point_value": 10000.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
   },
   "EURO FX": {
     "traded_contract": "Euro FX (6E)",
     "tick_size": 0.00005,
     "tick_value": 6.25,
-    "point_value": 125000.0
+    "point_value": 125000.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
   },
   "JAPANESE YEN": {
     "traded_contract": "Micro Japanese Yen (M6J)",
     "tick_size": 0.000001,
     "tick_value": 1.25,
-    "point_value": 1250000.0
+    "point_value": 1250000.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
   },
   "MEXICAN PESO": {
     "traded_contract": "Mexican Peso (6M)",
     "tick_size": 0.00001,
     "tick_value": 5.0,
-    "point_value": 500000.0
+    "point_value": 500000.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
   },
   "NEW ZEALAND DOLLAR": {
     "traded_contract": "New Zealand Dollar (6N)",
     "tick_size": 0.0001,
     "tick_value": 10.0,
-    "point_value": 100000.0
+    "point_value": 100000.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
   },
   "SWISS FRANC": {
     "traded_contract": "Micro CHF/USD (M6S)",
     "tick_size": 0.0001,
     "tick_value": 1.25,
-    "point_value": 12500.0
+    "point_value": 12500.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
   },
   "SO AFRICAN RAND": {
     "traded_contract": "South African Rand (6Z)",
     "tick_size": 0.000025,
     "tick_value": 12.50,
-    "point_value": 500000.0
+    "point_value": 500000.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
   },
   "BRAZILIAN REAL": {
     "traded_contract": "Brazilian Real (6L)",
     "tick_size": 0.00005,
     "tick_value": 5.0,
-    "point_value": 100000.0
+    "point_value": 100000.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
   },
   "E-MINI S&P 500": {
     "traded_contract": "Micro E-mini S&P 500 (MES)",
     "tick_size": 0.25,
     "tick_value": 1.25,
-    "point_value": 5.0
+    "point_value": 5.0,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "NASDAQ MINI": {
     "traded_contract": "E-mini NASDAQ-100 (NQ)",
     "tick_size": 0.25,
     "tick_value": 5.0,
-    "point_value": 20.0
+    "point_value": 20.0,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "DOW JONES INDUSTRIAL AVG": {
     "traded_contract": "E-mini Dow (YM)",
     "tick_size": 1.0,
     "tick_value": 5.0,
-    "point_value": 5.0
+    "point_value": 5.0,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "RUSSELL E-MINI": {
     "traded_contract": "Micro E-mini Russell 2000 (M2K)",
     "tick_size": 0.10,
     "tick_value": 0.50,
-    "point_value": 5.0
+    "point_value": 5.0,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "NIKKEI STOCK AVERAGE": {
     "traded_contract": "Mini Nikkei 225 (YNK)",
     "tick_size": 5.0,
     "tick_value": 2.50,
-    "point_value": 0.50
+    "point_value": 0.50,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "VIX FUTURES": {
     "traded_contract": "VIX (VX)",
     "tick_size": 0.05,
     "tick_value": 50.0,
-    "point_value": 1000.0
+    "point_value": 1000.0,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "MICRO BITCOIN": {
     "traded_contract": "Micro Bitcoin (MBT)",
     "tick_size": 5.0,
     "tick_value": 0.50,
-    "point_value": 0.1
+    "point_value": 0.1,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "MICRO ETHER": {
     "traded_contract": "Micro Ether (MET)",
     "tick_size": 0.50,
     "tick_value": 0.05,
-    "point_value": 0.1
+    "point_value": 0.1,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "UST 2Y NOTE": {
     "traded_contract": "2-Year T-Note (ZT)",
     "tick_size": 0.0078125,
     "tick_value": 15.625,
-    "point_value": 2000.0
+    "point_value": 2000.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
   },
   "UST 5Y NOTE": {
     "traded_contract": "5-Year T-Note (ZF)",
     "tick_size": 0.0078125,
     "tick_value": 7.8125,
-    "point_value": 1000.0
+    "point_value": 1000.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
   },
   "UST 10Y NOTE": {
     "traded_contract": "10-Year T-Note (ZN)",
     "tick_size": 0.015625,
     "tick_value": 15.625,
-    "point_value": 1000.0
+    "point_value": 1000.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
   },
   "UST BOND": {
     "traded_contract": "30-Year T-Bond (ZB)",
     "tick_size": 0.03125,
     "tick_value": 31.25,
-    "point_value": 1000.0
+    "point_value": 1000.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
   },
   "BITCOIN": {
     "traded_contract": "Bitcoin (BTC)",
     "tick_size": 5.0,
     "tick_value": 25.0,
-    "point_value": 5.0
+    "point_value": 5.0,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "COPPER- #1": {
     "traded_contract": "Micro High Grade Copper (MHG)",
     "tick_size": 0.0025,
     "tick_value": 6.25,
-    "point_value": 2500.0
+    "point_value": 2500.0,
+    "rth_open": "08:00",
+    "30_close": "08:30",
+    "60_close": "09:00"
   },
   "E-MINI NATURAL GAS": {
     "traded_contract": "E-mini Natural Gas (QG)",
     "tick_size": 0.005,
     "tick_value": 12.50,
-    "point_value": 2500.0
+    "point_value": 2500.0,
+    "rth_open": "09:00",
+    "30_close": "09:30",
+    "60_close": "10:00"
   },
   "EMINI RUSSELL 1000 GROWTH": {
     "traded_contract": "E-mini Russell 1000 Growth",
     "tick_size": 0.10,
     "tick_value": 5.0,
-    "point_value": 50.0
+    "point_value": 50.0,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "EURO FX/BRITISH POUND XRATE": {
     "traded_contract": "Euro FX/British Pound (RP)",
     "tick_size": 0.00005,
     "tick_value": 6.25,
-    "point_value": 125000.0
+    "point_value": 125000.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
   },
   "GOLD": {
     "traded_contract": "Micro Gold (MGC)",
     "tick_size": 0.10,
     "tick_value": 1.0,
-    "point_value": 10.0
+    "point_value": 10.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
   },
   "MICRO COPPER": {
     "traded_contract": "Micro High Grade Copper (MHG)",
     "tick_size": 0.0025,
     "tick_value": 6.25,
-    "point_value": 2500.0
+    "point_value": 2500.0,
+    "rth_open": "08:00",
+    "30_close": "08:30",
+    "60_close": "09:00"
   },
   "MICRO E-MINI NASDAQ-100 INDEX": {
     "traded_contract": "Micro E-mini NASDAQ-100 (MNQ)",
     "tick_size": 0.25,
     "tick_value": 0.50,
-    "point_value": 2.0
+    "point_value": 2.0,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "MINI SOYBEANS": {
     "traded_contract": "Micro Soybeans (MZS)",
     "tick_size": 0.5,
     "tick_value": 2.50,
-    "point_value": 5.0
+    "point_value": 5.0,
+    "rth_open": "09:30",
+    "30_close": "10:00",
+    "60_close": "10:30"
   },
   "SILVER": {
     "traded_contract": "Micro Silver (SIL)",
     "tick_size": 0.005,
     "tick_value": 5.0,
-    "point_value": 1000.0
+    "point_value": 1000.0,
+    "rth_open": "08:30",
+    "30_close": "09:00",
+    "60_close": "09:30"
+  },
+  "_meta": {
+    "timezone": "America/New_York",
+    "session_notes": "RTH session times are Eastern Time. OR bars use [rth_open, 30_close) or [rth_open, 60_close). Entry scans bars at or after the window end on the same ET session date."
   }
 }

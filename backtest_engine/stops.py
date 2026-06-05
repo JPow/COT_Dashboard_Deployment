@@ -15,7 +15,15 @@ Each strategy is a class that implements:
 import numpy as np
 import pandas as pd
 
-STOP_BUFFER = 0.01
+STOP_BUFFER = 0.01  # legacy fallback when tick_size is unavailable on the row
+
+
+def _orb_stop_buffer(row):
+    """One tick beyond the opposite OR boundary (from row tick_size or spec)."""
+    tick = row.get('tick_size', np.nan)
+    if not pd.isna(tick) and float(tick) > 0:
+        return float(tick)
+    return STOP_BUFFER
 
 
 # ---------------------------------------------------------------------------
@@ -23,7 +31,7 @@ STOP_BUFFER = 0.01
 # ---------------------------------------------------------------------------
 
 class TwoPhaseATRStop:
-    """Phase 1: fixed stop at opposite OR boundary.
+    """Phase 1: fixed stop at opposite OR boundary + 1 tick.
     Phase 2: after 1:1 R/R, move to breakeven then trail with ATR.
     """
 
@@ -35,16 +43,18 @@ class TwoPhaseATRStop:
     def initial_stop(self, direction, entry_price, row, **_kw):
         or_low = row.get('or_low_signal', np.nan)
         or_high = row.get('or_high_signal', np.nan)
+        buf = _orb_stop_buffer(row)
         if direction == 1:
-            return or_low - STOP_BUFFER if not pd.isna(or_low) else entry_price * 0.98
+            return or_low - buf if not pd.isna(or_low) else entry_price * 0.98
         else:
-            return or_high + STOP_BUFFER if not pd.isna(or_high) else entry_price * 1.02
+            return or_high + buf if not pd.isna(or_high) else entry_price * 1.02
 
     def stop_distance(self, direction, entry_price, row, **_kw):
         or_low = row.get('or_low_signal', np.nan)
         or_high = row.get('or_high_signal', np.nan)
+        buf = _orb_stop_buffer(row)
         if not pd.isna(or_high) and not pd.isna(or_low):
-            return (or_high - or_low) + STOP_BUFFER
+            return (or_high - or_low) + buf
         return abs(entry_price) * 0.02
 
     def update(self, direction, entry_price, stop_loss, row, bar_idx,

@@ -7,6 +7,8 @@ import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
+from .data import describe_contract
+
 
 def create_strategy_chart(data, trades_df, market_name, setup_key='narrowing_range'):
     """Multi-pane strategy chart with candlesticks, indicators and trade markers."""
@@ -18,7 +20,15 @@ def create_strategy_chart(data, trades_df, market_name, setup_key='narrowing_ran
 
     n_rows = 2 + int(has_setup_pane) + int(has_cot) + 1  # price + ATR + (setup) + (COT) + RSI
     heights = []
-    subtitles = [f"Price: {market_name}"]
+    last_contract = None
+    if 'Contract' in df.columns and df['Contract'].notna().any():
+        last_contract = df['Contract'].dropna().iloc[-1]
+    ref_date = df['Date'].iloc[-1] if len(df) and 'Date' in df.columns else None
+    active_suffix = (
+        f"  -  Active: {describe_contract(last_contract, ref_date=ref_date)}"
+        if last_contract else ''
+    )
+    subtitles = [f"Price: {market_name}{active_suffix}"]
 
     # Build row config dynamically
     heights.append(0.40)

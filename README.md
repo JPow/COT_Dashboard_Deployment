@@ -54,6 +54,21 @@ A mix-and-match Dash app for backtesting any combination of setup, entry, and st
 python unified_backtest_app.py
 ```
 
+### ORB Narrowing Range Backtest (`ORB_backtest.py`)
+
+Dedicated Dash app for the narrowing-range setup + true opening-range breakout entry. Runs on port 8053.
+
+- **Setup:** N consecutive narrowing daily ranges (or NR2: two narrowest of 20 days)
+- **Opening range:** High/low of intraday bars from `rth_open` → `30_close` or `60_close` ET per [`ORB_contract_specs.json`](ORB_contract_specs.json)
+- **Entry:** First bar **after** the OR window that breaks OR high/low; fill at breakout level ± 2 ticks (market-specific)
+- **Stop:** Opposite side of today's opening range ± 1 tick (market-specific), then two-phase ATR trail (breakeven at 1:1, slow ATR × mult)
+- **30m / 60m toggle:** Changing the Opening Range dropdown re-runs the full backtest across all markets
+- Intraday data from `ORB_intraday_data.json` (built by `COT IBRK Data Grabber.ipynb`); timestamps stored UTC-naive, converted to ET in code
+
+```bash
+python ORB_backtest.py
+```
+
 ### Trend-Following Breakout Backtest (`tf_backtest_app.py`)
 
 A dedicated Dash app for the N-day high/low breakout strategy with realistic transaction costs. Runs on port 8055.

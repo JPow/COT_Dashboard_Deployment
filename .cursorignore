@@ -1,0 +1,5 @@
+# Large JSON caches — excluded from Cursor indexing only. Notebook and
+# backtests still read/write these paths on disk unchanged.
+ORB_intraday_data.json
+cot_data.json
+ib_daily_cache.json
