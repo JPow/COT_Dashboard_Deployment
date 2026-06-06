@@ -20,6 +20,16 @@ if PROJECT_ROOT not in sys.path:
 
 from backtest_engine.data import load_contract_specs
 
+STOCKS_KEY = "STOCKS"
+STOCK_SPEC = {
+    "traded_contract": "Stocks (shares)",
+    "point_value": 1.0,
+}
+
+
+def _is_stocks(commodity):
+    return commodity == STOCKS_KEY
+
 
 def _allows_fractional(commodity):
     name = commodity.upper()
@@ -40,10 +50,13 @@ def _stop_distance(entry_price, stop_price, direction):
 
 def compute_position(commodity, direction, entry_price, stop_price, risk_usd):
     """Return sizing result dict or error message."""
-    specs = load_contract_specs()
-    spec = specs.get(commodity)
-    if spec is None:
-        return {"error": f"No contract spec found for {commodity}."}
+    if _is_stocks(commodity):
+        spec = STOCK_SPEC
+    else:
+        specs = load_contract_specs()
+        spec = specs.get(commodity)
+        if spec is None:
+            return {"error": f"No contract spec found for {commodity}."}
 
     try:
         entry = float(entry_price)
@@ -66,6 +79,7 @@ def compute_position(commodity, direction, entry_price, stop_price, risk_usd):
     point_value = spec["point_value"]
     dollar_risk_per_contract = stop_dist * point_value
     contracts = round(risk / dollar_risk_per_contract, 2)
+    is_stock = _is_stocks(commodity)
     fractional = _allows_fractional(commodity)
     tradeable_contracts = (
         contracts if fractional else round(int(contracts), 2)
@@ -87,6 +101,7 @@ def compute_position(commodity, direction, entry_price, stop_price, risk_usd):
         "tradeable_contracts": tradeable_contracts,
         "fractional_allowed": fractional,
         "amount_to_invest": notional,
+        "is_stock": is_stock,
     }
 
 
@@ -100,10 +115,12 @@ def _result_cards(result):
 
     contracts = result["contracts"]
     contracts_text = _format_contracts(contracts)
+    unit = "Shares" if result.get("is_stock") else "Contracts"
+    per_unit = "share" if result.get("is_stock") else "contract"
 
     cards = dbc.Row([
         dbc.Col(dbc.Card(dbc.CardBody([
-            html.H6("Contracts to Buy", className="card-subtitle text-muted mb-1"),
+            html.H6(f"{unit} to Buy", className="card-subtitle text-muted mb-1"),
             html.H2(contracts_text, className="card-title text-success mb-0 result-value"),
         ]), className="result-card h-100"), xs=12, md=4, className="mb-2 mb-md-0"),
         dbc.Col(dbc.Card(dbc.CardBody([
@@ -121,7 +138,7 @@ def _result_cards(result):
                 className="card-title text-warning mb-0 result-value",
             ),
             html.Small(
-                f"${result['dollar_risk_per_contract']:,.2f} per contract",
+                f"${result['dollar_risk_per_contract']:,.2f} per {per_unit}",
                 className="text-muted",
             ),
         ]), className="result-card h-100"), xs=12, md=4),
@@ -129,11 +146,12 @@ def _result_cards(result):
 
     if not result["fractional_allowed"] and contracts < 1:
         min_risk = result["dollar_risk_per_contract"]
+        unit = "share" if result.get("is_stock") else "contract"
         cards = html.Div([
             cards,
             dbc.Alert(
-                f"Less than 1 contract at this risk. "
-                f"Increase risk to ${min_risk:,.2f} for 1 contract, "
+                f"Less than 1 {unit} at this risk. "
+                f"Increase risk to ${min_risk:,.2f} for 1 {unit}, "
                 f"or adjust your stop.",
                 color="info",
                 className="mt-3 mb-0",
@@ -147,19 +165,32 @@ def _detail_table(result):
     if result.get("error"):
         return html.Div()
 
+    is_stock = result.get("is_stock")
+    tradable_label = "Tradable shares" if is_stock else "Tradable contracts"
     rows = [
-        ("Contract", result["traded_contract"]),
+        ("Instrument", result["traded_contract"]),
         ("Direction", result["direction"].upper()),
-        ("Entry", f"{result['entry_price']:,.4f}"),
-        ("Stop", f"{result['stop_price']:,.4f}"),
-        ("Stop distance", f"{result['stop_distance']:,.4f} points"),
-        ("Point value", f"${result['point_value']:,.2f} / point"),
+        ("Entry", f"${result['entry_price']:,.2f}"),
+        ("Stop", f"${result['stop_price']:,.2f}"),
+        (
+            "Stop distance",
+            f"${result['stop_distance']:,.2f} per share"
+            if is_stock
+            else f"{result['stop_distance']:,.4f} points",
+        ),
+        (
+            "Point value",
+            "$1.00 per $1 move"
+            if is_stock
+            else f"${result['point_value']:,.2f} / point",
+        ),
         ("Target risk", f"${result['risk_usd']:,.2f}"),
-        ("Tradable contracts", _format_contracts(result["tradeable_contracts"])),
+        (tradable_label, _format_contracts(result["tradeable_contracts"])),
     ]
     if not result["fractional_allowed"] and result["contracts"] < 1:
+        unit = "share" if is_stock else "contract"
         rows.append((
-            "Risk for 1 contract",
+            f"Risk for 1 {unit}",
             f"${result['dollar_risk_per_contract']:,.2f}",
         ))
     return dbc.Card(dbc.CardBody([
@@ -175,6 +206,8 @@ def _detail_table(result):
 
 specs = load_contract_specs()
 commodity_options = [
+    {"label": "Stocks — shares (USD)", "value": STOCKS_KEY},
+] + [
     {"label": _format_contract_label(key, spec), "value": key}
     for key, spec in sorted(specs.items())
 ]
@@ -254,7 +287,7 @@ app.layout = dbc.Container([
             className="text-center my-3 page-title",
         ),
         html.P(
-            "Size futures trades from entry, stop, and fixed dollar risk.",
+            "Size futures and stock trades from entry, stop, and fixed dollar risk.",
             className="text-center text-muted page-subtitle",
         ),
     ], xs=12)]),

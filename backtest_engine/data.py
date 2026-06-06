@@ -135,6 +135,59 @@ def get_intraday_for_symbol(symbol, interval='30m', cache_df=None):
     return match.reset_index(drop=True) if not match.empty else pd.DataFrame()
 
 
+INTRADAY_STATE_FILE = 'ORB_intraday_roll_state.json'
+
+
+def load_intraday_state(path=None):
+    """Load per-(market, interval) metadata from ORB_intraday_roll_state.json."""
+    path = path or INTRADAY_STATE_FILE
+    if not os.path.exists(path):
+        return {}
+    try:
+        with open(path, 'r') as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"Error loading intraday state from {path}: {e}")
+        return {}
+
+
+def summarize_intraday_ranges(cache_df=None, state=None):
+    """Return per-(market, interval) date coverage for audit / backfill planning.
+
+    Columns: market, interval, first, last, bars, calendar_days, est_trading_days,
+    n_contracts, n_rolls (from roll state when present).
+    """
+    if cache_df is None:
+        cache_df = load_intraday_cache()
+    if state is None:
+        state = load_intraday_state()
+
+    if cache_df.empty:
+        return pd.DataFrame()
+
+    rows = []
+    grouped = cache_df.groupby(['symbol', 'interval'])
+    for (market, interval), sub in grouped:
+        sub = sub.sort_values('datetime')
+        first = sub['datetime'].min()
+        last = sub['datetime'].max()
+        cal_days = max((last - first).days, 0)
+        meta = state.get(f'{market}|{interval}', {})
+        rows.append({
+            'market': market,
+            'interval': interval,
+            'first': first,
+            'last': last,
+            'bars': len(sub),
+            'calendar_days': cal_days,
+            'est_trading_days': round(cal_days * 5 / 7),
+            'n_contracts': meta.get('n_contracts'),
+            'n_rolls': meta.get('n_rolls'),
+            'backfill_target': meta.get('backfill_target'),
+        })
+    return pd.DataFrame(rows).sort_values(['interval', 'first']).reset_index(drop=True)
+
+
 def _parse_hhmm(hhmm):
     """Parse 'HH:MM' session time string."""
     parts = str(hhmm).strip().split(':')

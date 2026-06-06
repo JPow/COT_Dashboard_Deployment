@@ -31,6 +31,30 @@ python app.py
 
 2. Access the dashboard at `http://localhost:8050`
 
+## Intraday ORB cache (30m / 60m archive)
+
+`ORB_intraday_data.json` is the persistent intraday database for ORB backtests. It is built once and extended over time — never wiped on routine updates.
+
+**Audit current coverage** (no IB connection needed):
+
+```bash
+python intraday_data_audit.py
+```
+
+**Routine forward updates** — run the *Build Intraday Cache* cell in `COT IBRK Data Grabber.ipynb` with IB Gateway connected. This incrementally appends new bars when the front contract has not rolled.
+
+**Extend history backward (+30 trading days)** — IB only returns ~30 calendar days of 30m/60m bars per request. To add older months (e.g. March when the cache starts in April), run the backfill script once per month while Gateway is connected:
+
+```bash
+python ib_intraday_backfill.py --trading-days 30
+# or one market:
+python ib_intraday_backfill.py --market "GOLD - COMMODITY EXCHANGE INC." --dry-run
+```
+
+The backfill queries expired contracts with `endDateTime` anchored to the gap, Panama-adjusts, and **prepends** bars without replacing data already in the archive. Progress is tracked in `ORB_intraday_roll_state.json` (`backfill_target`, `last_backfill_at`).
+
+On full intraday rebuilds (contract roll), keep archived bars older than the rebuild window instead of deleting them — use `merge_intraday_rebuild()` from `ib_intraday_backfill.py` in the notebook cell.
+
 ## IB daily price cache (volume-based front)
 
 The notebook `COT IBRK Data Grabber.ipynb` builds `ib_daily_cache.json` using the **most-traded** listed contract (summed daily volume over the last 10 sessions) as the front cap, then stitches historical expiries for a Panama back-adjusted series.
