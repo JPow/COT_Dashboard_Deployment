@@ -84,11 +84,13 @@ def calculate_inside_days(data):
     where control bar is the bar before the inside-day sequence started.
     Equal highs/lows count as inside (<=, >=).
 
-    Adds columns: consecutive_inside_days, inside_day.
+    Adds columns: consecutive_inside_days, inside_day, control_high, control_low.
     """
     df = data.copy()
     n = len(df)
     consecutive = [0] * n
+    control_highs = [np.nan] * n
+    control_lows = [np.nan] * n
     control_high = None
     control_low = None
     count = 0
@@ -120,9 +122,14 @@ def calculate_inside_days(data):
                     control_low = None
 
         consecutive[i] = count
+        if count > 0 and control_high is not None and control_low is not None:
+            control_highs[i] = control_high
+            control_lows[i] = control_low
 
     df['consecutive_inside_days'] = consecutive
     df['inside_day'] = [c > 0 for c in consecutive]
+    df['control_high'] = control_highs
+    df['control_low'] = control_lows
     return df
 
 

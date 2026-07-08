@@ -133,17 +133,15 @@ def test_apply_orb_breakout_slippage():
     assert round(out.iloc[0]['entry_price'], 6) == round(0.6610 + 2 * tick, 6)
 
 
-def test_stop_buffer_is_one_tick():
-    tick = 0.00005  # FX-scale tick
+def test_initial_stop_at_or_boundary():
     row = pd.Series({
         'or_low_signal': 0.6600,
         'or_high_signal': 0.6610,
-        'tick_size': tick,
     })
     stop = TwoPhaseATRStop()
-    assert round(stop.initial_stop(1, 0.6611, row), 8) == round(0.6600 - tick, 8)
-    assert round(stop.initial_stop(-1, 0.6599, row), 8) == round(0.6610 + tick, 8)
-    assert round(stop.stop_distance(1, 0.6611, row), 8) == round(0.0010 + tick, 8)
+    assert stop.initial_stop(1, 0.6610, row) == 0.6600
+    assert stop.initial_stop(-1, 0.6600, row) == 0.6610
+    assert stop.stop_distance(1, 0.6610, row) == 0.0010
 
 
 def test_missing_or_window_skips():
@@ -160,6 +158,6 @@ if __name__ == '__main__':
     test_sugar_early_session()
     test_dual_breakout_midpoint_tiebreaker()
     test_apply_orb_breakout_slippage()
-    test_stop_buffer_is_one_tick()
+    test_initial_stop_at_or_boundary()
     test_missing_or_window_skips()
     print('All orb_entry_test checks passed.')

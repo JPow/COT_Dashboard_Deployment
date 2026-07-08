@@ -37,7 +37,7 @@ DEFAULT_TRAILING_ATR_MULT = 2.0
 DEFAULT_FAST_ATR = 10
 DEFAULT_SLOW_ATR = 25
 DEFAULT_INSIDE_DAYS = 3
-STOP_BUFFER = 0.01  # $0.01 buffer on stops
+DEFAULT_STOP_MODE = 'prev_day'  # 'prev_day' or 'control_bar'
 
 
 # =============================================================================
@@ -130,6 +130,8 @@ def calculate_inside_days(data):
 
     n = len(df)
     consecutive = [0] * n
+    control_highs = [np.nan] * n
+    control_lows = [np.nan] * n
     control_high = None
     control_low = None
     count = 0
@@ -166,9 +168,14 @@ def calculate_inside_days(data):
                     control_low = None
 
         consecutive[i] = count
+        if count > 0 and control_high is not None and control_low is not None:
+            control_highs[i] = control_high
+            control_lows[i] = control_low
 
     df['consecutive_inside_days'] = consecutive
     df['inside_day'] = [c > 0 for c in consecutive]
+    df['control_high'] = control_highs
+    df['control_low'] = control_lows
 
     return df
 
@@ -277,7 +284,8 @@ def prepare_orb_data(cot_df, market_name,
 
 def generate_orb_signals(data, n_inside_days=3,
                          cot_filter=False, cot_long_threshold=70, cot_short_threshold=30,
-                         rsi_filter=False, rsi_long_max=70, rsi_short_min=30):
+                         rsi_filter=False, rsi_long_max=70, rsi_short_min=30,
+                         stop_mode='prev_day'):
     """
     Generate ORB entry signals.
     
@@ -286,12 +294,18 @@ def generate_orb_signals(data, n_inside_days=3,
     2. Price breaks above OR_High (long) or below OR_Low (short) on the NEXT day
     3. Optional COT filter: Commercial_Index >= 70 (long) or <= 30 (short)
     4. Optional RSI filter: RSI < 70 (long) or RSI > 30 (short)
+
+    stop_mode:
+      - 'prev_day': stop at previous day's OR high/low (default)
+      - 'control_bar': stop at the mother bar high/low from the inside-day sequence
     """
     df = data.copy()
     df['signal'] = 0
     df['entry_price'] = np.nan
     df['or_high_signal'] = np.nan
     df['or_low_signal'] = np.nan
+    df['stop_high_signal'] = np.nan
+    df['stop_low_signal'] = np.nan
 
     for i in range(1, len(df)):
         row = df.iloc[i]
@@ -333,6 +347,15 @@ def generate_orb_signals(data, n_inside_days=3,
         if direction == 0:
             continue
 
+        if stop_mode == 'control_bar':
+            stop_high = prev.get('control_high', np.nan)
+            stop_low = prev.get('control_low', np.nan)
+            if pd.isna(stop_high) or pd.isna(stop_low):
+                continue
+        else:
+            stop_high = or_high
+            stop_low = or_low
+
         # Apply COT filter
         if cot_filter and not pd.isna(row.get('Commercial_Index')):
             if direction == 1 and row['Commercial_Index'] < cot_long_threshold:
@@ -353,6 +376,8 @@ def generate_orb_signals(data, n_inside_days=3,
         df.iloc[i, df.columns.get_loc('entry_price')] = entry
         df.iloc[i, df.columns.get_loc('or_high_signal')] = or_high
         df.iloc[i, df.columns.get_loc('or_low_signal')] = or_low
+        df.iloc[i, df.columns.get_loc('stop_high_signal')] = stop_high
+        df.iloc[i, df.columns.get_loc('stop_low_signal')] = stop_low
 
     return df
 
@@ -366,7 +391,8 @@ class ORBBacktester:
     Inside Day Breakout Backtester with two-phase stop management.
     
     Phase 1 (Fixed Stop):
-      Stop at OR_Low - 0.01 (long) or OR_High + 0.01 (short).
+      Stop at stop_low (long) or stop_high (short).
+      Default: previous day's OR. Optional: control (mother) bar range.
       Stays fixed until 1:1 R/R is reached.
       
     Phase 2 (Breakeven + Trailing):
@@ -526,8 +552,13 @@ class ORBBacktester:
                 entry_signal_price = row.get('entry_price', np.nan)
                 or_h = row.get('or_high_signal', np.nan)
                 or_l = row.get('or_low_signal', np.nan)
+                stop_h = row.get('stop_high_signal', or_h)
+                stop_l = row.get('stop_low_signal', or_l)
 
                 if pd.isna(entry_signal_price) or pd.isna(or_h) or pd.isna(or_l):
+                    equity.append(current_capital)
+                    continue
+                if pd.isna(stop_h) or pd.isna(stop_l):
                     equity.append(current_capital)
                     continue
 
@@ -536,8 +567,13 @@ class ORBBacktester:
                     equity.append(current_capital)
                     continue
 
-                # Calculate stop distance
-                stop_dist = or_range + STOP_BUFFER
+                if signal == 1:
+                    stop_dist = entry_signal_price - stop_l
+                else:
+                    stop_dist = stop_h - entry_signal_price
+                if stop_dist <= 0:
+                    equity.append(current_capital)
+                    continue
 
                 # Calculate position size
                 risk_amt = current_capital * self.risk_pct
@@ -569,9 +605,9 @@ class ORBBacktester:
 
                 # Set initial stop
                 if signal == 1:  # Long
-                    stop_loss = or_l - STOP_BUFFER
+                    stop_loss = stop_l
                 else:  # Short
-                    stop_loss = or_h + STOP_BUFFER
+                    stop_loss = stop_h
 
                 in_position = True
                 stop_history[date] = stop_loss
@@ -700,6 +736,7 @@ def run_backtest_for_market(cot_df, market_name,
                             fast_atr_period=10, slow_atr_period=25,
                             cot_filter=False, cot_long=70, cot_short=30,
                             rsi_filter=False, rsi_long_max=70, rsi_short_min=30,
+                            stop_mode='prev_day',
                             start_date=None, end_date=None):
     """Run complete Inside Day Breakout backtest for a single market."""
     data = prepare_orb_data(
@@ -714,7 +751,8 @@ def run_backtest_for_market(cot_df, market_name,
     data = generate_orb_signals(
         data, n_inside_days=n_inside_days,
         cot_filter=cot_filter, cot_long_threshold=cot_long, cot_short_threshold=cot_short,
-        rsi_filter=rsi_filter, rsi_long_max=rsi_long_max, rsi_short_min=rsi_short_min
+        rsi_filter=rsi_filter, rsi_long_max=rsi_long_max, rsi_short_min=rsi_short_min,
+        stop_mode=stop_mode,
     )
 
     # Run backtest
@@ -736,6 +774,7 @@ def run_all_backtests(cot_df, markets,
                       fast_atr_period=10, slow_atr_period=25,
                       cot_filter=False, cot_long=70, cot_short=30,
                       rsi_filter=False, rsi_long_max=70, rsi_short_min=30,
+                      stop_mode='prev_day',
                       start_date=None, end_date=None):
     """Run Inside Day Breakout backtests for all markets."""
     start = start_date or DEFAULT_START_DATE
@@ -762,6 +801,7 @@ def run_all_backtests(cot_df, markets,
             fast_atr_period=fast_atr_period, slow_atr_period=slow_atr_period,
             cot_filter=cot_filter, cot_long=cot_long, cot_short=cot_short,
             rsi_filter=rsi_filter, rsi_long_max=rsi_long_max, rsi_short_min=rsi_short_min,
+            stop_mode=stop_mode,
             start_date=start, end_date=end
         )
         if result:
@@ -1250,6 +1290,15 @@ app.layout = dbc.Container([
             html.Label("Trail ATR Mult", className="text-muted small"),
             dbc.Input(id='orb-trail-mult', type='number', value=DEFAULT_TRAILING_ATR_MULT, min=0.5, max=10, step=0.5)
         ], width=2),
+        dbc.Col([
+            html.Div([
+                dbc.Checklist(
+                    id='orb-control-stop',
+                    options=[{'label': ' Stop at Control Bar (mother bar)', 'value': 'on'}],
+                    value=[], switch=True, className="mt-3"
+                )
+            ])
+        ], width=5),
     ], className="mb-2"),
 
     # --- Row 2: ATR + Filters ---
@@ -1420,13 +1469,14 @@ app.layout = dbc.Container([
      State('orb-slow-atr', 'value'),
      State('orb-cot-filter', 'value'),
      State('orb-rsi-filter', 'value'),
+     State('orb-control-stop', 'value'),
      State('orb-start-date', 'date'),
      State('orb-end-date', 'date')],
     prevent_initial_call=True
 )
 def run_backtest_callback(n_clicks, inside_days, capital, risk_pct,
                           trail_mult, fast_atr, slow_atr, cot_filter_val,
-                          rsi_filter_val, start_date, end_date):
+                          rsi_filter_val, control_stop_val, start_date, end_date):
     """Re-run backtests when Run button is clicked."""
     global all_results, summary_df
 
@@ -1442,6 +1492,7 @@ def run_backtest_callback(n_clicks, inside_days, capital, risk_pct,
 
     cot_on = 'on' in (cot_filter_val or [])
     rsi_on = 'on' in (rsi_filter_val or [])
+    stop_mode = 'control_bar' if 'on' in (control_stop_val or []) else 'prev_day'
 
     all_results, summary_df = run_all_backtests(
         cot_df, markets,
@@ -1449,6 +1500,7 @@ def run_backtest_callback(n_clicks, inside_days, capital, risk_pct,
         risk_pct=risk_pct, trailing_atr_mult=trail_mult,
         fast_atr_period=fast_atr, slow_atr_period=slow_atr,
         cot_filter=cot_on, rsi_filter=rsi_on,
+        stop_mode=stop_mode,
         start_date=start_date, end_date=end_date
     )
 
@@ -1461,9 +1513,10 @@ def run_backtest_callback(n_clicks, inside_days, capital, risk_pct,
 
     cot_label = "COT ON" if cot_on else "COT OFF"
     rsi_label = "RSI ON" if rsi_on else "RSI OFF"
+    stop_label = "Control Bar stop" if stop_mode == 'control_bar' else "Prev Day OR stop"
     status = (
         f"Backtest complete: "
-        f"{inside_days} inside days, {cot_label}, {rsi_label}, "
+        f"{inside_days} inside days, {stop_label}, {cot_label}, {rsi_label}, "
         f"${capital:,.0f} capital, {risk_pct}% risk "
         f"({len(all_results)} markets)"
     )

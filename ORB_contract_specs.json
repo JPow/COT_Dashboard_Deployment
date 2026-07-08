@@ -10,10 +10,10 @@
     "60_close": "09:30"
   },
   "MICRO SILVER": {
-    "traded_contract": "Micro Silver (SIL)",
-    "tick_size": 0.005,
-    "tick_value": 5.0,
-    "point_value": 1000.0,
+    "traded_contract": "100 oz Silver (SIC)",
+    "tick_size": 0.01,
+    "tick_value": 1.0,
+    "point_value": 100.0,
     "rth_open": "08:30",
     "30_close": "09:00",
     "60_close": "09:30"
@@ -109,10 +109,10 @@
     "60_close": "10:30"
   },
   "WHEAT-SRW": {
-    "traded_contract": "Micro Wheat (MZW)",
-    "tick_size": 0.5,
-    "tick_value": 2.50,
-    "point_value": 5.0,
+    "traded_contract": "Chicago SRW Wheat (ZW)",
+    "tick_size": 0.25,
+    "tick_value": 12.50,
+    "point_value": 50.0,
     "rth_open": "09:30",
     "30_close": "10:00",
     "60_close": "10:30"
@@ -521,15 +521,6 @@
     "rth_open": "09:30",
     "30_close": "10:00",
     "60_close": "10:30"
-  },
-  "SILVER": {
-    "traded_contract": "Micro Silver (SIL)",
-    "tick_size": 0.005,
-    "tick_value": 5.0,
-    "point_value": 1000.0,
-    "rth_open": "08:30",
-    "30_close": "09:00",
-    "60_close": "09:30"
   },
   "_meta": {
     "timezone": "America/New_York",
