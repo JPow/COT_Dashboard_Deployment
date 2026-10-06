@@ -74,6 +74,10 @@ def prepare_data(cot_df, market_name, setup_key, entry_key,
         df = calculate_narrowing_ranges(df)
     elif setup_key in ('inside_days',):
         df = calculate_inside_days(df)
+    elif setup_key == 'nday_breakout':
+        from .indicators import add_nday_breakout_bands
+        lb = setup_params.get('lookback', 20)
+        df = add_nday_breakout_bands(df, lookback=lb)
 
     # Run setup detector
     setup_fn = SETUP_REGISTRY[setup_key]['fn']
@@ -84,6 +88,8 @@ def prepare_data(cot_df, market_name, setup_key, entry_key,
     entry_kw = dict(entry_params)
     entry_kw['market_name'] = market_name
     entry_kw['intraday_cache'] = intraday_cache
+    if entry_key == 'nday_breakout' and 'lookback' not in entry_kw:
+        entry_kw['lookback'] = setup_params.get('lookback', 20)
     df = entry_fn(df, **entry_kw)
 
     # Date filter (after indicators so lookback periods are satisfied)
@@ -97,12 +103,16 @@ def prepare_data(cot_df, market_name, setup_key, entry_key,
 
 def run_backtest(data, market_name, stop_strategy,
                  initial_capital=30000, risk_pct=1.0,
-                 point_value=None):
+                 point_value=None,
+                 commission=0.0, slippage_ticks=0):
     """Execute the backtest loop on prepared data.
 
     ``stop_strategy`` is an instance of a stop class from stops.py.
     ``point_value`` converts a 1-point price move to dollars per contract.
     If *None*, it is looked up automatically from ORB_contract_specs.json.
+
+    ``commission`` is charged once per completed trade (exit). ``slippage_ticks``
+    is applied adversely on entry (added to long entry, subtracted from short).
     """
     df = data.copy().reset_index(drop=True)
     required = ['Date', 'Close', 'signal']
@@ -113,6 +123,14 @@ def run_backtest(data, market_name, stop_strategy,
     if point_value is None:
         spec = get_contract_spec(market_name)
         point_value = spec["point_value"] if spec else 1.0
+
+    tick = 0.01
+    spec = get_contract_spec(market_name)
+    if spec and spec.get("tick_size"):
+        tick = float(spec["tick_size"])
+    slip = slippage_ticks * tick
+    total_commission = 0.0
+    total_slippage_cost = 0.0
 
     in_position = False
     direction = 0
@@ -145,15 +163,20 @@ def run_backtest(data, market_name, stop_strategy,
                 **stop_state
             )
             if exit_reason:
-                pnl = _calc_pnl(direction, entry_price, exit_price,
-                                units, point_value)
+                raw_pnl = _calc_pnl(direction, entry_price, exit_price,
+                                    units, point_value)
+                pnl = raw_pnl - commission
                 notional = entry_price * units * point_value
                 pnl_pct = (pnl / notional * 100) if notional > 0 else 0
                 current_capital += pnl
-                trades.append(_trade_record(
+                total_commission += commission
+                rec = _trade_record(
                     market_name, entry_date, date, direction,
                     entry_price, exit_price, units, pnl, pnl_pct,
-                    exit_reason, i - entry_idx, row))
+                    exit_reason, i - entry_idx, row)
+                if commission:
+                    rec['commission'] = commission
+                trades.append(rec)
                 in_position = False
                 direction = 0
                 stop_state = {}
@@ -164,6 +187,9 @@ def run_backtest(data, market_name, stop_strategy,
             if pd.isna(ep):
                 equity.append(current_capital)
                 continue
+
+            if slip:
+                ep = ep + slip if signal == 1 else ep - slip
 
             stop_dist = stop_strategy.stop_distance(signal, ep, row)
             if stop_dist <= 0:
@@ -191,21 +217,28 @@ def run_backtest(data, market_name, stop_strategy,
             stop_loss = stop_strategy.initial_stop(direction, entry_price, row)
             stop_state = {'stop_distance': stop_dist, 'phase': 1}
             in_position = True
+            if slip:
+                total_slippage_cost += slip * units * point_value
 
         equity.append(current_capital)
 
     # Close open position at end of data
     if in_position:
         final = df.iloc[-1]
-        pnl = _calc_pnl(direction, entry_price, final['Close'],
-                         units, point_value)
+        raw_pnl = _calc_pnl(direction, entry_price, final['Close'],
+                            units, point_value)
+        pnl = raw_pnl - commission
         notional = entry_price * units * point_value
         pnl_pct = (pnl / notional * 100) if notional > 0 else 0
         current_capital += pnl
-        trades.append(_trade_record(
+        total_commission += commission
+        rec = _trade_record(
             market_name, entry_date, final['Date'], direction,
             entry_price, final['Close'], units, pnl, pnl_pct,
-            'End of Data', len(df) - 1 - entry_idx, final))
+            'End of Data', len(df) - 1 - entry_idx, final)
+        if commission:
+            rec['commission'] = commission
+        trades.append(rec)
         equity.append(current_capital)
 
     return {
@@ -214,6 +247,8 @@ def run_backtest(data, market_name, stop_strategy,
         'equity_curve': equity,
         'final_capital': current_capital,
         'total_return': (current_capital - initial_capital) / initial_capital * 100,
+        'total_commission': total_commission,
+        'total_slippage_cost': total_slippage_cost,
     }
 
 
@@ -221,7 +256,8 @@ def run_all_markets(cot_df, markets, setup_key, entry_key, stop_key,
                     setup_params=None, entry_params=None, stop_params=None,
                     atr_period=10,
                     initial_capital=30000, risk_pct=1.0,
-                    start_date=None, end_date=None):
+                    start_date=None, end_date=None,
+                    commission=0.0, slippage_ticks=0):
     """Run the full pipeline for every market.  Returns (all_results, summary_df)."""
     setup_params = setup_params or {}
     entry_params = entry_params or {}
@@ -251,7 +287,9 @@ def run_all_markets(cot_df, markets, setup_key, entry_key, stop_key,
 
         result = run_backtest(data, market, stop_strategy,
                               initial_capital=initial_capital,
-                              risk_pct=risk_pct)
+                              risk_pct=risk_pct,
+                              commission=commission,
+                              slippage_ticks=slippage_ticks)
 
         from .metrics import calculate_performance_metrics
         metrics = calculate_performance_metrics(

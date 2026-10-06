@@ -13,6 +13,7 @@ import numpy as np
 
 from .data import (get_intraday_for_symbol, get_contract_spec,
                    prepare_intraday_sessions, find_post_or_breakout)
+from .filters import apply_entry_filters
 
 
 # ---------------------------------------------------------------------------
@@ -208,29 +209,63 @@ def _naive_et(ts):
 def _apply_filters(row, direction, cot_filter, cot_long, cot_short,
                    rsi_filter, rsi_long_max, rsi_short_min,
                    cot_direction_filter=False,
-                   cot_roc_filter=False, cot_roc_threshold=10):
-    """Apply optional COT, RSI, COT-direction, and COT-ROC filters; returns 0 if blocked."""
-    if cot_filter and not pd.isna(row.get('Commercial_Index')):
-        if direction == 1 and row['Commercial_Index'] < cot_long:
-            return 0
-        if direction == -1 and row['Commercial_Index'] > cot_short:
-            return 0
-    if cot_direction_filter and not pd.isna(row.get('COT_Change')):
-        if direction == 1 and row['COT_Change'] < 0:
-            return 0
-        if direction == -1 and row['COT_Change'] > 0:
-            return 0
-    if cot_roc_filter and not pd.isna(row.get('COT_ROC')):
-        if direction == 1 and row['COT_ROC'] < cot_roc_threshold:
-            return 0
-        if direction == -1 and row['COT_ROC'] > -cot_roc_threshold:
-            return 0
-    if rsi_filter and not pd.isna(row.get('RSI')):
-        if direction == 1 and row['RSI'] >= rsi_long_max:
-            return 0
-        if direction == -1 and row['RSI'] <= rsi_short_min:
-            return 0
-    return direction
+                   cot_roc_filter=False, cot_roc_threshold=10,
+                   ma_trend_filter=False, ma_period=0):
+    return apply_entry_filters(
+        row, direction,
+        cot_filter=cot_filter, cot_long=cot_long, cot_short=cot_short,
+        rsi_filter=rsi_filter, rsi_long_max=rsi_long_max, rsi_short_min=rsi_short_min,
+        cot_direction_filter=cot_direction_filter,
+        cot_roc_filter=cot_roc_filter, cot_roc_threshold=cot_roc_threshold,
+        ma_trend_filter=ma_trend_filter, ma_period=ma_period,
+    )
+
+
+def apply_nday_breakout(df, lookback=20, **_kw):
+    """N-day high/low breakout entry at the breakout level."""
+    from .indicators import add_nday_breakout_bands
+
+    out = add_nday_breakout_bands(df, lookback=lookback)
+    out['signal'] = 0
+    out['entry_price'] = np.nan
+
+    long_bo = out['High'] > out['n_day_high']
+    short_bo = out['Low'] < out['n_day_low']
+    long_only = long_bo & ~short_bo
+    short_only = short_bo & ~long_bo
+    both = long_bo & short_bo
+
+    out.loc[long_only, 'signal'] = 1
+    out.loc[long_only, 'entry_price'] = out.loc[long_only, 'n_day_high']
+    out.loc[short_only, 'signal'] = -1
+    out.loc[short_only, 'entry_price'] = out.loc[short_only, 'n_day_low']
+    if both.any():
+        mid = (out['n_day_high'] + out['n_day_low']) / 2
+        long_both = both & (out['Open'] >= mid)
+        short_both = both & ~long_both
+        out.loc[long_both, 'signal'] = 1
+        out.loc[long_both, 'entry_price'] = out.loc[long_both, 'n_day_high']
+        out.loc[short_both, 'signal'] = -1
+        out.loc[short_both, 'entry_price'] = out.loc[short_both, 'n_day_low']
+    return out
+
+
+def apply_next_open(df, **_kw):
+    """Enter at next bar open when setup fired on prior bar (uses setup + setup_direction)."""
+    out = df.copy()
+    out['signal'] = 0
+    out['entry_price'] = np.nan
+    for i in range(1, len(out)):
+        prev = out.iloc[i - 1]
+        if not prev.get('setup', False):
+            continue
+        direction = int(prev.get('setup_direction', 0))
+        if direction == 0:
+            continue
+        row = out.iloc[i]
+        out.iloc[i, out.columns.get_loc('signal')] = direction
+        out.iloc[i, out.columns.get_loc('entry_price')] = row['Open']
+    return out
 
 
 # ---------------------------------------------------------------------------
@@ -254,6 +289,17 @@ ENTRY_REGISTRY = {
     'close_entry': {
         'fn': apply_close_entry,
         'label': 'Market-on-Close (Signal Day)',
+        'params': {},
+    },
+    'nday_breakout': {
+        'fn': apply_nday_breakout,
+        'label': 'N-Day High/Low Breakout',
+        'params': {'lookback': {'type': int, 'default': 20, 'min': 5, 'max': 200,
+                                 'label': 'Lookback Days'}},
+    },
+    'next_open': {
+        'fn': apply_next_open,
+        'label': 'Next Session Open (after setup)',
         'params': {},
     },
 }

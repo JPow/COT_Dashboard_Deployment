@@ -514,4 +514,6 @@ def update_market_detail(market, _store):
 # =============================================================================
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8054)
+    print("Deprecated — use: python -m app.main  →  /backtest")
+    from app.main import app as multi_app
+    multi_app.run(debug=True, port=8050)

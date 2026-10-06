@@ -394,7 +394,11 @@ def update_position(commodity, direction, entry_price, stop_price, risk_usd):
     return _result_cards(result), _detail_table(result)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and os.environ.get("COT_LEGACY_SIZING") != "1":
+    print("Deprecated — use: python -m app.main  →  /sizing")
+    from app.main import app as multi_app
+    multi_app.run(debug=True, port=8050)
+elif __name__ == "__main__":
     import socket
 
     port = 8056

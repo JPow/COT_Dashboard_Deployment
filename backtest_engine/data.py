@@ -44,9 +44,24 @@ def describe_contract(local_symbol, ref_date=None):
         year += 10
     return f"{_MONTH_CODES[month_char]} {year} ({s})"
 
-COT_DATA_FILE = 'cot_data.json'
-INTRADAY_CACHE_FILE = 'ORB_intraday_data.json'
-CONTRACT_SPECS_FILE = 'ORB_contract_specs.json'
+_PKG_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_DATA_DIR = os.environ.get('COT_DATA_DIR', os.path.join(_PKG_ROOT, 'data'))
+
+
+def _resolve_data_file(filename: str) -> str:
+    """Prefer ``data/<filename>``; fall back to repo root for legacy layouts."""
+    preferred = os.path.join(_DATA_DIR, filename)
+    if os.path.exists(preferred):
+        return preferred
+    legacy = os.path.join(_PKG_ROOT, filename)
+    if os.path.exists(legacy):
+        return legacy
+    return preferred
+
+
+COT_DATA_FILE = _resolve_data_file('cot_data.json')
+INTRADAY_CACHE_FILE = _resolve_data_file('ORB_intraday_data.json')
+CONTRACT_SPECS_FILE = _resolve_data_file('ORB_contract_specs.json')
 
 _CONTRACT_SPECS_CACHE = None
 
@@ -135,7 +150,7 @@ def get_intraday_for_symbol(symbol, interval='30m', cache_df=None):
     return match.reset_index(drop=True) if not match.empty else pd.DataFrame()
 
 
-INTRADAY_STATE_FILE = 'ORB_intraday_roll_state.json'
+INTRADAY_STATE_FILE = _resolve_data_file('ORB_intraday_roll_state.json')
 
 
 def load_intraday_state(path=None):

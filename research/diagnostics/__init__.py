@@ -1,0 +1,3 @@
+# Research notebooks load cot_data via backtest_engine (data/cot_data.json).
+# Prefer: from research.hypothesis_test import ...
+# Legacy: from hypothesis_test import ... still works via tests/ shims.

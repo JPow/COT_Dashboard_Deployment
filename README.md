@@ -24,42 +24,67 @@ pip install -r requirements.txt
 
 ## Usage
 
-1. Run the COT dashboard:
+1. Run the multi-page COT app (dashboard, backtest, sizing):
 ```bash
-python app.py
+python -m app.main
 ```
 
-2. Access the dashboard at `http://localhost:8050`
+2. Access at `http://localhost:8050` (`/` dashboard, `/backtest` unified engine, `/sizing` position tool)
+
+Legacy single-file entry: `python app.py` (redirects to the same app).
+
+## Data source
+
+All prices and COT fields for the dashboard and backtests come from **`COT IBRK Data Grabber.ipynb`** (Interactive Brokers Gateway + `cot_reports`). There is no Yahoo Finance pipeline. After updating data locally, run `python -m pipeline.publish` then commit and push `data/cot_data.json` (and other caches if changed) so Render serves current prices.
 
 ## Intraday ORB cache (30m / 60m archive)
 
-`ORB_intraday_data.json` is the persistent intraday database for ORB backtests. It is built once and extended over time — never wiped on routine updates.
-
-**Audit current coverage** (no IB connection needed):
-
-```bash
-python intraday_data_audit.py
-```
+`data/ORB_intraday_data.json` is the persistent intraday database for ORB backtests. It is built once and extended over time — never wiped on routine updates.
 
 **Routine forward updates** — run the *Build Intraday Cache* cell in `COT IBRK Data Grabber.ipynb` with IB Gateway connected. This incrementally appends new bars when the front contract has not rolled.
 
 **Extend history backward (+30 trading days)** — IB only returns ~30 calendar days of 30m/60m bars per request. To add older months (e.g. March when the cache starts in April), run the backfill script once per month while Gateway is connected:
 
 ```bash
-python ib_intraday_backfill.py --trading-days 30
+python -m pipeline.ib_intraday_backfill --trading-days 30
 # or one market:
-python ib_intraday_backfill.py --market "GOLD - COMMODITY EXCHANGE INC." --dry-run
+python -m pipeline.ib_intraday_backfill --market "GOLD - COMMODITY EXCHANGE INC." --dry-run
+# shim still works: python ib_intraday_backfill.py ...
 ```
 
-The backfill queries expired contracts with `endDateTime` anchored to the gap, Panama-adjusts, and **prepends** bars without replacing data already in the archive. Progress is tracked in `ORB_intraday_roll_state.json` (`backfill_target`, `last_backfill_at`).
+The backfill queries expired contracts with `endDateTime` anchored to the gap, Panama-adjusts, and **prepends** bars without replacing data already in the archive. Progress is tracked in `data/ORB_intraday_roll_state.json` (`backfill_target`, `last_backfill_at`).
 
 On full intraday rebuilds (contract roll), keep archived bars older than the rebuild window instead of deleting them — use `merge_intraday_rebuild()` from `ib_intraday_backfill.py` in the notebook cell.
 
-## IB daily price cache (volume-based front)
+## IB daily price cache (continuous futures)
 
-The notebook `COT IBRK Data Grabber.ipynb` builds `ib_daily_cache.json` using the **most-traded** listed contract (summed daily volume over the last 10 sessions) as the front cap, then stitches historical expiries for a Panama back-adjusted series.
+The notebook `COT IBRK Data Grabber.ipynb` builds and maintains these **data** files:
 
-After changing that logic, do a **one-time full rebuild** with IB Gateway connected: in the daily-cache cell, set `FORCE_FULL_REBUILD = True`, run the cell once, then set it back to `False`.
+| File | Role |
+|---|---|
+| `data/ib_daily_cache.json` | Panama back-adjusted daily OHLC per market (what backtests / `cot_data.json` consume) |
+| `data/ib_daily_roll_state.json` | Per-market rebuild metadata (roll dates, gaps, `roll_mode`, etc.) |
+| `data/cot_data.json` | Weekly COT + daily prices merged for the dashboard / strategies |
+| `data/ORB_intraday_data.json` | 30m / 60m intraday archive for ORB backtests |
+| `data/ORB_contract_specs.json` | Tick size, point value, session times |
+
+### `liquidity_roll_cohort.json` — config, not a cache
+
+**This file does not replace any of the JSON caches above.** It is a small allow-list of COT market names that should use **liquidity-based rolls** (`roll_mode='liquidity'`) instead of the default expiry−5BD calendar roll when the daily cache is fully rebuilt.
+
+- **What it contains:** markets whose expiry-buffer series had high flat/vol0 rates (thin inter-months), plus validated PL/PA.
+- **How it is used:** the Grabber daily-cache cell loads `LIQUIDITY_ROLL_MARKETS` from this file (fallback: platinum + palladium only). Markets **not** in the list keep `roll_mode='expiry_buffer'`.
+- **When prices change:** only after an IB rebuild (or `liquidity_roll_pilot.py --promote` for validated pilots). Editing the cohort alone does not rewrite `ib_daily_cache.json`.
+
+Shared stitch logic lives in [`pipeline/ib_continuous.py`](pipeline/ib_continuous.py) (root `ib_continuous.py` is a shim). After updating caches locally, run `python -m pipeline.publish` for git push reminders. Pilot / validate / promote / rank:
+
+```bash
+# use orklys_env
+/Users/Work/NoteBooks/orklys_env/bin/python liquidity_roll_pilot.py --market platinum
+/Users/Work/NoteBooks/orklys_env/bin/python liquidity_roll_pilot.py --rank-only   # refreshes ranking + suggests cohort
+```
+
+After changing roll logic, do a **one-time full rebuild** with IB Gateway connected: in the daily-cache cell, set `FORCE_FULL_REBUILD = True`, run once, then set it back to `False`. Markets in the cohort are rebuilt with liquidity rolls; others stay on expiry-buffer.
 
 ## Backtest Dashboards
 
@@ -146,8 +171,7 @@ Three portfolio approaches are compared out-of-sample:
 
 ## Deployment
 
-The dashboard is deployed using Render. Access it at: [Your Render URL]
-Remember to update the price date for the most recent price data. 
+The dashboard is deployed using Render (`gunicorn` via `start.sh`). **`cot_data.json` is not updated by CI** — refresh it by running the Grabber with IB Gateway, then push the updated JSON to the branch Render builds from (typically `main` or your deploy branch).
 
 ## License
 

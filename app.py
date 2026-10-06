@@ -1,6 +1,8 @@
+"""Legacy entry — prefer ``python -m app.main`` or ``gunicorn app.main:server``."""
 import dash
 from dash import html, dcc, dash_table
 from dash.dependencies import Input, Output
+from backtest_engine.data import COT_DATA_FILE
 import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
@@ -18,7 +20,7 @@ server = app.server
 
 # Load data from JSON file
 try:
-    with open('cot_data.json', 'r') as f:
+    with open(COT_DATA_FILE, 'r') as f:
         data = json.load(f)
     df6 = pd.DataFrame(data)
     # Convert timestamps to datetime - handle both string and numeric formats
@@ -69,7 +71,7 @@ app.layout = dbc.Container([
         ], style={'textAlign': 'center', 'marginBottom': '30px'}),  # Added spacing
         # Container for the graph
             html.Div([
-                dcc.Graph(id='combined-graph')
+                dcc.Graph(id='combined-graph', style={'height': '1000px'}, config={'responsive': False})
             ], style={'width': '90%', 'margin': '0 auto'})  # Centered with some margin
         ])
     ]),
@@ -139,7 +141,7 @@ app.layout = dbc.Container([
                 date=max(week_dates) if week_dates else None,
                 style={'fontSize': 14}
             ),
-            dcc.Graph(id='bubble-graph')
+            html.Div([dcc.Graph(id='bubble-graph', style={'height': '700px'}, config={'responsive': False})], style={'height': '700px', 'overflow': 'hidden'})
         ])
     ]),
 
@@ -149,7 +151,7 @@ app.layout = dbc.Container([
             html.Div("Open Interest Index",
                     style={'textAlign': 'center', 'color': 'white', 'fontSize': 20, 
                            'marginTop': '20px', 'marginBottom': '20px'}),
-            dcc.Graph(id='open-interest-graph')
+            html.Div([dcc.Graph(id='open-interest-graph', style={'height': '400px'}, config={'responsive': False})], style={'height': '400px', 'overflow': 'hidden'})
         ])
     ])
 ])
@@ -197,14 +199,21 @@ def update_bubble(week_selected):
                    )
 
     # Set x-axis and y-axis ranges for each subplot
-    fig.update_xaxes(range=[0, 125])
-    fig.update_yaxes(range=[0, 125])
+    fig.update_xaxes(range=[0, 125], autorange=False)
+    fig.update_yaxes(range=[0, 125], autorange=False)
+    if getattr(fig.layout, "updatemenus", None) is not None:
+        for frame in fig.frames or []:
+            frame.layout.xaxis = dict(range=[0, 125], autorange=False)
+            frame.layout.yaxis = dict(range=[0, 125], autorange=False)
     
     # Update layout for better animation display
     fig.update_layout(
-        height=800,
-        width=1200,
+        autosize=False,
+        height=700,
         showlegend=True,
+        uirevision='bubble-oi',
+        xaxis=dict(range=[0, 125], autorange=False),
+        yaxis=dict(range=[0, 125], autorange=False),
         legend=dict(
             orientation="h",
             yanchor="middle",
@@ -240,10 +249,9 @@ def update_bubble(week_selected):
 # Callback to update open interest graph
 @app.callback(
     Output('open-interest-graph', 'figure'),
-    [Input('commodity-dropdown', 'value'),
-     Input('combined-graph', 'relayoutData')]
+    Input('commodity-dropdown', 'value'),
 )
-def update_open_interest_graph(selected_commodities, relayout_data):
+def update_open_interest_graph(selected_commodities):
     if df6.empty or not selected_commodities:
         return {}
     
@@ -296,6 +304,8 @@ def update_open_interest_graph(selected_commodities, relayout_data):
         title=f'Open Interest Index: {selected_commodities}',
         xaxis_title='Date',
         yaxis_title='Index Value',
+        yaxis=dict(range=[0, 100], autorange=False, fixedrange=False),
+        uirevision='oi-index',
         showlegend=True,
         legend=dict(
             orientation="h",
@@ -488,8 +498,8 @@ def update_combined_graph(selected_commodities):
     
     # Set overall layout
     fig.update_layout(
+        autosize=False,
         height=1000,
-        width=1000,
         hovermode="x unified",
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
         template="plotly_white"
@@ -537,4 +547,5 @@ def update_table(selected_commodity):
     return data, columns
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    from app.main import app as multi_app
+    multi_app.run(debug=True, port=8050)

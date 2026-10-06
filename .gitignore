@@ -45,5 +45,8 @@ ENV/
 
 annual.txt
 
-# ORB intraday data cache (regenerated on run, too large for GitHub)
+# Large regenerable caches (too big for GitHub). cot_data.json stays tracked for Render.
+data/ORB_intraday_data.json
+data/ib_daily_cache.json
 ORB_intraday_data.json
+ib_daily_cache.json

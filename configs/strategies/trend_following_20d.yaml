@@ -1,0 +1,15 @@
+name: trend_following_20d
+setup: nday_breakout
+setup_params:
+  lookback: 20
+entry: nday_breakout
+entry_params:
+  lookback: 20
+stop: atr_two_phase
+stop_params:
+  atr_stop_mult: 2.0
+  atr_trail_mult: 2.0
+capital: 30000
+risk_pct: 1.0
+commission: 10.0
+slippage_ticks: 2

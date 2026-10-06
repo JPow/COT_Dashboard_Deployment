@@ -4,12 +4,15 @@ Modular Backtest Engine
 Shared components for strategy backtesting across all models.
 
 Modules:
-    data        – Load COT daily/weekly data and IBKR intraday cache
-    indicators  – ATR, RSI, moving averages
-    setups      – Setup detectors (narrowing range, inside days, COT+RSI extremes)
-    entries     – Entry filters (ORB breakout, daily breakout, market-on-close)
+    data        – Load COT daily/weekly data and IBKR intraday cache (``data/``)
+    indicators  – ATR, RSI, moving averages, N-day bands
+    setups      – Setup detectors (narrowing range, inside days, COT+RSI, N-day)
+    entries     – Entry filters (ORB, daily breakout, close, next_open, N-day)
     stops       – Exit / stop-management strategies
-    backtester  – Unified backtest engine that wires setup → entry → stop
-    metrics     – Performance analytics (win rate, Sharpe, drawdown, …)
+    filters     – Optional COT / RSI / MA entry filters
+    backtester  – Unified backtest engine (setup → entry → stop, optional costs)
+    portfolio   – Aggregate per-market results
+    metrics     – Performance analytics
     charts      – Plotly visualisation helpers
+    cot_rsi     – Legacy COT+RSI helpers for notebooks
 """

@@ -23,6 +23,9 @@ import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
 
+from backtest_engine.data import load_cot_data
+from backtest_engine.indicators import calculate_atr
+from backtest_engine.metrics import calculate_performance_metrics
 
 # =============================================================================
 # DATA LOADING
@@ -30,15 +33,9 @@ from plotly.subplots import make_subplots
 
 def load_data():
     """Load and prepare data from shared JSON file."""
-    try:
-        with open('cot_data.json', 'r') as f:
-            data_raw = json.load(f)
-        df = pd.DataFrame(data_raw)
-        df["Date"] = pd.to_datetime(df["Date"], unit='ms')
-        return df
-    except Exception as e:
-        print(f"Error loading data: {e}")
-        return pd.DataFrame()
+    return load_cot_data()
+
+
 
 
 # =============================================================================
@@ -79,23 +76,6 @@ def prepare_strategy_data(df, market_name, start_date=None, end_date=None, ma_pe
         strategy_data = strategy_data[strategy_data['Date'] <= pd.Timestamp(end_date)]
     
     return strategy_data
-
-
-def calculate_atr(data, period=10):
-    """Calculate Average True Range."""
-    df = data.copy()
-    if 'High' not in df.columns or 'Low' not in df.columns:
-        df['ATR'] = df['Close'].rolling(window=period).std() * 1.5
-        return df
-    
-    df['prev_close'] = df['Close'].shift(1)
-    df['tr1'] = df['High'] - df['Low']
-    df['tr2'] = abs(df['High'] - df['prev_close'])
-    df['tr3'] = abs(df['Low'] - df['prev_close'])
-    df['TR'] = df[['tr1', 'tr2', 'tr3']].max(axis=1)
-    df['ATR'] = df['TR'].rolling(window=period).mean()
-    df.drop(columns=['prev_close', 'tr1', 'tr2', 'tr3', 'TR'], inplace=True, errors='ignore')
-    return df
 
 
 def calculate_atr_ma(data, atr_ma_period):
@@ -276,55 +256,6 @@ class MLBacktester:
 # PERFORMANCE METRICS
 # =============================================================================
 
-def calculate_performance_metrics(trades_df, equity_curve, initial_capital=30000):
-    """Calculate comprehensive performance metrics."""
-    if trades_df.empty:
-        return {
-            'total_trades': 0, 'win_rate': 0, 'profit_factor': 0, 
-            'total_return_pct': 0, 'sharpe_ratio': 0, 'max_drawdown_pct': 0,
-            'net_profit': 0, 'gross_profit': 0, 'gross_loss': 0
-        }
-    
-    metrics = {}
-    total_trades = len(trades_df)
-    winning = trades_df[trades_df['pnl'] > 0]
-    losing = trades_df[trades_df['pnl'] < 0]
-    
-    metrics['total_trades'] = total_trades
-    metrics['win_rate'] = (len(winning) / total_trades * 100) if total_trades > 0 else 0
-    
-    total_profit = winning['pnl'].sum() if not winning.empty else 0
-    total_loss = abs(losing['pnl'].sum()) if not losing.empty else 0
-    metrics['gross_profit'] = total_profit
-    metrics['gross_loss'] = total_loss
-    metrics['net_profit'] = total_profit - total_loss
-    metrics['profit_factor'] = (total_profit / total_loss) if total_loss > 0 else float('inf')
-    
-    final_capital = equity_curve[-1] if equity_curve else initial_capital
-    metrics['total_return_pct'] = (final_capital - initial_capital) / initial_capital * 100
-    
-    equity_series = pd.Series(equity_curve)
-    drawdown = (equity_series - equity_series.cummax()) / equity_series.cummax()
-    metrics['max_drawdown_pct'] = abs(drawdown.min()) * 100 if len(drawdown) > 0 else 0
-    
-    if len(trades_df) > 1 and 'pnl_pct' in trades_df.columns:
-        returns = trades_df['pnl_pct'] / 100
-        if 'entry_date' in trades_df.columns and 'exit_date' in trades_df.columns:
-            trade_years = (trades_df['exit_date'].max() - trades_df['entry_date'].min()).days / 365.25
-            trade_years = max(trade_years, 0.1)
-        else:
-            trade_years = 1
-        actual_trades_per_year = len(trades_df) / trade_years
-        if returns.std() > 0 and actual_trades_per_year > 0:
-            metrics['sharpe_ratio'] = (returns.mean() * actual_trades_per_year) / (returns.std() * np.sqrt(actual_trades_per_year))
-        else:
-            metrics['sharpe_ratio'] = 0
-    else:
-        metrics['sharpe_ratio'] = 0
-    
-    return metrics
-
-
 # =============================================================================
 # WALK-FORWARD VALIDATION
 # =============================================================================
@@ -434,16 +365,19 @@ def run_walk_forward_validation(df, markets, param_grid, windows, progress_callb
 # LOAD DATA AND INITIALIZE
 # =============================================================================
 
+_SKIP = __import__("os").environ.get("COT_SKIP_PRECOMPUTE") == "1"
 print("Loading data...")
 df = load_data()
 markets = sorted(df['Market'].unique().tolist()) if not df.empty else []
 print(f"Loaded {len(df)} rows across {len(markets)} markets")
 
-# Pre-compute validation results
-print("Running walk-forward validation (this may take a few minutes)...")
 param_grid = list(product(RSI_EXIT_VALUES, MA_FILTER_VALUES, ATR_FILTER_VALUES))
-validation_results = run_walk_forward_validation(df, markets, param_grid, WALK_FORWARD_WINDOWS)
-print(f"Validation complete: {len(validation_results)} parameter combinations tested")
+if _SKIP:
+    validation_results = __import__("pandas").DataFrame()
+else:
+    print("Running walk-forward validation (this may take a few minutes)...")
+    validation_results = run_walk_forward_validation(df, markets, param_grid, WALK_FORWARD_WINDOWS)
+    print(f"Validation complete: {len(validation_results)} parameter combinations tested")
 
 
 # =============================================================================
@@ -676,5 +610,7 @@ def toggle_collapse(n, is_open):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8052)
+    print("Deprecated — walk-forward grid; see /research and ml_backtest_app module")
+    from app.main import app as multi_app
+    multi_app.run(debug=True, port=8050)
 

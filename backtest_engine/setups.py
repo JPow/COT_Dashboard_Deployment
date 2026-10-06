@@ -108,7 +108,22 @@ def detect_cot_rsi(df, commercial_long=80, commercial_short=20,
 # Registry
 # ---------------------------------------------------------------------------
 
+def detect_nday_breakout(df, lookback=20, **_kw):
+    """Setup on any day with a valid N-day high/low band (trend-following breakout)."""
+    from .indicators import add_nday_breakout_bands
+
+    out = add_nday_breakout_bands(df, lookback=lookback)
+    out['setup'] = out['n_day_high'].notna() & out['n_day_low'].notna()
+    return out
+
+
 SETUP_REGISTRY = {
+    'nday_breakout': {
+        'fn': detect_nday_breakout,
+        'label': 'N-Day Breakout (always armed)',
+        'params': {'lookback': {'type': int, 'default': 20, 'min': 5, 'max': 200,
+                                 'label': 'Lookback Days'}},
+    },
     'narrowing_range': {
         'fn': detect_narrowing_range,
         'label': 'Narrowing Range',

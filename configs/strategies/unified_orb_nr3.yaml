@@ -1,0 +1,14 @@
+name: unified_orb_nr3
+setup: narrowing_range
+setup_params:
+  n_days: 3
+entry: orb_breakout
+entry_params:
+  or_type: "60m"
+stop: two_phase_atr
+stop_params:
+  trailing_atr_mult: 2.0
+capital: 30000
+risk_pct: 1.0
+atr_period: 10
+start_date: "2023-01-01"

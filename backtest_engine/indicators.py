@@ -133,6 +133,18 @@ def calculate_inside_days(data):
     return df
 
 
+def add_nday_breakout_bands(df, lookback=20):
+    """Add n_day_high / n_day_low columns (prior N-day extremes, shifted)."""
+    out = df.copy()
+    out['n_day_high'] = (
+        out['High'].shift(1).rolling(lookback, min_periods=lookback).max()
+    )
+    out['n_day_low'] = (
+        out['Low'].shift(1).rolling(lookback, min_periods=lookback).min()
+    )
+    return out
+
+
 def add_standard_indicators(df, atr_period=10, rsi_period=10, ma_periods=None):
     """Convenience: attach the full indicator suite to a daily DataFrame."""
     df = calculate_rsi(df, period=rsi_period)

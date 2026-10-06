@@ -28,13 +28,23 @@ from backtest_engine.data import (
     ET,
     describe_contract,
     get_contract_spec,
-    load_intraday_cache as be_load_intraday_cache,
+    load_cot_data,
+    load_intraday_cache,
+    get_intraday_for_symbol,
     get_session_times,
     normalize_intraday_to_et,
     build_opening_range_day,
     prepare_intraday_sessions,
 )
 from backtest_engine.entries import apply_orb_breakout
+from backtest_engine.indicators import (
+    calculate_atr,
+    calculate_rsi,
+    calculate_moving_averages,
+    calculate_narrowing_ranges,
+)
+from backtest_engine.metrics import calculate_performance_metrics
+from backtest_engine.charts import create_equity_curve
 
 # =============================================================================
 # CONSTANTS
@@ -59,136 +69,9 @@ INTRADAY_CACHE_FILE = 'ORB_intraday_data.json'
 # DATA LOADING
 # =============================================================================
 
-def load_cot_data():
-    """Load daily OHLCV + weekly COT data from shared JSON file."""
-    try:
-        with open('cot_data.json', 'r') as f:
-            data_raw = json.load(f)
-        df = pd.DataFrame(data_raw)
-        df["Date"] = pd.to_datetime(df["Date"], unit='ms')
-        return df
-    except Exception as e:
-        print(f"Error loading COT data: {e}")
-        return pd.DataFrame()
-
-
-def load_intraday_cache():
-    """Load cached intraday data from ORB_intraday_data.json."""
-    if not os.path.exists(INTRADAY_CACHE_FILE):
-        return pd.DataFrame()
-    try:
-        with open(INTRADAY_CACHE_FILE, 'r') as f:
-            data = json.load(f)
-        if not data:
-            return pd.DataFrame()
-        df = pd.DataFrame(data)
-        df['datetime'] = pd.to_datetime(df['datetime'])
-        return df
-    except Exception as e:
-        print(f"Error loading intraday cache: {e}")
-        return pd.DataFrame()
-
-
-def get_intraday_from_cache(symbol, interval='30m'):
-    """Read intraday data for a symbol+interval from the IBKR-populated cache.
-
-    Returns DataFrame with columns: symbol, interval, datetime, open, high, low, close, volume
-    """
-    cache = load_intraday_cache()
-    if cache.empty:
-        return pd.DataFrame()
-    match = cache[(cache['symbol'] == symbol) & (cache['interval'] == interval)]
-    if match.empty:
-        return pd.DataFrame()
-    return match.reset_index(drop=True)
-
-
 # =============================================================================
 # INDICATORS
 # =============================================================================
-
-def calculate_atr(data, period=10, col_name='ATR'):
-    """
-    Calculate Average True Range.
-
-    True_Range[i] = max(High[i]-Low[i], |High[i]-Close[i-1]|, |Low[i]-Close[i-1]|)
-    ATR = SMA(True_Range, period)
-    """
-    df = data.copy()
-    if 'High' not in df.columns or 'Low' not in df.columns:
-        df[col_name] = df['Close'].rolling(window=period).std() * 1.5
-        return df
-
-    prev_close = df['Close'].shift(1)
-    tr1 = df['High'] - df['Low']
-    tr2 = (df['High'] - prev_close).abs()
-    tr3 = (df['Low'] - prev_close).abs()
-    df['TR'] = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
-    df[col_name] = df['TR'].rolling(window=period).mean()
-    df.drop(columns=['TR'], inplace=True, errors='ignore')
-    return df
-
-
-def calculate_moving_averages(data, periods=None):
-    """
-    Calculate Simple Moving Averages.
-    MA_N = SMA(Close, N) for N in {10, 20, 50, 100, 150, 200}
-    """
-    if periods is None:
-        periods = [10, 20, 50, 100, 150, 200]
-    df = data.copy()
-    for p in periods:
-        df[f'MA_{p}'] = df['Close'].rolling(window=p).mean()
-    return df
-
-
-def calculate_rsi(data, period=10):
-    """
-    Calculate RSI (Relative Strength Index).
-
-    RSI = 100 - (100 / (1 + RS))
-    RS = SMA(gain, period) / SMA(loss, period)
-    """
-    df = data.copy()
-    delta = df['Close'].diff()
-    gain = delta.where(delta > 0, 0.0).rolling(window=period).mean()
-    loss = (-delta.where(delta < 0, 0.0)).rolling(window=period).mean()
-    rs = gain / loss
-    df['RSI'] = 100 - (100 / (1 + rs))
-    return df
-
-
-def calculate_narrowing_ranges(data):
-    """
-    Identify narrowing range days and count consecutive streaks.
-
-    Daily_Range[i] = High[i] - Low[i]
-    Narrowing_Day[i] = Daily_Range[i] <= Daily_Range[i-1]
-
-    Consecutive_Narrowing[i] = running count of unbroken streak
-      of Narrowing_Day == True ending at day i.
-    """
-    df = data.copy()
-    df['daily_range'] = df['High'] - df['Low']
-    df['prev_range'] = df['daily_range'].shift(1)
-    df['narrowing_day'] = df['daily_range'] <= df['prev_range']
-
-    # Count consecutive narrowing days
-    consecutive = [0] * len(df)
-    count = 0
-    for i in range(len(df)):
-        if df.iloc[i]['narrowing_day']:
-            count += 1
-        else:
-            count = 0
-        consecutive[i] = count
-    df['consecutive_narrowing'] = consecutive
-
-    # Clean up temp columns
-    df.drop(columns=['prev_range'], inplace=True, errors='ignore')
-
-    return df
-
 
 def calculate_nr2(data, lookback=20):
     """
@@ -311,7 +194,7 @@ def generate_orb_signals(data, market_name, or_type='30m', n_narrowing_days=3,
             df.iloc[i, df.columns.get_loc('setup')] = True
 
     if intraday_cache is None:
-        intraday_cache = be_load_intraday_cache()
+        intraday_cache = load_intraday_cache()
 
     return apply_orb_breakout(
         df,
@@ -541,72 +424,6 @@ class ORBBacktester:
 # =============================================================================
 # PERFORMANCE METRICS
 # =============================================================================
-
-def calculate_performance_metrics(trades_df, equity_curve, initial_capital=30000):
-    """Calculate comprehensive performance metrics."""
-    if trades_df.empty:
-        return {
-            'total_trades': 0, 'win_rate': 0, 'profit_factor': 0,
-            'total_return_pct': 0, 'cagr': 0, 'max_drawdown_pct': 0,
-            'sharpe_ratio': 0, 'avg_win': 0, 'avg_loss': 0, 'net_profit': 0,
-            'winning_trades': 0, 'losing_trades': 0, 'gross_profit': 0,
-            'gross_loss': 0, 'avg_days_held': 0,
-        }
-
-    metrics = {}
-    total_trades = len(trades_df)
-    winning = trades_df[trades_df['pnl'] > 0]
-    losing = trades_df[trades_df['pnl'] < 0]
-
-    metrics['total_trades'] = total_trades
-    metrics['winning_trades'] = len(winning)
-    metrics['losing_trades'] = len(losing)
-    metrics['win_rate'] = (len(winning) / total_trades * 100) if total_trades > 0 else 0
-
-    total_profit = winning['pnl'].sum() if not winning.empty else 0
-    total_loss = abs(losing['pnl'].sum()) if not losing.empty else 0
-    metrics['gross_profit'] = total_profit
-    metrics['gross_loss'] = total_loss
-    metrics['net_profit'] = total_profit - total_loss
-    metrics['profit_factor'] = (total_profit / total_loss) if total_loss > 0 else float('inf')
-    metrics['avg_win'] = winning['pnl'].mean() if not winning.empty else 0
-    metrics['avg_loss'] = losing['pnl'].mean() if not losing.empty else 0
-    metrics['avg_days_held'] = trades_df['days_held'].mean() if 'days_held' in trades_df.columns else 0
-
-    final_capital = equity_curve[-1] if equity_curve else initial_capital
-    metrics['total_return_pct'] = (final_capital - initial_capital) / initial_capital * 100
-
-    if 'entry_date' in trades_df.columns and 'exit_date' in trades_df.columns:
-        first_entry = pd.to_datetime(trades_df['entry_date']).min()
-        last_exit = pd.to_datetime(trades_df['exit_date']).max()
-        days = (last_exit - first_entry).days
-        years = days / 365.25 if days > 0 else 1
-    else:
-        years = 1
-    metrics['cagr'] = ((final_capital / initial_capital) ** (1 / years) - 1) * 100 if years > 0 else 0
-
-    equity_series = pd.Series(equity_curve)
-    peak = equity_series.cummax()
-    drawdown = (equity_series - peak) / peak
-    metrics['max_drawdown_pct'] = abs(drawdown.min()) * 100
-
-    if len(trades_df) > 1 and 'pnl_pct' in trades_df.columns:
-        returns = trades_df['pnl_pct'] / 100
-        if 'entry_date' in trades_df.columns and 'exit_date' in trades_df.columns:
-            trade_years = (pd.to_datetime(trades_df['exit_date']).max() -
-                           pd.to_datetime(trades_df['entry_date']).min()).days / 365.25
-        else:
-            trade_years = 1
-        actual_tpy = len(trades_df) / trade_years if trade_years > 0 else len(trades_df)
-        if returns.std() > 0 and actual_tpy > 0:
-            metrics['sharpe_ratio'] = (returns.mean() * actual_tpy) / (returns.std() * np.sqrt(actual_tpy))
-        else:
-            metrics['sharpe_ratio'] = 0
-    else:
-        metrics['sharpe_ratio'] = 0
-
-    return metrics
-
 
 # =============================================================================
 # RUN BACKTESTS
@@ -1013,7 +830,7 @@ def create_or_detail_chart(market_name, trade, or_type='60m'):
     interval = '30m' if or_type == '30m' else '60m'
     or_label = '30-min' if or_type == '30m' else '60-min'
     session_times = get_session_times(market_name, or_type)
-    intraday = get_intraday_from_cache(market_name, interval=interval)
+    intraday = get_intraday_for_symbol(market_name, interval=interval)
     if intraday.empty:
         return create_or_detail_message(
             f"{market_name} — {entry_date.strftime('%Y-%m-%d')} ({or_label} OR)",
@@ -1123,29 +940,6 @@ def create_or_detail_chart(market_name, trade, or_type='60m'):
         fixedrange=False,
     )
     fig.update_yaxes(fixedrange=False)
-    return fig
-
-
-def create_equity_curve(equity_curve, initial_capital):
-    """Create equity curve chart with auto-scaled y-axis."""
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(
-        y=equity_curve, name="Equity",
-        line=dict(color="#2962FF", width=2),
-        fill='tonexty', fillcolor='rgba(41, 98, 255, 0.1)'
-    ))
-    fig.add_hline(
-        y=initial_capital, line_dash="dash", line_color="gray",
-        annotation_text=f"Initial: ${initial_capital:,.0f}"
-    )
-    eq_min = min(equity_curve) if equity_curve else initial_capital
-    eq_max = max(equity_curve) if equity_curve else initial_capital
-    padding = max((eq_max - eq_min) * 0.1, initial_capital * 0.02)
-    fig.update_layout(
-        title="Equity Curve", height=350, template="plotly_white",
-        yaxis_title="Equity ($)", xaxis_title="Trade #",
-        yaxis=dict(range=[eq_min - padding, eq_max + padding])
-    )
     return fig
 
 
@@ -1261,14 +1055,18 @@ def create_consolidation_alert_panel(alerts):
 # DASH APP
 # =============================================================================
 
+_SKIP = os.environ.get("COT_SKIP_PRECOMPUTE") == "1"
 print("Loading COT data...")
 cot_df = load_cot_data()
 markets = sorted(cot_df['Market'].unique().tolist()) if not cot_df.empty else []
 print(f"Loaded {len(markets)} markets")
 
 # Pre-compute with 60-min (more history than 30-min for initial view)
-print("Pre-computing Narrowing Range ORB backtest (60-min)...")
-all_results, summary_df = run_all_backtests(
+if _SKIP:
+    all_results, summary_df = {}, __import__("pandas").DataFrame()
+else:
+    print("Pre-computing Narrowing Range ORB backtest (60-min)...")
+    all_results, summary_df = run_all_backtests(
     cot_df, markets, or_type='60m', n_narrowing_days=DEFAULT_NARROWING_DAYS,
     initial_capital=DEFAULT_CAPITAL, risk_pct=DEFAULT_RISK_PCT,
     trailing_atr_mult=DEFAULT_TRAILING_ATR_MULT,
@@ -1749,4 +1547,6 @@ def update_or_detail_chart(selected_trade, selected_market, or_type):
 # =============================================================================
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8053)
+    print("Deprecated standalone ORB app — engine config: setup=narrowing_range, entry=orb_breakout")
+    from app.main import app as multi_app
+    multi_app.run(debug=True, port=8050)

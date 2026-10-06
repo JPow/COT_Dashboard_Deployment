@@ -444,7 +444,12 @@ def _total_row(totals, start_date, end_date):
 
 def run_all_markets_tf(cot_df, markets, lookback, start_date, end_date):
     """Run the breakout strategy across every market and collect results."""
-    stop = ATRTwoPhaseStop()
+    from backtest_engine.backtester import prepare_data, run_backtest
+    from backtest_engine.stops import STOP_REGISTRY
+
+    stop = STOP_REGISTRY["atr_two_phase"]["cls"](
+        atr_stop_mult=ATR_STOP_MULT, atr_trail_mult=ATR_TRAIL_MULT, stop_buffer=STOP_BUFFER,
+    )
     all_results = {}
     summary_rows = []
     totals = {
@@ -454,21 +459,23 @@ def run_all_markets_tf(cot_df, markets, lookback, start_date, end_date):
     }
 
     for market in markets:
-        df = prepare_base_data(cot_df, market)
-        if df.empty:
-            continue
-        df = add_standard_indicators(df, atr_period=10)
-        df = add_breakout_signals(df, lookback)
-
-        if start_date:
-            df = df[df["Date"] >= pd.Timestamp(start_date)]
-        if end_date:
-            df = df[df["Date"] <= pd.Timestamp(end_date)]
-        df = df.reset_index(drop=True)
+        df = prepare_data(
+            cot_df, market, "nday_breakout", "nday_breakout",
+            setup_params={"lookback": lookback},
+            entry_params={"lookback": lookback},
+            atr_period=10,
+            start_date=start_date, end_date=end_date,
+        )
         if df.empty:
             continue
 
-        result = run_backtest_with_costs(df, market, stop)
+        result = run_backtest(
+            df, market, stop,
+            initial_capital=INITIAL_CAPITAL,
+            risk_pct=RISK_PCT,
+            commission=COMMISSION_PER_TRADE,
+            slippage_ticks=SLIPPAGE_TICKS,
+        )
         metrics = calculate_performance_metrics(
             result["trades"], result["equity_curve"], INITIAL_CAPITAL,
         )
@@ -623,15 +630,19 @@ def create_equity_curve(equity_curve, initial_capital):
 # Load data
 # ============================================================================
 
+_SKIP = __import__("os").environ.get("COT_SKIP_PRECOMPUTE") == "1"
 print("Loading COT data ...")
 cot_df = load_cot_data()
 markets = sorted(cot_df["Market"].unique().tolist()) if not cot_df.empty else []
 print(f"  {len(markets)} markets loaded")
 
-print(f"Running initial backtest (lookback={DEFAULT_LOOKBACK}d) ...")
-all_results, summary_df, agg_totals = run_all_markets_tf(
-    cot_df, markets, DEFAULT_LOOKBACK, DEFAULT_START, DEFAULT_END,
-)
+if _SKIP:
+    all_results, summary_df, agg_totals = {}, __import__("pandas").DataFrame(), {}
+else:
+    print(f"Running initial backtest (lookback={DEFAULT_LOOKBACK}d) ...")
+    all_results, summary_df, agg_totals = run_all_markets_tf(
+        cot_df, markets, DEFAULT_LOOKBACK, DEFAULT_START, DEFAULT_END,
+    )
 if not summary_df.empty:
     summary_df = summary_df.fillna(0)
     for col in summary_df.columns:
@@ -962,4 +973,6 @@ def update_market_detail(market, _store):
 # ============================================================================
 
 if __name__ == "__main__":
-    app.run(debug=True, port=8055)
+    print("Deprecated — engine: nday_breakout + atr_two_phase (+ costs in run_all_markets)")
+    from app.main import app as multi_app
+    multi_app.run(debug=True, port=8050)
