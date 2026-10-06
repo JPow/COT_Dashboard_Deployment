@@ -8,4 +8,5 @@ gunicorn>=21.0.0
 nbformat>=5.9.0
 nbconvert>=7.16.0
 cot-reports>=0.1.0
-yfinance>=0.2.36
+pyarrow>=14.0.0
+pyyaml>=6.0

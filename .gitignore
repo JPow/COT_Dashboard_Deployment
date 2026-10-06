@@ -44,3 +44,9 @@ ENV/
 *.log 
 
 annual.txt
+
+# Large regenerable caches (too big for GitHub). cot_data.json stays tracked for Render.
+data/ORB_intraday_data.json
+data/ib_daily_cache.json
+ORB_intraday_data.json
+ib_daily_cache.json
