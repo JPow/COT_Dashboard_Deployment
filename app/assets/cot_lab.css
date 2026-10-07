@@ -1,0 +1,216 @@
+/* Commitment of Traders Lab — platform chrome */
+
+:root {
+  --cot-bg: #0b0d10;
+  --cot-panel: #14181d;
+  --cot-panel-2: #1a1f26;
+  --cot-border: #2a3038;
+  --cot-text: #e8edf2;
+  --cot-muted: #8b95a1;
+  --cot-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  --cot-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --cot-radius: 12px;
+  --cot-accent: #4c8bf5;
+}
+
+body {
+  background-color: var(--cot-bg) !important;
+  color: var(--cot-text);
+}
+
+/* Navbar */
+.cot-navbar {
+  background: #0f1216 !important;
+  border-bottom: 1px solid var(--cot-border);
+  box-shadow: var(--cot-shadow-sm);
+  padding: 0.55rem 1rem;
+}
+
+.cot-navbar .navbar-brand {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  font-size: 1.05rem;
+  color: var(--cot-text) !important;
+}
+
+.cot-navbar .nav-link {
+  color: var(--cot-muted) !important;
+  font-size: 0.92rem;
+  padding: 0.45rem 0.85rem !important;
+  border-bottom: 2px solid transparent;
+}
+
+.cot-navbar .nav-link:hover {
+  color: var(--cot-text) !important;
+}
+
+.cot-navbar .nav-link.active {
+  color: var(--cot-text) !important;
+  border-bottom-color: #fff;
+}
+
+/* Sticky control bar */
+.cot-control-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  background: rgba(15, 18, 22, 0.96);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--cot-border);
+  box-shadow: var(--cot-shadow-sm);
+}
+
+.cot-asof-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  background: var(--cot-panel-2);
+  border: 1px solid var(--cot-border);
+  color: var(--cot-muted);
+  font-size: 0.78rem;
+  white-space: nowrap;
+  box-shadow: var(--cot-shadow-sm);
+}
+
+/* Elevated panels / cards */
+.cot-panel {
+  background: var(--cot-panel);
+  border: 1px solid var(--cot-border);
+  border-radius: var(--cot-radius);
+  box-shadow: var(--cot-shadow);
+  padding: 1rem 1.15rem;
+  margin-bottom: 1.25rem;
+}
+
+.cot-panel-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--cot-text);
+  margin: 0;
+}
+
+.cot-panel-sub {
+  color: var(--cot-muted);
+  font-size: 0.8rem;
+}
+
+.cot-kpi-card {
+  background: var(--cot-panel-2) !important;
+  border: 1px solid var(--cot-border) !important;
+  border-radius: var(--cot-radius) !important;
+  box-shadow: var(--cot-shadow-sm);
+  height: 100%;
+}
+
+.cot-kpi-card .card-body {
+  padding: 0.85rem 1rem;
+}
+
+.cot-kpi-label {
+  color: var(--cot-muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.25rem;
+}
+
+.cot-kpi-value {
+  font-size: 1.45rem;
+  font-weight: 650;
+  line-height: 1.15;
+}
+
+.cot-kpi-sub {
+  color: var(--cot-muted);
+  font-size: 0.75rem;
+  min-height: 1.1rem;
+  margin-top: 0.2rem;
+}
+
+.cot-setup-card {
+  background: var(--cot-panel-2) !important;
+  border: 1px solid var(--cot-border) !important;
+  border-radius: 10px !important;
+  box-shadow: var(--cot-shadow-sm);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+
+.cot-setup-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--cot-shadow);
+  border-color: #3a424c !important;
+}
+
+.cot-chart-shell {
+  background: var(--cot-panel);
+  border: 1px solid var(--cot-border);
+  border-radius: var(--cot-radius);
+  box-shadow: var(--cot-shadow);
+  overflow: hidden;
+  padding: 0.35rem 0.35rem 0.15rem;
+}
+
+/* Window / filter pills */
+.cot-pills .btn {
+  border-radius: 999px !important;
+  border-color: var(--cot-border) !important;
+  color: var(--cot-muted) !important;
+  background: transparent !important;
+  font-size: 0.78rem;
+  padding: 0.22rem 0.7rem;
+  margin-right: 0.25rem;
+  box-shadow: none;
+}
+
+.cot-pills .btn.active,
+.cot-pills label.btn.active {
+  background: #2a323c !important;
+  color: var(--cot-text) !important;
+  border-color: #3d4754 !important;
+  box-shadow: inset 0 0 0 1px #4a5563;
+}
+
+.cot-rules-btn {
+  border-radius: 999px !important;
+  border-color: var(--cot-border) !important;
+  color: var(--cot-muted) !important;
+  font-size: 0.78rem;
+  padding: 0.22rem 0.75rem;
+}
+
+.cot-rules-btn:hover {
+  color: var(--cot-text) !important;
+  border-color: #4a5563 !important;
+}
+
+/* Dropdown contrast on dark chrome */
+.cot-control-bar .Select-control,
+.cot-control-bar .Select-menu-outer,
+.cot-control-bar .Select-option {
+  background: #fff;
+}
+
+.cot-accordion .accordion-item {
+  background: var(--cot-panel);
+  border: 1px solid var(--cot-border);
+  border-radius: var(--cot-radius) !important;
+  box-shadow: var(--cot-shadow-sm);
+  overflow: hidden;
+}
+
+.cot-accordion .accordion-button {
+  background: var(--cot-panel-2);
+  color: var(--cot-text);
+  box-shadow: none;
+}
+
+.cot-accordion .accordion-button:not(.collapsed) {
+  background: var(--cot-panel-2);
+  color: var(--cot-text);
+}
+
+.cot-accordion .accordion-body {
+  background: var(--cot-panel);
+}

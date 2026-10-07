@@ -1,5 +1,5 @@
 """
-COT Lab — home page.
+Commitment of Traders Lab — home page.
 
 Weekly Commitment of Traders positioning vs daily futures prices.
 Indices (OI / Commercial / Retail / Traders) are recomputed over a selectable
@@ -27,7 +27,7 @@ if PROJECT_ROOT not in sys.path:
 
 from backtest_engine.data import load_cot_data  # noqa: E402
 
-register_page(__name__, path="/", title="COT Lab — Dashboard", order=0)
+register_page(__name__, path="/", title="Commitment of Traders Lab", order=0)
 
 # =============================================================================
 # Rules and visual constants
@@ -59,9 +59,9 @@ C = {
     "ma200": "#e67e22",
     "rsi": "#af7ac5",
     "paper": "rgba(0,0,0,0)",
-    "plot": "#2b3035",
-    "grid": "#3d434a",
-    "text": "#dfe6ee",
+    "plot": "#14181d",
+    "grid": "#2a3038",
+    "text": "#e8edf2",
 }
 
 GROUP_COLORS = {
@@ -224,7 +224,8 @@ def setup_card(row: pd.Series) -> html.Div:
                 html.Small(chg_txt, className="text-muted"),
             ], className="d-flex justify-content-between mt-1"),
         ], className="py-2 px-3"),
-        style={"borderLeft": f"4px solid {color}", "backgroundColor": "#2b3035"},
+        className="cot-setup-card",
+        style={"borderLeft": f"4px solid {color}"},
     )
     return html.Div(card, id={"type": "setup-card", "market": row["Market"]}, n_clicks=0,
                     className="mb-2", style={"cursor": "pointer"})
@@ -246,10 +247,10 @@ def setups_column(title: str, color: str, rows: pd.DataFrame, empty_text: str):
 def kpi(label: str, value: str, color: str | None = None, sub: str | None = None):
     return dbc.Col(
         dbc.Card(dbc.CardBody([
-            html.Div(label, className="text-muted small"),
-            html.Div(value, style={"fontSize": 24, "fontWeight": 600, "color": color or C["text"]}),
-            html.Div(sub or "", className="small text-muted", style={"minHeight": 18}),
-        ], className="py-2 px-3"), className="h-100", style={"backgroundColor": "#2b3035"}),
+            html.Div(label, className="cot-kpi-label"),
+            html.Div(value, className="cot-kpi-value", style={"color": color or C["text"]}),
+            html.Div(sub or "", className="cot-kpi-sub"),
+        ]), className="cot-kpi-card"),
         xs=6, md=2,
     )
 
@@ -257,7 +258,8 @@ def kpi(label: str, value: str, color: str | None = None, sub: str | None = None
 def rules_popover():
     L, S = RULES["long"], RULES["short"]
     return html.Span([
-        dbc.Button("Rules", id="rules-btn", size="sm", color="secondary", outline=True, className="ms-2"),
+        dbc.Button("Rules", id="rules-btn", size="sm", outline=True,
+                   color="secondary", className="cot-rules-btn ms-1"),
         dbc.Popover([
             dbc.PopoverHeader("Setup rules"),
             dbc.PopoverBody([
@@ -284,19 +286,20 @@ market_options = [
     {"label": f"{short_name(m)}  ·  {MARKET_GROUP.get(m, 'Other')}", "value": m} for m in MARKETS
 ]
 
-as_of_text = ""
+as_of_parts = []
 if LATEST_WEEK is not None:
-    as_of_text = f"COT week ending {LATEST_WEEK:%a %d %b %Y}"
-    if LATEST_PRICE_DATE is not None:
-        as_of_text += f"  ·  prices to {LATEST_PRICE_DATE:%d %b %Y}"
+    as_of_parts.append(f"COT week ending {LATEST_WEEK:%a %d %b %Y}")
+if LATEST_PRICE_DATE is not None:
+    as_of_parts.append(f"prices to {LATEST_PRICE_DATE:%d %b %Y}")
+as_of_text = "  ·  ".join(as_of_parts)
 
 control_bar = html.Div(
     dbc.Container([
         dbc.Row([
             dbc.Col([
-                html.Div("Commitment of Traders", className="fw-semibold", style={"fontSize": 15}),
-                html.Div("Weekly positioning vs daily futures prices", className="text-muted small"),
-            ], md=3, className="pe-0"),
+                html.Div("Dashboard", className="fw-semibold", style={"fontSize": 15}),
+                html.Div("Weekly positioning vs daily futures prices", className="cot-panel-sub"),
+            ], lg=3, md=12, className="mb-2 mb-lg-0"),
             dbc.Col(
                 dcc.Dropdown(
                     id="commodity-dropdown",
@@ -306,28 +309,33 @@ control_bar = html.Div(
                     placeholder="Search market…",
                     style={"color": "#111"},
                 ),
-                md=4,
+                lg=4, md=12, className="mb-2 mb-lg-0",
             ),
             dbc.Col([
-                html.Span("Index window", className="text-muted small me-2"),
-                dbc.RadioItems(
-                    id="index-window",
-                    options=WINDOW_OPTIONS,
-                    value=DEFAULT_WINDOW,
-                    inline=True,
-                    className="btn-group btn-group-sm",
-                    inputClassName="btn-check",
-                    labelClassName="btn btn-outline-light",
-                    labelCheckedClassName="active",
-                ),
-                rules_popover(),
-            ], md=3, className="d-flex align-items-center"),
-            dbc.Col(html.Div(as_of_text, id="as-of-text", className="text-muted small text-md-end"),
-                    md=2, className="d-flex align-items-center"),
+                html.Div([
+                    html.Span("Index window", className="cot-panel-sub me-2"),
+                    dbc.RadioItems(
+                        id="index-window",
+                        options=WINDOW_OPTIONS,
+                        value=DEFAULT_WINDOW,
+                        inline=True,
+                        className="btn-group btn-group-sm cot-pills",
+                        inputClassName="btn-check",
+                        labelClassName="btn btn-outline-light",
+                        labelCheckedClassName="active",
+                    ),
+                    rules_popover(),
+                ], className="d-flex flex-wrap align-items-center gap-1"),
+            ], lg=5, md=12),
         ], className="align-items-center g-2"),
+        dbc.Row([
+            dbc.Col(
+                html.Div(as_of_text, id="as-of-text", className="cot-asof-chip mt-2"),
+                width="auto", className="ms-lg-auto",
+            ),
+        ], className="g-0"),
     ], fluid=True, className="py-2"),
-    style={"position": "sticky", "top": 0, "zIndex": 1020, "backgroundColor": "#1f2327",
-           "borderBottom": "1px solid #343a40"},
+    className="cot-control-bar",
 )
 
 layout = html.Div([
@@ -336,65 +344,72 @@ layout = html.Div([
         # --- Setups strip -------------------------------------------------
         html.Div([
             html.Div([
-                html.H5("Setups this week", className="mb-0"),
-                html.Span(id="setups-subtitle", className="text-muted small ms-3"),
-            ], className="d-flex align-items-baseline mb-3 mt-3"),
+                html.H5("Setups this week", className="cot-panel-title"),
+                html.Span(id="setups-subtitle", className="cot-panel-sub ms-3"),
+            ], className="d-flex align-items-baseline mb-3"),
             dbc.Row(id="setups-strip", className="g-3"),
-        ]),
+        ], className="cot-panel mt-3"),
 
         # --- Selected market ---------------------------------------------
         html.Div([
             html.Div([
-                html.H5(id="market-title", className="mb-0"),
+                html.H5(id="market-title", className="cot-panel-title"),
                 html.Span(id="market-group", className="badge bg-secondary ms-2"),
-            ], className="d-flex align-items-center mb-3 mt-4"),
+            ], className="d-flex align-items-center mb-3"),
             dbc.Row(id="kpi-strip", className="g-2 mb-3"),
             html.Div(
                 dcc.Graph(id="combined-graph", style={"height": "700px"},
                           config={"responsive": False, "displayModeBar": True, "displaylogo": False}),
-                style={"height": "700px", "overflow": "hidden"},
+                className="cot-chart-shell",
+                style={"height": "710px", "overflow": "hidden"},
             ),
-        ]),
+        ], className="cot-panel"),
 
         # --- Positioning map + OI/Commercial ------------------------------
         dbc.Row([
             dbc.Col([
                 html.Div([
-                    html.H5("Positioning map", className="mb-0"),
-                    html.Span("Retail vs Commercial index · bubble size = OI index · trail = prior 4 weeks",
-                              className="text-muted small ms-3"),
-                ], className="d-flex align-items-baseline mb-2 mt-4"),
-                html.Div([
-                    html.Span("As of", className="text-muted small me-2"),
-                    dcc.DatePickerSingle(
-                        id="my-date-picker-single",
-                        min_date_allowed=WEEK_DATES[0] if WEEK_DATES else None,
-                        max_date_allowed=WEEK_DATES[-1] if WEEK_DATES else None,
-                        initial_visible_month=WEEK_DATES[-1] if WEEK_DATES else None,
-                        date=WEEK_DATES[-1] if WEEK_DATES else None,
-                        display_format="DD MMM YYYY",
-                        style={"fontSize": 12},
+                    html.Div([
+                        html.H5("Positioning map", className="cot-panel-title"),
+                        html.Span("Retail vs Commercial · bubble size = OI index",
+                                  className="cot-panel-sub ms-3"),
+                    ], className="d-flex align-items-baseline mb-2"),
+                    html.Div([
+                        html.Span("As of", className="cot-panel-sub me-2"),
+                        dcc.DatePickerSingle(
+                            id="my-date-picker-single",
+                            min_date_allowed=WEEK_DATES[0] if WEEK_DATES else None,
+                            max_date_allowed=WEEK_DATES[-1] if WEEK_DATES else None,
+                            initial_visible_month=WEEK_DATES[-1] if WEEK_DATES else None,
+                            date=WEEK_DATES[-1] if WEEK_DATES else None,
+                            display_format="DD MMM YYYY",
+                            style={"fontSize": 12},
+                        ),
+                    ], className="d-flex align-items-center mb-2"),
+                    html.Div(
+                        dcc.Graph(id="bubble-graph", style={"height": "640px"},
+                                  config={"responsive": False, "displayModeBar": True, "displaylogo": False}),
+                        className="cot-chart-shell",
+                        style={"height": "650px", "overflow": "hidden"},
                     ),
-                ], className="d-flex align-items-center mb-2"),
-                html.Div(
-                    dcc.Graph(id="bubble-graph", style={"height": "640px"},
-                              config={"responsive": False, "displayModeBar": True, "displaylogo": False}),
-                    style={"height": "640px", "overflow": "hidden"},
-                ),
+                ], className="cot-panel h-100"),
             ], lg=7),
             dbc.Col([
                 html.Div([
-                    html.H5("OI and Commercial index", className="mb-0"),
-                    html.Span("selected market · same window", className="text-muted small ms-3"),
-                ], className="d-flex align-items-baseline mb-2 mt-4"),
-                html.Div(style={"height": 38}),
-                html.Div(
-                    dcc.Graph(id="open-interest-graph", style={"height": "640px"},
-                              config={"responsive": False, "displayModeBar": False}),
-                    style={"height": "640px", "overflow": "hidden"},
-                ),
+                    html.Div([
+                        html.H5("OI and Commercial index", className="cot-panel-title"),
+                        html.Span("selected market · same window", className="cot-panel-sub ms-3"),
+                    ], className="d-flex align-items-baseline mb-2"),
+                    html.Div(style={"height": 32}),
+                    html.Div(
+                        dcc.Graph(id="open-interest-graph", style={"height": "640px"},
+                                  config={"responsive": False, "displayModeBar": False}),
+                        className="cot-chart-shell",
+                        style={"height": "650px", "overflow": "hidden"},
+                    ),
+                ], className="cot-panel h-100"),
             ], lg=5),
-        ]),
+        ], className="g-3"),
 
         # --- All markets table (collapsed) --------------------------------
         html.Div([
@@ -408,7 +423,7 @@ layout = html.Div([
                                      {"label": "Short", "value": "Short"},
                                      {"label": "Watch", "value": "watch"}],
                             value="all", inline=True,
-                            className="btn-group btn-group-sm",
+                            className="btn-group btn-group-sm cot-pills",
                             inputClassName="btn-check",
                             labelClassName="btn btn-outline-light",
                             labelCheckedClassName="active",
@@ -419,7 +434,7 @@ layout = html.Div([
                             placeholder="All groups", clearable=True, style={"color": "#111", "minWidth": 180},
                         ), md=3),
                         dbc.Col(html.Small("Click a row to select the market. Sort or filter any column.",
-                                           className="text-muted"), className="d-flex align-items-center"),
+                                           className="cot-panel-sub"), className="d-flex align-items-center"),
                     ], className="g-2 mb-3 align-items-center"),
                     dash_table.DataTable(
                         id="all-table",
@@ -441,14 +456,14 @@ layout = html.Div([
                         page_action="none",
                         style_as_list_view=True,
                         style_table={"overflowX": "auto"},
-                        style_cell={"backgroundColor": "#2b3035", "color": C["text"], "border": "0",
+                        style_cell={"backgroundColor": "#14181d", "color": C["text"], "border": "0",
                                     "fontSize": 13, "padding": "8px 10px", "textAlign": "right"},
                         style_cell_conditional=[
                             {"if": {"column_id": c}, "textAlign": "left"} for c in ["Short", "group", "BiasLabel"]
                         ],
-                        style_header={"backgroundColor": "#1f2327", "color": "#aab7b8", "fontWeight": 600,
+                        style_header={"backgroundColor": "#1a1f26", "color": "#8b95a1", "fontWeight": 600,
                                       "border": "0", "textTransform": "uppercase", "fontSize": 11},
-                        style_filter={"backgroundColor": "#1f2327", "color": C["text"]},
+                        style_filter={"backgroundColor": "#1a1f26", "color": C["text"]},
                         style_data_conditional=[
                             {"if": {"filter_query": '{BiasLabel} = "LONG"', "column_id": "BiasLabel"},
                              "color": C["long"], "fontWeight": 600},
@@ -456,14 +471,14 @@ layout = html.Div([
                              "color": C["short"], "fontWeight": 600},
                             {"if": {"filter_query": '{BiasLabel} contains "WATCH"', "column_id": "BiasLabel"},
                              "color": C["watch"]},
-                            {"if": {"state": "active"}, "backgroundColor": "#343a40", "border": "0"},
+                            {"if": {"state": "active"}, "backgroundColor": "#2a3038", "border": "0"},
                         ],
                     ),
                 ], title="All markets", item_id="table"),
-            ], start_collapsed=True, flush=True, className="mt-4 mb-5"),
+            ], start_collapsed=True, flush=True, className="cot-accordion mt-2 mb-5"),
         ]),
-    ], fluid=True),
-])
+    ], fluid=True, className="pb-4"),
+], style={"backgroundColor": "#0b0d10", "minHeight": "100vh"})
 
 
 # =============================================================================
